@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+
+*{
+    font-family: 'Poppins', sans-serif;
+}
+ 
+/* TAGS */
+
+h6{
+
+    color: var(--Gray-600, #7591c8);
+    font-family: Poppins;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 21.367px;  
+}
+
+
+h6 input{
+
+    color: var(--Gray-600, #5E6470);
+    font-family: Poppins;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 21.367px;    
+}
+
+h6 .form-control{
+    color: var(--Gray-600, #5E6470);
+    font-family: Poppins;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 21.367px;    
+}
+
+
+/* TAGS */
+
+/* NAVBAR */
+
+.navbarleft{
+     margin-left: 30%; 
+      
+}
+.navbar-nav{
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+
+/* ENDING NAVBAR */
+
+
+ 
+/* FORM */
+
+
+.formborder{
+    border: 4px solid black;
+}
+
+  
+.address{
+    padding-right: 5%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+
+
+.container-fluid.billing {
+    /* overflow-x: auto; */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+@media (max-width: 767px) {
+    th, td {
+        display: block;
+        width: 100%;
+    }
+
+    th, td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    th, td:last-child::before {
+        content: none;
+    }
+}
+
+.verticalline{
+    background: rgba(153, 153, 153, 0.50);
+    width: 95%;
+    height: 4px;
+}
+
+
+.googlepay h6{
+    color: var(--Gray-900, #1A1C21);
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 14px; 
+}
+
+
+
+.termsandconditions{
+    border: 0.397px solid rgba(33, 33, 33, 0.40);
+    background-color: #EFF7FE;
+    color: #000;
+    height: 30%;
+    width: 20%;
+}
+
+
+/* FORM */
