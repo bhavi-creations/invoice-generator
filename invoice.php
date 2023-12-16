@@ -281,7 +281,7 @@
                         function gst_total() {
                             var grand_total = Number($("#grand_total").val());
                             var gst = Number($(".gst").val());
-                            var gst_amount = grand_total - (grand_total * (gst / 100));
+                            var gst_amount = (grand_total * gst )/100;
                             $("#gst_total").val(gst_amount);
                         }
 
