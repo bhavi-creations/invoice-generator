@@ -9,7 +9,7 @@ if (isset($_POST["submit"])) {
     $caddress = mysqli_real_escape_string($conn, $_POST["caddress"]);
     $cemail = mysqli_real_escape_string($conn, $_POST["cemail"]);
     $cgst = mysqli_real_escape_string($conn, $_POST["cgst"]);
-    $final_total = mysqli_real_escape_string($conn, $_POST["finaltotal"]);
+    $final_total = mysqli_real_escape_string($conn, $_POST["Final_total"]);
 
     // Insert into invoice table
     $sql = "INSERT INTO invoice (Invoice_no, Invoice_date, Cname, Cphone, Caddress, Cmail, Cgst, Grandtotal) VALUES ('$invoice_no', '$invoice_date', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total')";
@@ -24,7 +24,7 @@ if (isset($_POST["submit"])) {
                 $Sname = mysqli_real_escape_string($conn, $_POST["Sname"][$i]);
                 $Qty = mysqli_real_escape_string($conn, $_POST["Qty"][$i]);
                 $Price = mysqli_real_escape_string($conn, $_POST["Price"][$i]);
-                $Finaltotal = mysqli_real_escape_string($conn, $_POST["finaltotal"][$i]);
+                $Finaltotal = mysqli_real_escape_string($conn, $_POST["Final_total"][$i]);
                 $Description = mysqli_real_escape_string($conn, $_POST["Description"][$i]);
                 $rows[] = "('$Sid', '$Sname', '$Qty', '$Price', '$Finaltotal', '$Description')";
             }
