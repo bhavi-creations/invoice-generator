@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 
 *{
@@ -9,7 +9,7 @@
 
 h6{
 
-    color: var(--Gray-600, #7591c8);
+    color: var(--Gray-600, #5E6470);
     font-family: Poppins;
     font-size: 19px;
     font-style: normal;
@@ -151,4 +151,27 @@ th {
 }
 
 
+@media (max-width: 767px) {
+    /* Styles for small devices (up to 767px) */
+    .googlepay {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    /* Styles for medium devices (768px to 991px) */
+    .googlepay {
+        padding: 15px; /* Adjust padding for medium screens */
+    }
+}
 /* FORM */
+
+.viewinvoicetable th {
+    text-align: center;
+}
+
+.viewinvoicetable td {
+    text-align: center;
+}
+ 
+ 

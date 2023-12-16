@@ -40,13 +40,13 @@
                 <div class="collapse navbar-collapse mr-auto" id="navbarNav">
                     <ul class="navbar-nav navbarleft">
                         <li class="nav-item">
-                            <a class="nav-link active text-dark pe-5 me-5" aria-current="page" href="#">CREATE INVOICE</a>
+                            <a class="nav-link active text-primary pe-5 me-5" aria-current="page" href="invoice.php">CREATE INVOICE</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark pe-5" href="#">VIEW INVOICES</a>
+                            <a class="nav-link text-dark pe-5" href="viewinvoices.html">VIEW INVOICES</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark ps-5" href="#">VIEW CUSTOMERS</a>
+                            <a class="nav-link text-dark ps-5" href="viewcustomers.html">VIEW CUSTOMERS</a>
                         </li>
                     </ul>
                 </div>
@@ -67,13 +67,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">CREATE INVOICE</a>
+                            <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">VIEW INVOICES</a>
+                            <a class="nav-link" href="viewinvoices.html">VIEW INVOICES</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">VIEW CUSTOMERS</a>
+                            <a class="nav-link" href="viewinvoices.html">VIEW CUSTOMERS</a>
                         </li>
                     </ul>
                 </div>
@@ -89,7 +89,7 @@
 
             <!-- FORM -->
 
-            <form class=" formborder rounded p-4 pb-4 mb-5">
+            <form class=" formborder rounded p-4 pb-4 mb-5" action="formprocess.php" method="post">
                 <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="30%" width="30%">
 
                 <!-- FORM INVOICENUMBER -->
@@ -97,10 +97,11 @@
                 <div class="row container pt-5 ps-5 mb-5">
                     <div class="col-lg-8 col-sm-12 col-md-12">
                         <h4><strong>INVOICE</strong></h4>
+                        <h5>Date <input type="date" name="invoice_date" id="" class=""></h5>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                         <h4><strong>INVOICE NUMBER </strong></h4>
-                        <h4><strong>BHAVI_KKD_2023_001</strong></h4>
+                        <h4><strong>BHAVI_KKD_2023_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3"></strong></h4>
                     </div>
                 </div>
 
@@ -121,13 +122,13 @@
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
                         <h4 class="pb-2"><strong>Company Name</strong> </h4>
-                        <h6> <input type="text" placeholder="Name" style="border: none;"></h6>
+                        <h6> <input name="cname" type="text" placeholder="Name" style="border: none;"></h6>
                         <div class="address">
-                            <h6><textarea class="form-control" name="invoice_notes" placeholder="Address" style="border: none; margin-right: 5px;"></textarea> </h6>
+                            <h6><textarea class="form-control" name="caddress" placeholder="Address" style="border: none; margin-right: 5px;"></textarea> </h6>
                         </div>
-                        <h6> <input type="text" placeholder="Phone Number" style="border: none;"></h6>
-                        <h6> <input type="text" placeholder="Email" style="border: none;"></h6>
-                        <h6> <input type="text" placeholder="GST" style="border: none;"></h6>
+                        <h6> <input name="cphone" type="text" placeholder="Phone Number" style="border: none;"></h6>
+                        <h6> <input name="cemail" type="text" placeholder="Email" style="border: none;"></h6>
+                        <h6> <input name="cgst" type="text" placeholder="GST" style="border: none;"></h6>
                     </div>
                 </div>
 
@@ -150,7 +151,7 @@
                         </thead>
                         <tbody id="product_tbody">
                             <tr>
-                                <td><button type='button' value='' class='btn btn-danger btn-sm btn-row-remove'></button><select name="" class="form-control">
+                                <td><button type='button' value='' class='btn btn-danger btn-sm btn-row-remove'></button><select name="Sname[]" class="form-control">
                                         <option value="text">Logo Design</option>
                                         <option value="text">Google My Business</option>
                                         <option value="text">Website</option>
@@ -170,9 +171,9 @@
                                         <option value="text">Diaries</option>
 
                                     </select></td>
-                                <td><textarea class="form-control" name="invoice_notes" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
-                                <td><input type='text' required name='qty[]' class='form-control qty'></td>
-                                <td><input type='text' required name='price[]' class='form-control price'></td>
+                                <td><textarea class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                <td><input type='text' required name='Qty[]' class='form-control qty'></td>
+                                <td><input type='text' required name='Price[]' class='form-control price'></td>
                                 <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
                                 <td><input type='text' required name='discount[]' class='form-control discount'></td>
                                 <td><input type='text' required name='total[]' class='form-control total'></td>
@@ -180,7 +181,7 @@
 
                             <!-- Add more rows as needed -->
                         </tbody>
-                        <<tfoot>
+                        <tfoot>
                             <tr>
                                 <td colspan='6' class='text-right' style="text-align: right;">Total</td>
                                 <td><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
@@ -199,14 +200,13 @@
                             </tr>
                             <tr>
                                 <td colspan='6' class='text-right' style="text-align: right;">Final Total</td>
-                                <td><input type='text' name='final_total' id='final_total' class='form-control final_total' required readonly></td>
+                                <td><input type='text' name='Finaltotal[]' id='final_total' class='form-control final_total' required readonly></td>
                             </tr>
-                            </tfoot>
+                        </tfoot>
                     </table>
-
-
-
-
+                    <div class="text-center pt-5">
+                        <input type="submit" name="submit" value="Save Invoice" class="btn btn-primary float-right">
+                    </div>
 
 
 
@@ -281,7 +281,7 @@
                         function gst_total() {
                             var grand_total = Number($("#grand_total").val());
                             var gst = Number($(".gst").val());
-                            var gst_amount = (grand_total * gst )/100;
+                            var gst_amount = (grand_total * gst) / 100;
                             $("#gst_total").val(gst_amount);
                         }
 
