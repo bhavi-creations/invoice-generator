@@ -2,6 +2,8 @@
 require_once('bhavidb.php');
 
 if (isset($_POST["submit"])) {
+    // print_r($_POST);
+    // exit;
     $invoice_no = mysqli_real_escape_string($conn, $_POST["invoice_no"]);
     $invoice_date = date("Y-m-d", strtotime($_POST["invoice_date"]));
     $cname = mysqli_real_escape_string($conn, $_POST["cname"]);
@@ -24,9 +26,9 @@ if (isset($_POST["submit"])) {
                 $Sname = mysqli_real_escape_string($conn, $_POST["Sname"][$i]);
                 $Qty = mysqli_real_escape_string($conn, $_POST["Qty"][$i]);
                 $Price = mysqli_real_escape_string($conn, $_POST["Price"][$i]);
-                $Finaltotal = mysqli_real_escape_string($conn, $_POST["Final_total"][$i]);
+                $Subtotal = mysqli_real_escape_string($conn, $_POST["subtotal"][$i]);
                 $Description = mysqli_real_escape_string($conn, $_POST["Description"][$i]);
-                $rows[] = "('$Sid', '$Sname', '$Qty', '$Price', '$Finaltotal', '$Description')";
+                $rows[] = "('$Sid', '$Sname', '$Qty', '$Price', '$Subtotal', '$Description')";
             }
             $sql2 .= implode(",", $rows);
 
