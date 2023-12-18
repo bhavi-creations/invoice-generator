@@ -1,9 +1,9 @@
 <?php
 require_once('bhavidb.php');
 
-$Cid = (isset($_GET['Id']) ? $_GET['Id'] : '');
-
 // Initialize variables with default values
+$Cid = (isset($_POST['Id']) ? $_POST['Id'] : '');  // Updated to use POST instead of GET
+
 $Name = $Phone = $Email = $Address = $Gst_no = '';
 
 // Fetch customer details for update
@@ -21,9 +21,8 @@ if ($result->num_rows > 0) {
     $Gst_no = $row['Gst_no'];
   }
 }
-if (isset($_POST['Update'])) {
-  $Cid = (isset($_GET['Id']) ? $_GET['Id'] : '');
 
+if (isset($_POST['Update'])) {
   // Validate and sanitize inputs
   $Name = mysqli_real_escape_string($conn, $_POST['cname']);
   $Phone = mysqli_real_escape_string($conn, $_POST['cphone']);
@@ -38,17 +37,17 @@ if (isset($_POST['Update'])) {
 
   // Check for success or failure
   if ($stmt->affected_rows > 0) {
-    echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('Successfully Updated')
-            window.location.href='viewcustomers.php';
-        </SCRIPT>");
+    echo "<SCRIPT>
+        window.alert ('successfully Updated')
+        window.location.href='viewcustomers.php';
+        </SCRIPT>";
   } else {
-    echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('No changes made. Please make sure to modify some fields before updating.')
-            window.location.href='viewcustomers.php';
-        </SCRIPT>");
+    echo "No changes made. Please make sure to modify some fields before updating.";
   }
-
+  if ($stmt->error) {
+    die("Error: " . $stmt->error);
+  }
+  // Close the statement after using the results
   $stmt->close();
 }
 ?>

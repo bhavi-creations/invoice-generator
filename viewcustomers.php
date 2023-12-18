@@ -142,6 +142,7 @@
           </div>
           <div class="modal-body">
             <form action="updatemodal.php" method="post">
+            <input type="text" name="Id" required hidden class="form-control"  value="<?php echo $Cid; ?>">
               <div class="form-group">
                 <label for="">Name</label>
                 <input type="text" name="cname" required class="form-control" value="<?php echo $Name; ?>">
@@ -189,42 +190,37 @@
             <th> Actions </th>
           </tr>
         </thead>
-        <tbody id="product_tbody  viewinvoicetable">
-          <?php
-          require_once('bhavidb.php');
-          $sql = "SELECT * FROM customer";
-          $res = $conn->query($sql);
-          while ($row = mysqli_fetch_assoc($res)) {
-            echo "<tr>";
-            echo "<td>" . $row['Id'] . "</td>";
-            echo "<td>" . $row['Name'] . "</td>";
-            echo "<td>" . $row['Phone'] . "</td>";
-            echo "<td>" . $row['Email'] . "</td>";
-            echo "<td>" . $row['Address'] . "</td>";
-            echo "<td>" . $row['Gst_no'] . "</td>";
-            
-            // Use data-bs-target attribute to specify the modal to be opened
-            echo "<td><a href=\"#\" class=\"update_customer\" data-bs-toggle=\"modal\" data-bs-target=\"#update_frm\">Update</a> | <a href=\"delete.php? Id={$row['Id']}\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";
-            echo "</tr>";
-          }
-          ?>
-        </tbody>
+        <tbody id="product_tbody" class="viewinvoicetable">
+    <?php
+    require_once('bhavidb.php');
+    $sql = "SELECT * FROM customer";
+    $res = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($res)) {
+      echo "<tr>";
+      echo "<td>" . $row['Id'] . "</td>";
+      echo "<td>" . $row['Name'] . "</td>";
+      echo "<td>" . $row['Phone'] . "</td>";
+      echo "<td>" . $row['Email'] . "</td>";
+      echo "<td>" . $row['Address'] . "</td>";
+      echo "<td>" . $row['Gst_no'] . "</td>";
+
+      // Pass the customer ID as a parameter to the JavaScript function
+      echo "<td><a href=\"#\" class=\"update_customer\" data-bs-toggle=\"modal\" data-bs-target=\"#update_frm\" data-id=\"{$row['Id']}\">Update</a> | <a href=\"delete.php?Id={$row['Id']}\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";
+      echo "</tr>";
+    }
+    ?>
+  </tbody>
       </table>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Script loaded');
-
       var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
       var updateCustomerModal = new bootstrap.Modal(document.getElementById('update_frm'));
 
       var addCustomerButton = document.getElementById('add_customer');
       var updateCustomerButtons = document.querySelectorAll('.update_customer');
-
-      console.log('addCustomerButton:', addCustomerButton);
-      console.log('updateCustomerButtons:', updateCustomerButtons);
 
       addCustomerButton.addEventListener('click', function() {
         addCustomerModal.show();
@@ -232,15 +228,15 @@
 
       updateCustomerButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-          // Get the customer details from the row
           var row = button.closest('tr');
+          var id = row.cells[0].innerText;
           var name = row.cells[1].innerText;
           var address = row.cells[4].innerText;
           var phone = row.cells[2].innerText;
           var email = row.cells[3].innerText;
           var gstNo = row.cells[5].innerText;
 
-          // Set the values in the update form
+          document.querySelector('#update_frm [name="Id"]').value = id;
           document.querySelector('#update_frm [name="cname"]').value = name;
           document.querySelector('#update_frm [name="caddress"]').value = address;
           document.querySelector('#update_frm [name="cphone"]').value = phone;
