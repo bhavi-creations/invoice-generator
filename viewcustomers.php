@@ -1,42 +1,76 @@
 <?php
- require_once('bhavidb.php');
- $Cid = (isset($_GET['Id']) ? $_GET['Id'] : '');
- $sql1 = "SELECT * FROM `customer` WHERE Id = '$Cid';";
- $result = mysqli_query($conn,$sql1);
- if($result->num_rows>0){
-  while($row = mysqli_fetch_assoc($result)){
+require_once('bhavidb.php');
+
+$Cid = (isset($_GET['Id']) ? $_GET['Id'] : '');
+
+// Initialize variables
+$Name = $Phone = $Email = $Address = $Gst_no = '';
+
+// Fetch customer details for update
+$stmt = $conn->prepare("SELECT * FROM `customer` WHERE Id = ?");
+$stmt->bind_param("i", $Cid);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
     $Name = $row['Name'];
-    $Phone = $row['Phone '];
+    $Phone = $row['Phone'];
     $Email = $row['Email'];
     $Address = $row['Address'];
     $Gst_no = $row['Gst_no'];
   }
- }
+}
 
-require_once('bhavidb.php');
-$Cid = (isset($_GET['Id']) ? $_GET['Id'] : '');
-if (isset($_POST['Update'])){
+if (isset($_POST['Update'])) {
   $Cid = (isset($_GET['Id']) ? $_GET['Id'] : '');
-  $Name = mysqli_real_escape_string($conn,$_POST['cname']);
-  $Phone = mysqli_real_escape_string($conn,$_POST['cphone']);
-  $Email = mysqli_real_escape_string($conn,$_POST['cmail']);
-  $Address = mysqli_real_escape_string($conn,$_POST['caddress']);
-  $Gst_no = mysqli_real_escape_string($conn,$_POST['cgst']);
 
-  $sql2 = "UPDATE `customer` Set `Name`= '$Name' , `Phone` = '$Phone', `Email`='$Email',`Address`='$Address',`Gst_no`='$Gst_no' ";
+  // Validate and sanitize inputs
+  $Name = mysqli_real_escape_string($conn, $_POST['cname']);
+  $Phone = mysqli_real_escape_string($conn, $_POST['cphone']);
+  $Email = mysqli_real_escape_string($conn, $_POST['cemail']);
+  $Address = mysqli_real_escape_string($conn, $_POST['caddress']);
+  $Gst_no = mysqli_real_escape_string($conn, $_POST['cgst']);
 
-  $result = mysqli_query($conn,$sql2);
+  // Check if inputs are not empty
+  if (empty($Name) || empty($Phone) || empty($Email) || empty($Address) || empty($Gst_no)) {
+    echo "All fields are required.";
+  } else {
+// Before executing the update query, add these lines for debugging
+echo "Name: $Name, Phone: $Phone, Email: $Email, Address: $Address, Gst_no: $Gst_no, Cid: $Cid<br>";
 
-  if($result) {
-    echo ("<SCRIPT LANGUAGE='JavaScript'>
-        window.alert('Successfully Updated')
-        window.location.href='viewcutomers.php';
+// Update query with prepared statement
+$stmt = $conn->prepare("UPDATE `customer` SET `Name`=?, `Phone`=?, `Email`=?, `Address`=?, `Gst_no`=? WHERE `Id`=?");
+$stmt->bind_param("sssssi", $Name, $Phone, $Email, $Address, $Gst_no, $Cid);
+$stmt->execute();
+
+// After executing the update query, add these lines for debugging
+echo "Affected Rows: " . $stmt->affected_rows . "<br>";
+
+// Check for success or failure
+if ($stmt->affected_rows >= 0) {
+    if ($stmt->affected_rows > 0) {
+        echo ("<SCRIPT LANGUAGE='JavaScript'>
+            window.alert('Successfully Updated')
+            window.location.href='viewcustomers.php';
         </SCRIPT>");
-  }
+    } else {
+        echo ("<SCRIPT LANGUAGE='JavaScript'>
+            window.alert('No changes made. Please make sure to modify some fields before updating.')
+        </SCRIPT>");
+    }
+} else {
+    echo "Update failed: " . $stmt->error;
+}
 
+$stmt->close();
+  }
 }
 
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,7 +158,7 @@ if (isset($_POST['Update'])){
 
   </header>
 
-
+  <!-- Modal for Add Customers-->
 
   <div class="container mt-5">
     <div class="modal" tabindex="-1" id="modal_frm">
@@ -138,7 +172,7 @@ if (isset($_POST['Update'])){
             <form action="modalform.php" method="post">
               <div class="form-group">
                 <label for="">Name</label>
-                <input type="text" name="cname" required class="form-control" >
+                <input type="text" name="cname" required class="form-control">
               </div>
 
               <div class="form-group">
@@ -148,7 +182,7 @@ if (isset($_POST['Update'])){
 
               <div class="form-group">
                 <label for="">Phone</label>
-                <input type="text" name="cphone" required class="form-control" >
+                <input type="text" name="cphone" required class="form-control">
               </div>
 
               <div class="form-group">
@@ -168,6 +202,51 @@ if (isset($_POST['Update'])){
     </div>
     <p class="float-end"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
   </div>
+
+  <!-- Modal for Update Customers-->
+  <div class="container mt-5">
+    <div class="modal" tabindex="-1" id="update_frm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Update Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="viewcustomers.php" method="post">
+              <div class="form-group">
+                <label for="">Name</label>
+                <input type="text" name="cname" required class="form-control" value="<?php echo $Name; ?>">
+              </div>
+              <div class="form-group">
+                <label for="">Address</label>
+                <input type="text" name="caddress" required class="form-control" value="<?php echo $Address; ?>">
+              </div>
+
+              <div class="form-group">
+                <label for="">Phone</label>
+                <input type="text" name="cphone" required class="form-control" value="<?php echo $Phone; ?>">
+              </div>
+
+              <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" name="cemail" required class="form-control" value="<?php echo $Email; ?>">
+              </div>
+
+              <div class="form-group">
+                <label for="">GST_No</label>
+                <input type="text" name="cgst" required class="form-control" value="<?php echo $Gst_no; ?>">
+              </div>
+
+              <input type="submit" name="Update" id="update_customer" class="btn btn-success mt-5">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table for View Customers-->
   <div class="container pt-5 mt-5">
     <div class="table-responsive">
       <table class="table table-bordered viewinvoicetable">
@@ -183,35 +262,65 @@ if (isset($_POST['Update'])){
           </tr>
         </thead>
         <tbody id="product_tbody  viewinvoicetable">
-          <tr>
-            <?php
-            require_once('bhavidb.php');
-            $sql = "SELECT * FROM customer";
-            $res = $conn->query($sql);
-            while ($row = mysqli_fetch_assoc($res)) {
-              echo "<tr>";
-              echo "<td>" . $row['Id'] . "</td>";
-              echo "<td>" . $row['Name'] . "</td>";
-              echo "<td>" . $row['Phone'] . "</td>";
-              echo "<td>" . $row['Email'] . "</td>";
-              echo "<td>" . $row['Address'] . "</td>";
-              echo "<td>" . $row['Gst_no'] . "</td>";
-              echo "<td><a href=\"edit.php?Id=$row[Id]\">Edit</a> | <a href=\"delete.php? Id=$row[Id]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";
-            }
-            ?>
-            <!-- <td> <img src="img/icons8-pencil-24.png" alt=""> <img src="img/icons8-view-24.png" alt=""> <img src="img/icons8-delete-24.png" alt=""></td> -->
-          </tr>
+          <?php
+          require_once('bhavidb.php');
+          $sql = "SELECT * FROM customer";
+          $res = $conn->query($sql);
+          while ($row = mysqli_fetch_assoc($res)) {
+            echo "<tr>";
+            echo "<td>" . $row['Id'] . "</td>";
+            echo "<td>" . $row['Name'] . "</td>";
+            echo "<td>" . $row['Phone'] . "</td>";
+            echo "<td>" . $row['Email'] . "</td>";
+            echo "<td>" . $row['Address'] . "</td>";
+            echo "<td>" . $row['Gst_no'] . "</td>";
+            // Use data-bs-target attribute to specify the modal to be opened
+            echo "<td><a href=\"#\" class=\"update_customer\" data-bs-toggle=\"modal\" data-bs-target=\"#update_frm\">Update</a> | <a href=\"delete.php? Id={$row['Id']}\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";
+            echo "</tr>";
+          }
+          ?>
         </tbody>
       </table>
     </div>
   </div>
 
   <script>
-    var myModal = new bootstrap.Modal(document.getElementById('modal_frm'));
-    var myInput = document.getElementById('add_customer');
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Script loaded');
 
-    myInput.addEventListener('click', function() {
-      myModal.show();
+      var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
+      var updateCustomerModal = new bootstrap.Modal(document.getElementById('update_frm'));
+
+      var addCustomerButton = document.getElementById('add_customer');
+      var updateCustomerButtons = document.querySelectorAll('.update_customer');
+
+      console.log('addCustomerButton:', addCustomerButton);
+      console.log('updateCustomerButtons:', updateCustomerButtons);
+
+      addCustomerButton.addEventListener('click', function() {
+        addCustomerModal.show();
+      });
+
+      updateCustomerButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          // Get the customer details from the row
+          var row = button.closest('tr');
+          var name = row.cells[1].innerText;
+          var address = row.cells[4].innerText;
+          var phone = row.cells[2].innerText;
+          var email = row.cells[3].innerText;
+          var gstNo = row.cells[5].innerText;
+
+          // Set the values in the update form
+          document.querySelector('#update_frm [name="cname"]').value = name;
+          document.querySelector('#update_frm [name="caddress"]').value = address;
+          document.querySelector('#update_frm [name="cphone"]').value = phone;
+          document.querySelector('#update_frm [name="cemail"]').value = email;
+          document.querySelector('#update_frm [name="cgst"]').value = gstNo;
+
+          updateCustomerModal.show();
+        });
+      });
     });
   </script>
 

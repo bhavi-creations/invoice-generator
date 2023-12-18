@@ -34,7 +34,9 @@ if (isset($_POST["submit"])) {
 
             // Insert into service table
             if ($conn->query($sql2)) {
-                echo "Invoice Added";
+                echo "<SCRIPT>
+                window.alert('invoice added')
+                window.location.href='invoice.php';</SCRIPT>";
             } else {
                 echo "Invoice Added Failed: " . $conn->error;
             }
