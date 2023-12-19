@@ -42,10 +42,10 @@
         <div class="collapse navbar-collapse mr-auto" id="navbarNav">
           <ul class="navbar-nav navbarleft">
             <li class="nav-item">
-              <a class="nav-link active text-dark pe-5 me-5" aria-current="page" href="index.html">CREATE INVOICE</a>
+              <a class="nav-link active text-dark pe-5 me-5" aria-current="page" href="invoice.php">CREATE INVOICE</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark pe-5" href="viewinvoices.html">VIEW INVOICES</a>
+              <a class="nav-link text-dark pe-5" href="viewinvoices.php">VIEW INVOICES</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-primary ps-5" href="viewcustomers.html">VIEW CUSTOMERS</a>
@@ -69,14 +69,14 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.html">CREATE INVOICE</a>
+              <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
 
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="viewinvoices.html">VIEW INVOICES</a>
+              <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="viewcustomers.html">VIEW CUSTOMERS</a>
+              <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
             </li>
           </ul>
         </div>
@@ -98,8 +98,14 @@
           <div class="modal-body">
             <form action="modalform.php" method="post">
               <div class="form-group">
+
+                <label for="">Company Name</label>
+                <input type="text" name="company_name"  class="form-control">
+              </div>
+
+              <div class="form-group">
                 <label for="">Name</label>
-                <input type="text" name="cname" required class="form-control">
+                <input type="text" name="cname"  class="form-control">
               </div>
 
               <div class="form-group">
@@ -143,29 +149,29 @@
             <form action="updatemodal.php" method="post">
               <input type="text" name="Id" required hidden class="form-control" value="<?php echo $Cid; ?>">
               <div class="form-group">
-                <label for="">Name</label>
-                <input type="text" name="cname" required class="form-control" value="<?php echo $Name; ?>">
+                <label for="update_company_name">Company Name</label>
+                <input type="text" name="company_name" id="update_company_name" class="form-control" value="<?php echo $Company_name; ?>">
               </div>
               <div class="form-group">
-                <label for="">Address</label>
-                <input type="text" name="caddress" required class="form-control" value="<?php echo $Address; ?>">
+                <label for="update_cname">Name</label>
+                <input type="text" name="cname" id="update_cname"  class="form-control" value="<?php echo $Name; ?>">
               </div>
-
               <div class="form-group">
-                <label for="">Phone</label>
-                <input type="text" name="cphone" required class="form-control" value="<?php echo $Phone; ?>">
+                <label for="update_caddress">Address</label>
+                <input type="text" name="caddress" id="update_caddress" required class="form-control" value="<?php echo $Address; ?>">
               </div>
-
               <div class="form-group">
-                <label for="">Email</label>
-                <input type="text" name="cemail" required class="form-control" value="<?php echo $Email; ?>">
+                <label for="update_cphone">Phone</label>
+                <input type="text" name="cphone" id="update_cphone" required class="form-control" value="<?php echo $Phone; ?>">
               </div>
-
               <div class="form-group">
-                <label for="">GST_No</label>
-                <input type="text" name="cgst"  id="updategstInput" required class="form-control" value="<?php echo $Gst_no; ?>">
+                <label for="update_cemail">Email</label>
+                <input type="text" name="cemail" id="update_cemail" required class="form-control" value="<?php echo $Email; ?>">
               </div>
-
+              <div class="form-group">
+                <label for="update_gstInput">GST_No</label>
+                <input type="text" name="cgst" id="update_gstInput" required class="form-control" value="<?php echo $Gst_no; ?>">
+              </div>
               <input type="submit" value="update" name="Update" id="update_customer" class="btn btn-success mt-5">
             </form>
           </div>
@@ -181,6 +187,7 @@
         <thead>
           <tr style=" background-color: #f2f2f2;">
             <th> Customer Id </th>
+            <th> Company Name </th>
             <th> Customer Name </th>
             <th> Customer Phone </th>
             <th> Customer Email </th>
@@ -197,6 +204,7 @@
           while ($row = mysqli_fetch_assoc($res)) {
             echo "<tr>";
             echo "<td>" . $row['Id'] . "</td>";
+            echo "<td>" . $row['Company_name'] . "</td>";
             echo "<td>" . $row['Name'] . "</td>";
             echo "<td>" . $row['Phone'] . "</td>";
             echo "<td>" . $row['Email'] . "</td>";
@@ -229,13 +237,15 @@
         button.addEventListener('click', function() {
           var row = button.closest('tr');
           var id = row.cells[0].innerText;
-          var name = row.cells[1].innerText;
-          var address = row.cells[4].innerText;
-          var phone = row.cells[2].innerText;
-          var email = row.cells[3].innerText;
-          var gstNo = row.cells[5].innerText;
+          var company_name = row.cells[1].innerText;
+          var name = row.cells[2].innerText;
+          var address = row.cells[5].innerText;
+          var phone = row.cells[3].innerText;
+          var email = row.cells[4].innerText;
+          var gstNo = row.cells[6].innerText;
 
           document.querySelector('#update_frm [name="Id"]').value = id;
+          document.querySelector('#update_frm [name="company_name"]').value = company_name;
           document.querySelector('#update_frm [name="cname"]').value = name;
           document.querySelector('#update_frm [name="caddress"]').value = address;
           document.querySelector('#update_frm [name="cphone"]').value = phone;
@@ -252,9 +262,9 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('updategstInput').addEventListener('input', function() {
-            this.value = this.value.toUpperCase();
-        });
+      document.getElementById('update_gstInput').addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+      });
     });
   </script>
 

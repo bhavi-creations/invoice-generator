@@ -17,6 +17,9 @@ h6{
     line-height: 21.367px;  
 }
 
+button .btn-add-row{
+    border: none;
+}
 
 h6 input{
 

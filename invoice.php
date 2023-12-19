@@ -45,10 +45,10 @@
                             <a class="nav-link active text-primary pe-5 me-5" aria-current="page" href="invoice.php">CREATE INVOICE</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark pe-5" href="viewinvoices.html">VIEW INVOICES</a>
+                            <a class="nav-link text-dark pe-5" href="viewinvoices.php">VIEW INVOICES</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark ps-5" href="viewcustomers.html">VIEW CUSTOMERS</a>
+                            <a class="nav-link text-dark ps-5" href="viewcustomers.php">VIEW CUSTOMERS</a>
                         </li>
                     </ul>
                 </div>
@@ -72,10 +72,10 @@
                             <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="viewinvoices.html">VIEW INVOICES</a>
+                            <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="viewinvoices.html">VIEW CUSTOMERS</a>
+                            <a class="nav-link" href="viewinvoices.php">VIEW CUSTOMERS</a>
                         </li>
                     </ul>
                 </div>
@@ -156,7 +156,7 @@
                         </thead>
                         <tbody id="product_tbody">
                             <tr>
-                                <td><input type='button' value='+' class='btn btn-success btn-sm' id='btn-add-row'></td>
+                                <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                 <td class="serial-number">01</td>
                                 <td><select name="Sname[]" class="form-control">
                                         <option value="Logo Design">Logo Design</option>
@@ -184,7 +184,7 @@
                                 <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
                                 <td><input type='text' required name='discount[]' class='form-control discount'></td>
                                 <td><input type='text' required name='total[]' class='form-control total'></td>
-                                <td><button type='button' value='X' class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
+                                <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
                             </tr>
 
                             <!-- Add more rows as needed -->
@@ -243,7 +243,7 @@
                             });
 
                             $("#btn-add-row").click(function() {
-                                var row = "<tr><td><input type='button' value='+' class='btn btn-success btn-sm' id='btn-add-row'></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'> <option value='Logo Design'>Logo Design</option><option value='Google My Business'>Google My Business</option><option value='Website'>Website</option><option value='Social Media Management'>Social Media Management</option><option value='Image Designing'>Image Designing</option><option value='Video Creation'>Video Creation</option><option value='Video Editing'>Video Editing</option><option value='SEO'>SEO</option><option value='Printing'>Printing</option><option value='Vising Cards'>Vising Cards</option><option value='Letter Heads'>Letter Heads</option><option value='pamphlet'>pamphlet</option><option value='Flex'>Flex</option><option value='Brouchers'>Brouchers</option><option value='Viny Stickers'>Viny Stickers</option><option value='Calenders'>Calenders</option><option value='Diaries'>Diaries</option></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' class=' btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+                                var row = "<tr><td><button style='border: none; background: none;' type='button' id='btn-add-row' class='btn-add-row'><b>+</b></button></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'> <option value='Logo Design'>Logo Design</option><option value='Google My Business'>Google My Business</option><option value='Website'>Website</option><option value='Social Media Management'>Social Media Management</option><option value='Image Designing'>Image Designing</option><option value='Video Creation'>Video Creation</option><option value='Video Editing'>Video Editing</option><option value='SEO'>SEO</option><option value='Printing'>Printing</option><option value='Vising Cards'>Vising Cards</option><option value='Letter Heads'>Letter Heads</option><option value='pamphlet'>pamphlet</option><option value='Flex'>Flex</option><option value='Brouchers'>Brouchers</option><option value='Viny Stickers'>Viny Stickers</option><option value='Calenders'>Calenders</option><option value='Diaries'>Diaries</option></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
 
                                 $("#product_tbody").append(row);
 
