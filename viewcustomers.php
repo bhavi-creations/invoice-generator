@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -120,7 +119,7 @@
 
               <div class="form-group">
                 <label for="">GST_No</label>
-                <input type="text" name="cgst" required class="form-control">
+                <input type="text" name="cgst" id="gstInput" required class="form-control">
               </div>
               <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
             </form>
@@ -142,7 +141,7 @@
           </div>
           <div class="modal-body">
             <form action="updatemodal.php" method="post">
-            <input type="text" name="Id" required hidden class="form-control"  value="<?php echo $Cid; ?>">
+              <input type="text" name="Id" required hidden class="form-control" value="<?php echo $Cid; ?>">
               <div class="form-group">
                 <label for="">Name</label>
                 <input type="text" name="cname" required class="form-control" value="<?php echo $Name; ?>">
@@ -164,7 +163,7 @@
 
               <div class="form-group">
                 <label for="">GST_No</label>
-                <input type="text" name="cgst" required class="form-control" value="<?php echo $Gst_no; ?>">
+                <input type="text" name="cgst"  id="updategstInput" required class="form-control" value="<?php echo $Gst_no; ?>">
               </div>
 
               <input type="submit" value="update" name="Update" id="update_customer" class="btn btn-success mt-5">
@@ -191,25 +190,25 @@
           </tr>
         </thead>
         <tbody id="product_tbody" class="viewinvoicetable">
-    <?php
-    require_once('bhavidb.php');
-    $sql = "SELECT * FROM customer";
-    $res = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($res)) {
-      echo "<tr>";
-      echo "<td>" . $row['Id'] . "</td>";
-      echo "<td>" . $row['Name'] . "</td>";
-      echo "<td>" . $row['Phone'] . "</td>";
-      echo "<td>" . $row['Email'] . "</td>";
-      echo "<td>" . $row['Address'] . "</td>";
-      echo "<td>" . $row['Gst_no'] . "</td>";
+          <?php
+          require_once('bhavidb.php');
+          $sql = "SELECT * FROM customer";
+          $res = $conn->query($sql);
+          while ($row = mysqli_fetch_assoc($res)) {
+            echo "<tr>";
+            echo "<td>" . $row['Id'] . "</td>";
+            echo "<td>" . $row['Name'] . "</td>";
+            echo "<td>" . $row['Phone'] . "</td>";
+            echo "<td>" . $row['Email'] . "</td>";
+            echo "<td>" . $row['Address'] . "</td>";
+            echo "<td>" . $row['Gst_no'] . "</td>";
 
-      // Pass the customer ID as a parameter to the JavaScript function
-      echo "<td><a href=\"#\" class=\"update_customer\" data-bs-toggle=\"modal\" data-bs-target=\"#update_frm\" data-id=\"{$row['Id']}\">Update</a> | <a href=\"delete.php?Id={$row['Id']}\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";
-      echo "</tr>";
-    }
-    ?>
-  </tbody>
+            // Pass the customer ID as a parameter to the JavaScript function
+            echo "<td><a href=\"#\" class=\"update_customer\" data-bs-toggle=\"modal\" data-bs-target=\"#update_frm\" data-id=\"{$row['Id']}\">Update</a> | <a href=\"delete.php?Id={$row['Id']}\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";
+            echo "</tr>";
+          }
+          ?>
+        </tbody>
       </table>
     </div>
   </div>
@@ -246,6 +245,16 @@
           updateCustomerModal.show();
         });
       });
+    });
+
+    document.getElementById('gstInput').addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('updategstInput').addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
     });
   </script>
 

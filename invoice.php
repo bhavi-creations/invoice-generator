@@ -6,13 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <!-- BOOTSTRAP PLUGIN -->
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
-    <!-- jQuery -->
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -21,8 +16,15 @@
 
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
 
-    <!-- ADDING STYLE SHEET  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/number-to-words/1.5.1/number-to-words.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/number-to-words@1.5.0/index.js"></script>
+
+
+
     <link rel="stylesheet" href="img/style.css">
+
+
 
 
 </head>
@@ -140,18 +142,23 @@
                     <table border="1">
                         <thead>
                             <tr>
-                                <th style="width: 253px;"> <input type='button' value='+' class='btn btn-dark btn-sm' id='btn-add-row'>SERVICES</th>
+                                <th></th>
+                                <th>Si_no</th>
+                                <th style="width: 253px;"> SERVICES</th>
                                 <th style="width: 364px;">DESCRIPITION</th>
                                 <th>QUANTITY</th>
                                 <th>PRICE</th>
                                 <th>TOTAL PRICE </th>
                                 <th>DISCOUNT</th>
                                 <th>FINAL</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="product_tbody">
                             <tr>
-                                <td><button type='button' value='' class='btn btn-danger btn-sm btn-row-remove'></button><select name="Sname[]" class="form-control">
+                                <td><input type='button' value='+' class='btn btn-success btn-sm' id='btn-add-row'></td>
+                                <td class="serial-number">01</td>
+                                <td><select name="Sname[]" class="form-control">
                                         <option value="Logo Design">Logo Design</option>
                                         <option value="Google My Business">Google My Business</option>
                                         <option value="Website">Website</option>
@@ -177,17 +184,18 @@
                                 <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
                                 <td><input type='text' required name='discount[]' class='form-control discount'></td>
                                 <td><input type='text' required name='total[]' class='form-control total'></td>
+                                <td><button type='button' value='X' class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
                             </tr>
 
                             <!-- Add more rows as needed -->
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan='6' class='text-right' style="text-align: right;">Total</td>
-                                <td><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
+                                <td colspan='8' class='text-right' style="text-align: right;">Total</td>
+                                <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
                             </tr>
                             <tr>
-                                <td colspan='5' class='text-right' style="text-align: right;">GST</td>
+                                <td colspan='7' class='text-right' style="text-align: right;">GST</td>
                                 <td>
                                     <select name="gst" id="gst" class="form-control gst">
                                         <option value="0">0%</option>
@@ -196,18 +204,33 @@
                                         <option value="18">18%</option>
                                     </select>
                                 </td>
-                                <td><input type='text' name='gst_total' id='gst_total' class='form-control gst_total' required></td>
+                                <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total' required></td>
                             </tr>
-                            <tr>
-                                <td colspan='6' class='text-right' style="text-align: right;">Final Total</td>
-                                <td><input type='text' name='Final_total' id='final_total' class='form-control final_total' required readonly></td>
-                            </tr>
+                            <<tr>
+                                <td colspan="7"><input type='text' class="form-control words" readonly id="words"></td>
+                                <td class='text-right' style="text-align: right;">Final Total</td>
+                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' required readonly></td>
+                                </tr>
                         </tfoot>
                     </table>
-                    <div class="text-center pt-5">
-                        <input type="submit" name="submit" value="Save Invoice" class="btn btn-primary float-right">
+                    <div class="row container-fluid">
+                        <div class="float-left mt-3 col-4">
+                            <textarea name="terms&conditions" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
+                        </div>
+                        <div class="row col-2">
+                            <div class="text-center pt-5 ">
+                                <input type="submit" name="submit" value="Save" class="btn btn-primary ">
+                            </div>
+                        </div>
+                        <div class="row col-2">
+                            <div class="text-center pt-5 ">
+                                <input type="submit" name="Print" value="Print" class="btn btn-primary float-right">
+                            </div>
+                        </div>
+                        <div class="float-right mt-3 col-4 ms-10">
+                            <textarea name="terms&conditions" id="" cols="50" rows="5" placeholder="Note:"></textarea>
+                        </div>
                     </div>
-
 
 
                     <!--  ENDING BILLING SECTION  -->
@@ -220,16 +243,29 @@
                             });
 
                             $("#btn-add-row").click(function() {
-                                var row = "<tr> <td><button type='button' value='x' class='btn btn-danger btn-sm btn-row-remove'></button> <select name='Sname[]' class='form-control'> <option value='Logo Design'>Logo Design</option><option value='Google My Business'>Google My Business</option><option value='Website'>Website</option><option value='Social Media Management'>Social Media Management</option><option value='Image Designing'>Image Designing</option><option value='Video Creation'>Video Creation</option><option value='Video Editing'>Video Editing</option><option value='SEO'>SEO</option><option value='Printing'>Printing</option><option value='Vising Cards'>Vising Cards</option><option value='Letter Heads'>Letter Heads</option><option value='pamphlet'>pamphlet</option><option value='Flex'>Flex</option><option value='Brouchers'>Brouchers</option><option value='Viny Stickers'>Viny Stickers</option><option value='Calenders'>Calenders</option><option value='Diaries'>Diaries</option></select></td> <td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td></tr>";
+                                var row = "<tr><td><input type='button' value='+' class='btn btn-success btn-sm' id='btn-add-row'></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'> <option value='Logo Design'>Logo Design</option><option value='Google My Business'>Google My Business</option><option value='Website'>Website</option><option value='Social Media Management'>Social Media Management</option><option value='Image Designing'>Image Designing</option><option value='Video Creation'>Video Creation</option><option value='Video Editing'>Video Editing</option><option value='SEO'>SEO</option><option value='Printing'>Printing</option><option value='Vising Cards'>Vising Cards</option><option value='Letter Heads'>Letter Heads</option><option value='pamphlet'>pamphlet</option><option value='Flex'>Flex</option><option value='Brouchers'>Brouchers</option><option value='Viny Stickers'>Viny Stickers</option><option value='Calenders'>Calenders</option><option value='Diaries'>Diaries</option></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' class=' btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+
                                 $("#product_tbody").append(row);
+
+                                // Update serial numbers
+                                updateSerialNumbers();
                             });
 
-                            $("body").on("click", ".btn-row-remove", function() {
+                            // Function to update serial numbers
+                            function updateSerialNumbers() {
+                                $(".serial-number").each(function(index) {
+                                    $(this).text((index + 1).toString().padStart(2, '0'));
+                                });
+                            }
+
+                            $("body").on("click", "#btn-row-remove", function() {
                                 if (confirm("Are You Sure?")) {
                                     $(this).closest("tr").remove();
+                                    updateSerialNumbers();
                                     grand_total();
                                 }
                             });
+
 
                             $("body").on("keyup", ".price", function() {
                                 var price = Number($(this).val());
@@ -303,6 +339,19 @@
                             var gst_amount = Number($("#gst_total").val());
                             var final_total = grand_total + gst_amount;
                             $("#final_total").val(final_total);
+                        }
+
+
+                        $("body").on("keyup change", "#final_total", function() {
+                            var total = Number($(this).val());
+                            var words = convertNumberToWords(total);
+                            $(".words").val(words);
+                        });
+
+                        // Function to convert number to words
+                        function convertNumberToWords(number) {
+                            var wordsInstance = new numberToWords();
+                            return wordsInstance.toWords(number);
                         }
                     </script>
 
