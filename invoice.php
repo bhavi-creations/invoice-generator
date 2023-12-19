@@ -5,8 +5,8 @@ define('INVOICE_INITIAL_VALUE', '1');
 
 require_once('bhavidb.php');
 
-// Initial invoice number
-function getInvoiceId() {
+function getInvoiceId()
+{
     $server = 'localhost';
     $username = 'root';
     $pass = '';
@@ -14,7 +14,6 @@ function getInvoiceId() {
 
     $conn = mysqli_connect($server, $username, $pass, $database);
 
-    // output any connection error
     if ($conn->connect_error) {
         die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
     }
@@ -32,13 +31,13 @@ function getInvoiceId() {
             $nextInvoiceNumber = $row['Invoice_no'] + 1;
         }
 
-        // Format the number with leading zeros
+
         $formattedInvoiceNumber = sprintf('%03d', $nextInvoiceNumber);
 
-        // Frees the memory associated with a result
+
         $result->free();
 
-        // close connection
+
         $conn->close();
 
         return $formattedInvoiceNumber;
@@ -48,6 +47,109 @@ function getInvoiceId() {
 $invoiceNumber = getInvoiceId();
 
 
+// function convertNumberToWords($number)
+// {
+//     $words = array(
+//         '0' => 'Zero',
+//         '1' => 'One',
+//         '2' => 'Two',
+//         '3' => 'Three',
+//         '4' => 'Four',
+//         '5' => 'Five',
+//         '6' => 'Six',
+//         '7' => 'Seven',
+//         '8' => 'Eight',
+//         '9' => 'Nine'
+//     );
+
+//     $tenWords = array(
+//         '10' => 'Ten',
+//         '11' => 'Eleven',
+//         '12' => 'Twelve',
+//         '13' => 'Thirteen',
+//         '14' => 'Fourteen',
+//         '15' => 'Fifteen',
+//         '16' => 'Sixteen',
+//         '17' => 'Seventeen',
+//         '18' => 'Eighteen',
+//         '19' => 'Nineteen'
+//     );
+
+//     $tensWords = array(
+//         '2' => 'Twenty',
+//         '3' => 'Thirty',
+//         '4' => 'Forty',
+//         '5' => 'Fifty',
+//         '6' => 'Sixty',
+//         '7' => 'Seventy',
+//         '8' => 'Eighty',
+//         '9' => 'Ninety'
+//     );
+
+//     $unitPlaces = array('', 'Thousand', 'Lakh', 'Crore');
+
+//     $number = sprintf("%012d", $number);
+
+//     $wordsArray = array();
+//     $position = 0;
+
+//     for ($i = 0; $i < 4; $i++) {
+//         $chunk = substr($number, -3);
+//         $number = substr($number, 0, -3);
+
+//         $chunkArray = array();
+//         $unitFlag = false;
+
+//         if ($chunk[0] != '0') {
+//             $chunkArray[] = $words[$chunk[0]];
+//             $chunkArray[] = 'Hundred';
+//             $unitFlag = true;
+//         }
+
+//         $twoDigitNum = intval($chunk[1] . $chunk[2]);
+
+//         if ($twoDigitNum != 0) {
+//             if ($twoDigitNum < 10) {
+//                 $chunkArray[] = $words[$twoDigitNum];
+//             } elseif ($twoDigitNum < 20) {
+//                 $chunkArray[] = $tenWords[$twoDigitNum];
+//             } else {
+//                 $chunkArray[] = $tensWords[$chunk[1]];
+//                 if ($chunk[2] != '0') {
+//                     $chunkArray[] = $words[$chunk[2]];
+//                 }
+//             }
+//             $unitFlag = true;
+//         }
+
+//         if ($unitFlag) {
+//             $chunkArray[] = $unitPlaces[$position];
+//         }
+
+//         $position++;
+//         $wordsArray[] = $chunkArray;
+//     }
+
+//     $wordsArray = array_reverse($wordsArray);
+
+//     $finalWords = array();
+
+//     foreach ($wordsArray as $chunk) {
+//         $finalWords = array_merge($finalWords, $chunk);
+//     }
+
+//     return implode(' ', $finalWords);
+// }
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+//     $amount = $_POST['Final_total'];
+
+
+// $amountInWords = convertNumberToWords($amount);
+
+// echo"$amountInWords";
+// }
 ?>
 
 <!DOCTYPE html>
@@ -248,11 +350,12 @@ $invoiceNumber = getInvoiceId();
                                 </td>
                                 <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total' required></td>
                             </tr>
-                            <<tr>
-                                <td colspan="7"><input type='text' class="form-control words" readonly id="words"></td>
+                            <tr>
+                                <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words" value="<?php echo "Amount in words: Rupees " . ucfirst(strtolower($amountInWords)) . " only.";?>"></td>
                                 <td class='text-right' style="text-align: right;">Final Total</td>
                                 <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' required readonly></td>
-                                </tr>
+                            </tr>
+
                         </tfoot>
                     </table>
                     <div class="row container-fluid">
@@ -381,19 +484,6 @@ $invoiceNumber = getInvoiceId();
                             var gst_amount = Number($("#gst_total").val());
                             var final_total = grand_total + gst_amount;
                             $("#final_total").val(final_total);
-                        }
-
-
-                        $("body").on("keyup change", "#final_total", function() {
-                            var total = Number($(this).val());
-                            var words = convertNumberToWords(total);
-                            $(".words").val(words);
-                        });
-
-                        // Function to convert number to words
-                        function convertNumberToWords(number) {
-                            var wordsInstance = new numberToWords();
-                            return wordsInstance.toWords(number);
                         }
                     </script>
 
