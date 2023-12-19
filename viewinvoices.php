@@ -1,3 +1,27 @@
+<?php
+require_once('bhavidb.php');
+
+// Handle delete request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
+    $deleteId = $_POST['delete_id'];
+
+    // Perform the delete operation, modify the query based on your table structure
+    $deleteSql = "DELETE FROM invoice WHERE Invoice_no = $deleteId";
+    if ($conn->query($deleteSql) === TRUE) {
+        // Record deleted successfully
+        header("Location: viewinvoices.php"); // Redirect to the same page after deletion
+        exit(); // Add exit() to stop script execution
+    } else {
+        // Error deleting record
+        echo "Error: " . $conn->error;
+    }
+}
+
+// Fetch data from the database
+$sql = "SELECT * FROM invoice";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,29 +137,6 @@
 </html>
 
 
-<?php
-require_once('bhavidb.php');
-
-// Handle delete request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-    $deleteId = $_POST['delete_id'];
-
-    // Perform the delete operation, modify the query based on your table structure
-    $deleteSql = "DELETE FROM invoice WHERE Invoice_no = $deleteId";
-    if ($conn->query($deleteSql) === TRUE) {
-        // Record deleted successfully
-        header("Location: viewinvoices.php"); // Redirect to the same page after deletion
-        exit(); // Add exit() to stop script execution
-    } else {
-        // Error deleting record
-        echo "Error: " . $conn->error;
-    }
-}
-
-// Fetch data from the database
-$sql = "SELECT * FROM invoice";
-$result = $conn->query($sql);
-?>
 
 <!DOCTYPE html>
 <html lang="en">

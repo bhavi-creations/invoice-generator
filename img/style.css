@@ -17,9 +17,6 @@ h6{
     line-height: 21.367px;  
 }
 
-button .btn-add-row{
-    border: none;
-}
 
 h6 input{
 
@@ -90,9 +87,7 @@ th {
 
 
 
-.container-fluid.billing {
-    /* overflow-x: auto; */
-}
+
 
 table {
     border-collapse: collapse;

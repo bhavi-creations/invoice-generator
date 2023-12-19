@@ -5,7 +5,7 @@ if (isset($_POST["submit"])) {
     // print_r($_POST);
     // exit;
     $invoice_no = mysqli_real_escape_string($conn, $_POST["invoice_no"]);
-    $invoice_date = date("Y-m-d", strtotime($_POST["invoice_date"]));
+    $invoice_date = date("d-m-Y", strtotime($_POST["invoice_date"]));
     $cname = mysqli_real_escape_string($conn, $_POST["cname"]);
     $cphone = mysqli_real_escape_string($conn, $_POST["cphone"]);
     $caddress = mysqli_real_escape_string($conn, $_POST["caddress"]);
@@ -37,6 +37,7 @@ if (isset($_POST["submit"])) {
                 echo "<SCRIPT>
                 window.alert('invoice added')
                 window.location.href='invoice.php';</SCRIPT>";
+
             } else {
                 echo "Invoice Added Failed: " . $conn->error;
             }

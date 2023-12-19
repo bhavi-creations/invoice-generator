@@ -1,3 +1,55 @@
+<?php
+
+define('INVOICE_INITIAL_VALUE', '1');
+
+
+require_once('bhavidb.php');
+
+// Initial invoice number
+function getInvoiceId() {
+    $server = 'localhost';
+    $username = 'root';
+    $pass = '';
+    $database = 'bhavi_invoice_db';
+
+    $conn = mysqli_connect($server, $username, $pass, $database);
+
+    // output any connection error
+    if ($conn->connect_error) {
+        die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
+    }
+
+    $query = "SELECT Invoice_no FROM invoice ORDER BY Invoice_no DESC LIMIT 1";
+
+    if ($result = $conn->query($query)) {
+        $row_cnt = $result->num_rows;
+
+        $row = mysqli_fetch_assoc($result);
+
+        if ($row_cnt == 0) {
+            $nextInvoiceNumber = INVOICE_INITIAL_VALUE;
+        } else {
+            $nextInvoiceNumber = $row['Invoice_no'] + 1;
+        }
+
+        // Format the number with leading zeros
+        $formattedInvoiceNumber = sprintf('%03d', $nextInvoiceNumber);
+
+        // Frees the memory associated with a result
+        $result->free();
+
+        // close connection
+        $conn->close();
+
+        return $formattedInvoiceNumber;
+    }
+}
+
+$invoiceNumber = getInvoiceId();
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,17 +67,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/number-to-words/1.5.1/number-to-words.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/number-to-words@1.5.0/index.js"></script>
-
-
-
     <link rel="stylesheet" href="img/style.css">
-
-
-
 
 </head>
 
@@ -103,7 +145,7 @@
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                         <h4><strong>INVOICE NUMBER </strong></h4>
-                        <h4><strong>BHAVI_KKD_2023_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3"></strong></h4>
+                        <h4><strong>BHAVI_KKD_2023_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>"></strong></h4>
                     </div>
                 </div>
 
@@ -243,7 +285,7 @@
                             });
 
                             $("#btn-add-row").click(function() {
-                                var row = "<tr><td><button style='border: none; background: none;' type='button' id='btn-add-row' class='btn-add-row'><b>+</b></button></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'> <option value='Logo Design'>Logo Design</option><option value='Google My Business'>Google My Business</option><option value='Website'>Website</option><option value='Social Media Management'>Social Media Management</option><option value='Image Designing'>Image Designing</option><option value='Video Creation'>Video Creation</option><option value='Video Editing'>Video Editing</option><option value='SEO'>SEO</option><option value='Printing'>Printing</option><option value='Vising Cards'>Vising Cards</option><option value='Letter Heads'>Letter Heads</option><option value='pamphlet'>pamphlet</option><option value='Flex'>Flex</option><option value='Brouchers'>Brouchers</option><option value='Viny Stickers'>Viny Stickers</option><option value='Calenders'>Calenders</option><option value='Diaries'>Diaries</option></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+                                var row = "<tr><td></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'> <option value='Logo Design'>Logo Design</option><option value='Google My Business'>Google My Business</option><option value='Website'>Website</option><option value='Social Media Management'>Social Media Management</option><option value='Image Designing'>Image Designing</option><option value='Video Creation'>Video Creation</option><option value='Video Editing'>Video Editing</option><option value='SEO'>SEO</option><option value='Printing'>Printing</option><option value='Vising Cards'>Vising Cards</option><option value='Letter Heads'>Letter Heads</option><option value='pamphlet'>pamphlet</option><option value='Flex'>Flex</option><option value='Brouchers'>Brouchers</option><option value='Viny Stickers'>Viny Stickers</option><option value='Calenders'>Calenders</option><option value='Diaries'>Diaries</option></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
 
                                 $("#product_tbody").append(row);
 
