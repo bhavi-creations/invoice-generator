@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2023 at 05:56 AM
+-- Generation Time: Dec 20, 2023 at 07:09 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `customer` (
   `Id` int(11) NOT NULL,
+  `Company_name` varchar(150) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Phone` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
@@ -40,12 +41,10 @@ CREATE TABLE `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`Id`, `Name`, `Phone`, `Email`, `Address`, `Gst_no`) VALUES
-(3, 'Rajkumar Giduthuri', '7981885538', 'rajkumar16371@gmail.com', 'KITS college, Ramachandrapuram.', 'gfbdfbgb'),
-(4, 'Rajkumar Giduthuri', '7981885538', 'rajkumar16371@gmail.com', 'KITS college, Ramachandrapuram.', 'gfbdfbgb'),
-(5, 'Rajkumar Giduthuri', '7981885538', 'rajkumar16371@gmail.com', 'KITS college, Ramachandrapuram.', 'gfbdfbgb'),
-(6, 'ravi', '7981885538', 'ravi@gmail.com', 'kkd', '37Emdffsd520'),
-(7, 'ravi', '7981885538', 'ravi@gmail.com', 'kkd', '37Emdffsd520');
+INSERT INTO `customer` (`Id`, `Company_name`, `Name`, `Phone`, `Email`, `Address`, `Gst_no`) VALUES
+(23, '', 'ravi kumar', 'dsfohgdsih', 'fdsigh', 'fdshfgshi', 'dsvifhgsi'),
+(24, '', ' Nag', '8686394079', 'phanichalikonda@gmail.com', '41-14-285, vijayawada', '37AAK76451hbb'),
+(25, 'raj', 'ram', '4498', 'raj@gmail.com', 'fhsfh', 'DSFDSFUIB599');
 
 --
 -- Indexes for dumped tables
@@ -65,7 +64,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
