@@ -47,109 +47,7 @@ function getInvoiceId()
 $invoiceNumber = getInvoiceId();
 
 
-// function convertNumberToWords($number)
-// {
-//     $words = array(
-//         '0' => 'Zero',
-//         '1' => 'One',
-//         '2' => 'Two',
-//         '3' => 'Three',
-//         '4' => 'Four',
-//         '5' => 'Five',
-//         '6' => 'Six',
-//         '7' => 'Seven',
-//         '8' => 'Eight',
-//         '9' => 'Nine'
-//     );
 
-//     $tenWords = array(
-//         '10' => 'Ten',
-//         '11' => 'Eleven',
-//         '12' => 'Twelve',
-//         '13' => 'Thirteen',
-//         '14' => 'Fourteen',
-//         '15' => 'Fifteen',
-//         '16' => 'Sixteen',
-//         '17' => 'Seventeen',
-//         '18' => 'Eighteen',
-//         '19' => 'Nineteen'
-//     );
-
-//     $tensWords = array(
-//         '2' => 'Twenty',
-//         '3' => 'Thirty',
-//         '4' => 'Forty',
-//         '5' => 'Fifty',
-//         '6' => 'Sixty',
-//         '7' => 'Seventy',
-//         '8' => 'Eighty',
-//         '9' => 'Ninety'
-//     );
-
-//     $unitPlaces = array('', 'Thousand', 'Lakh', 'Crore');
-
-//     $number = sprintf("%012d", $number);
-
-//     $wordsArray = array();
-//     $position = 0;
-
-//     for ($i = 0; $i < 4; $i++) {
-//         $chunk = substr($number, -3);
-//         $number = substr($number, 0, -3);
-
-//         $chunkArray = array();
-//         $unitFlag = false;
-
-//         if ($chunk[0] != '0') {
-//             $chunkArray[] = $words[$chunk[0]];
-//             $chunkArray[] = 'Hundred';
-//             $unitFlag = true;
-//         }
-
-//         $twoDigitNum = intval($chunk[1] . $chunk[2]);
-
-//         if ($twoDigitNum != 0) {
-//             if ($twoDigitNum < 10) {
-//                 $chunkArray[] = $words[$twoDigitNum];
-//             } elseif ($twoDigitNum < 20) {
-//                 $chunkArray[] = $tenWords[$twoDigitNum];
-//             } else {
-//                 $chunkArray[] = $tensWords[$chunk[1]];
-//                 if ($chunk[2] != '0') {
-//                     $chunkArray[] = $words[$chunk[2]];
-//                 }
-//             }
-//             $unitFlag = true;
-//         }
-
-//         if ($unitFlag) {
-//             $chunkArray[] = $unitPlaces[$position];
-//         }
-
-//         $position++;
-//         $wordsArray[] = $chunkArray;
-//     }
-
-//     $wordsArray = array_reverse($wordsArray);
-
-//     $finalWords = array();
-
-//     foreach ($wordsArray as $chunk) {
-//         $finalWords = array_merge($finalWords, $chunk);
-//     }
-
-//     return implode(' ', $finalWords);
-// }
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-//     $amount = $_POST['Final_total'];
-
-
-// $amountInWords = convertNumberToWords($amount);
-
-// echo"$amountInWords";
-// }
 ?>
 
 <!DOCTYPE html>
@@ -267,14 +165,30 @@ $invoiceNumber = getInvoiceId();
                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
-                        <h4 class="pb-2"><strong>Company Name</strong> </h4>
+                        <table id="product_tbody">
+                        <tr>
+                            <td><select name="cname" id="cname">
+                            <?php
+                            $sql = "SELECT `Comapany_name` FROM `customer`";
+                            $res = $conn->query($sql);
+
+                            while ($row = mysqli_fetch_assoc($res)) {
+                                echo "<option value='" . $row['Comapany_name'] . "'>" . $row['Comapany_name'] . "</option>";
+                            }
+                            ?>
+                        </select></td>
+                        </tr>
+                        </table>
+
+
+                        <!-- <h4 class="pb-2"><strong>Company Name</strong> </h4>
                         <h6> <input name="cname" type="text" placeholder="Name" style="border: none;"></h6>
                         <div class="address">
                             <h6><textarea class="form-control" name="caddress" placeholder="Address" style="border: none; margin-right: 5px;"></textarea> </h6>
                         </div>
                         <h6> <input name="cphone" type="text" placeholder="Phone Number" style="border: none;"></h6>
                         <h6> <input name="cemail" type="text" placeholder="Email" style="border: none;"></h6>
-                        <h6> <input name="cgst" type="text" placeholder="GST" style="border: none;"></h6>
+                        <h6> <input name="cgst" type="text" placeholder="GST" style="border: none;"></h6> -->
                     </div>
                 </div>
 
@@ -302,25 +216,15 @@ $invoiceNumber = getInvoiceId();
                             <tr>
                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                 <td class="serial-number">01</td>
-                                <td><select name="Sname[]" class="form-control">
-                                        <option value="Logo Design">Logo Design</option>
-                                        <option value="Google My Business">Google My Business</option>
-                                        <option value="Website">Website</option>
-                                        <option value="Social Media Management">Social Media Management</option>
-                                        <option value="Image Designing">Image Designing</option>
-                                        <option value="Video Creation">Video Creation</option>
-                                        <option value="Video Editing">Video Editing</option>
-                                        <option value="SEO">SEO</option>
-                                        <option value="Printing">Printing</option>
-                                        <option value="Vising Cards">Vising Cards</option>
-                                        <option value="Letter Heads">Letter Heads</option>
-                                        <option value="pamphlet">pamphlet</option>
-                                        <option value="Flex">Flex</option>
-                                        <option value="Brouchers">Brouchers</option>
-                                        <option value="Viny Stickers">Viny Stickers</option>
-                                        <option value="Calenders">Calenders</option>
-                                        <option value="Diaries">Diaries</option>
+                                <td> <select name="Sname[]" class="form-control">
+                                        <?php
+                                        $sql = "SELECT `service_name` FROM `service_names`";
+                                        $res = $conn->query($sql);
 
+                                        while ($row = mysqli_fetch_assoc($res)) {
+                                            echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
+                                        }
+                                        ?>
                                     </select></td>
                                 <td><textarea class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
@@ -342,16 +246,20 @@ $invoiceNumber = getInvoiceId();
                                 <td colspan='7' class='text-right' style="text-align: right;">GST</td>
                                 <td>
                                     <select name="gst" id="gst" class="form-control gst">
-                                        <option value="0">0%</option>
-                                        <option value="5">5%</option>
-                                        <option value="12">12%</option>
-                                        <option value="18">18%</option>
+                                        <?php
+                                        $sql2 = "SELECT `gst` FROM `gst_no`";
+                                        $result = $conn->query($sql2);
+
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<option value='" . $row['gst'] . "'>" . $row['gst'] . "</option>";
+                                        }
+                                        ?>
                                     </select>
                                 </td>
                                 <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total' required></td>
                             </tr>
                             <tr>
-                                <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words" value="<?php echo "Amount in words: Rupees " . ucfirst(strtolower($amountInWords)) . " only.";?>"></td>
+                                <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
                                 <td class='text-right' style="text-align: right;">Final Total</td>
                                 <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' required readonly></td>
                             </tr>
@@ -388,7 +296,11 @@ $invoiceNumber = getInvoiceId();
                             });
 
                             $("#btn-add-row").click(function() {
-                                var row = "<tr><td></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'> <option value='Logo Design'>Logo Design</option><option value='Google My Business'>Google My Business</option><option value='Website'>Website</option><option value='Social Media Management'>Social Media Management</option><option value='Image Designing'>Image Designing</option><option value='Video Creation'>Video Creation</option><option value='Video Editing'>Video Editing</option><option value='SEO'>SEO</option><option value='Printing'>Printing</option><option value='Vising Cards'>Vising Cards</option><option value='Letter Heads'>Letter Heads</option><option value='pamphlet'>pamphlet</option><option value='Flex'>Flex</option><option value='Brouchers'>Brouchers</option><option value='Viny Stickers'>Viny Stickers</option><option value='Calenders'>Calenders</option><option value='Diaries'>Diaries</option></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+                                var row = "<tr><td></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'><?php $sql = 'SELECT `service_name` FROM `service_names`';
+                                                                                                                                        $res = $conn->query($sql);
+                                                                                                                                        while ($row = mysqli_fetch_assoc($res)) {
+                                                                                                                                            echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
+                                                                                                                                        } ?></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
 
                                 $("#product_tbody").append(row);
 
@@ -484,6 +396,59 @@ $invoiceNumber = getInvoiceId();
                             var gst_amount = Number($("#gst_total").val());
                             var final_total = grand_total + gst_amount;
                             $("#final_total").val(final_total);
+
+                            var words = amountToWords(final_total);
+                            $("#words").val(words);
+                        }
+
+
+                        function amountToWords(num) {
+                            var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
+                            var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+                            // Separate the whole and decimal parts
+                            var parts = num.toString().split('.');
+                            var wholePart = parts[0];
+                            var decimalPart = parts[1] || 0;
+
+                            if (wholePart.length > 9) return 'overflow';
+
+                            var n = ('000000000' + wholePart).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+
+                            if (!n) return '';
+
+                            var str = '';
+                            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+                            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+                            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+                            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+                            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'rupees ' : '';
+
+                            // Handle paisa
+                            var paisaWords = amountToWordsDecimal(decimalPart);
+                            if (paisaWords) {
+                                str += 'and ' + paisaWords;
+                            }
+
+                            str += 'only ';
+
+                            return str;
+                        }
+
+                        // Function to convert decimal part to words
+                        function amountToWordsDecimal(decimalPart) {
+                            var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine '];
+                            var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+                            var n = ('00' + decimalPart).substr(-2).match(/^(\d{1})(\d{1})$/);
+
+                            if (!n) return '';
+
+                            var str = '';
+                            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + '' : '';
+                            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'paisa ' : '';
+
+                            return str;
                         }
                     </script>
 

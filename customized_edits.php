@@ -91,63 +91,131 @@
 
     </header>
 
+    <!-- Modal for Add Service-->
+
     <div class="container mt-5">
-    <div class="modal" tabindex="-1" id="modal_frm">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Customer Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="modalform.php" method="post">
-              <div class="form-group">
-
-                <label for="">Company Name</label>
-                <input type="text" name="company_name"  class="form-control">
-              </div>
-
-              <div class="form-group">
-                <label for="">Name</label>
-                <input type="text" name="cname"  class="form-control">
-              </div>
-
-              <div class="form-group">
-                <label for="">Address</label>
-                <input type="text" name="caddress" required class="form-control">
-              </div>
-
-              <div class="form-group">
-                <label for="">Phone</label>
-                <input type="text" name="cphone" required class="form-control">
-              </div>
-
-              <div class="form-group">
-                <label for="">Email</label>
-                <input type="text" name="cemail" required class="form-control">
-              </div>
-
-              <div class="form-group">
-                <label for="">GST_No</label>
-                <input type="text" name="cgst" id="gstInput" required class="form-control">
-              </div>
-              <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-            </form>
-          </div>
+        <div class="modal" tabindex="-1" id="modal_service">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Service Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="servicesmodal.php" method="post">
+                            <div class="form-group">
+                                <label for="">Service Name</label>
+                                <input type="text" name="service_name" class="form-control">
+                            </div>
+                            <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <p class="float-end"><a href="#" class="btn btn-success" id="add_service">ADD SERVICES</a></p>
     </div>
-    <p class="float-end"><a href="#" class="btn btn-success" id="add_customer">ADD SERVICES</a></p>
-  </div>
+
+    <!--table for Service name-->
+    <div class="container pt-5 ps-5 d-flex justify-content-center">
+        <div class="table-responsive">
+            <table class="table table-stripped viewinvoicetable" style="width: 486px;">
+                <thead>
+                    <th style=" width: 60px;">si_No</th>
+                    <th>service_Name</th>
+                </thead>
+
+                <tbody>
+                    <?php
+                    require_once('bhavidb.php');
+
+                    $sql = "SELECT * FROM service_names";
+                    $res = $conn->query($sql);
+                    while ($row = mysqli_fetch_assoc($res)) {
+                        echo "<tr>";
+                        echo "<td>" . $row['si_No'] . "</td>";
+                        echo "<td>" . $row['service_Name'] . "</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
 
 
-    <script>
-        var myModal = document.getElementById('myModal')
-        var myInput = document.getElementById('myInput')
+    <!-- Modal for Add GST-->
 
-        myModal.addEventListener('shown.bs.modal', function() {
-            myInput.focus()
-        })
+    <div class="container mt-5">
+        <div class="modal" tabindex="-1" id="modal_gst">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">GST Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="gstmodal.php" method="post">
+                            <div class="form-group">
+                                <label for="">GST %</label>
+                                <input type="text" name="gst" class="form-control">
+                            </div>
+                            <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="float-end"><a href="#" class="btn btn-success" id="add_gst">ADD GST</a></p>
+    </div>
+    <!-- Table For GST-->
+    <div class="container pt-5 ps-5 d-flex justify-content-center">
+        <div class="table-responsive">
+            <table class="table table-stripped viewinvoicetable" style="width: 270px;">
+                <thead>
+                    <th style=" width: 60px;">si_No</th>
+                    <th>GST%</th>
+                </thead>
+                <tbody>
+                    <?php
+                    require_once('bhavidb.php');
+
+                    $sql = "SELECT * FROM gst";
+                    $res = $conn->query($sql);
+                    while ($row = mysqli_fetch_assoc($res)){
+                        echo "<tr>";
+                        echo "<td>" . $row['si_No'] . "</td>";
+                        echo "<td>" . $row['gst'] . "</td>";
+                        echo "</tr>";
+                    }
+
+
+                    ?>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addServiceModal = new bootstrap.Modal(document.getElementById('modal_service'));
+
+            var addServiceButton = document.getElementById('add_service');
+            addServiceButton.addEventListener('click', function() {
+                addServiceModal.show();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var addGstModal = new bootstrap.Modal(document.getElementById('modal_gst'));
+
+            var addGstButton = document.getElementById('add_gst');
+            addGstButton.addEventListener('click', function() {
+                addGstModal.show();
+            });
+        });
     </script>
 
 </body>
