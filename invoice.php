@@ -66,7 +66,7 @@ $invoiceNumber = getInvoiceId();
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="img/style.css">
 
 </head>
@@ -165,32 +165,15 @@ $invoiceNumber = getInvoiceId();
                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
-                        <table >
-                            <thead id="product_tbody">
-                        <tr>
-                            <td><select name="cname" id="cname">
-                            <?php
-                            $sql = "SELECT `Comapany_name` FROM `customer`";
-                            $res = $conn->query($sql);
-
-                            while ($row = mysqli_fetch_assoc($res)) {
-                                echo "<option value='" . $row['Comapany_name'] . "'>" . $row['Comapany_name'] . "</option>";
-                            }
-                            ?>
-                        </select></td>
-                        </tr>
-                            </thead>
-                        </table>
-
-
-                        <!-- <h4 class="pb-2"><strong>Company Name</strong> </h4>
+                        
+                        <h4 class="pb-2"><strong>Company Name</strong> </h4>
                         <h6> <input name="cname" type="text" placeholder="Name" style="border: none;"></h6>
                         <div class="address">
                             <h6><textarea class="form-control" name="caddress" placeholder="Address" style="border: none; margin-right: 5px;"></textarea> </h6>
                         </div>
                         <h6> <input name="cphone" type="text" placeholder="Phone Number" style="border: none;"></h6>
                         <h6> <input name="cemail" type="text" placeholder="Email" style="border: none;"></h6>
-                        <h6> <input name="cgst" type="text" placeholder="GST" style="border: none;"></h6> -->
+                        <h6> <input name="cgst" type="text" placeholder="GST" style="border: none;"></h6>
                     </div>
                 </div>
 
