@@ -165,7 +165,8 @@ $invoiceNumber = getInvoiceId();
                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
-                        <table id="product_tbody">
+                        <table >
+                            <thead id="product_tbody">
                         <tr>
                             <td><select name="cname" id="cname">
                             <?php
@@ -178,6 +179,7 @@ $invoiceNumber = getInvoiceId();
                             ?>
                         </select></td>
                         </tr>
+                            </thead>
                         </table>
 
 
