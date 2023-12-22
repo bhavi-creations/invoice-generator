@@ -33,25 +33,25 @@
     <!--  LARGE SCREEN NAVBAR  -->
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse mr-auto" id="navbarNav">
-                    <ul class="navbar-nav navbarleft">
-                        <li class="nav-item">
-                            <a class="nav-link active text-dark pe-5 me-5" aria-current="page" href="invoice.php">CREATE INVOICE</a>
+                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
+                    <ul class="navbar-nav " style="margin-left: 10%;">
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-darky" href="invoice.php">CREATE INVOICE</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark pe-5" href="viewinvoices.php">VIEW INVOICES</a>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark ps-5" href="viewcustomers.html">VIEW CUSTOMERS</a>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-primary ps-5" href="customized_edits.php">CUSTOMIZED EDITS</a>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link active text-primary" href="customized_edits.php">Customized Edits</a>
                         </li>
                     </ul>
                 </div>
@@ -181,16 +181,19 @@
                     <?php
                     require_once('bhavidb.php');
 
-                    $sql = "SELECT * FROM gst";
+                    $sql = "SELECT * FROM gst_no";
                     $res = $conn->query($sql);
-                    while ($row = mysqli_fetch_assoc($res)){
-                        echo "<tr>";
-                        echo "<td>" . $row['si_No'] . "</td>";
-                        echo "<td>" . $row['gst'] . "</td>";
-                        echo "</tr>";
+
+                    if ($res === false) {
+                       
+                    } else {
+                        while ($row = mysqli_fetch_assoc($res)) {
+                            echo "<tr>";
+                            echo "<td>" . $row['si_No'] . "</td>";
+                            echo "<td>" . $row['gst'] . "</td>";
+                            echo "</tr>";
+                        }
                     }
-
-
                     ?>
                 </tbody>
 

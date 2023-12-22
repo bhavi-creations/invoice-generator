@@ -33,27 +33,30 @@
   <!--  LARGE SCREEN NAVBAR  -->
   <header>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse mr-auto" id="navbarNav">
-          <ul class="navbar-nav navbarleft">
-            <li class="nav-item">
-              <a class="nav-link active text-dark pe-5 me-5" aria-current="page" href="invoice.php">CREATE INVOICE</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-dark pe-5" href="viewinvoices.php">VIEW INVOICES</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-primary ps-5" href="viewcustomers.html">VIEW CUSTOMERS</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
+                    <ul class="navbar-nav " style="margin-left: 10%;">
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="invoice.php">CREATE INVOICE</a>
+                        </li>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
+                        </li>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link active text-primary" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                        </li>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
     <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 

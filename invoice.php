@@ -46,6 +46,8 @@ function getInvoiceId()
 
 $invoiceNumber = getInvoiceId();
 
+/* Customer Details */
+
 
 
 ?>
@@ -66,7 +68,7 @@ $invoiceNumber = getInvoiceId();
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
-
+    <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="img/style.css">
 
 </head>
@@ -81,21 +83,25 @@ $invoiceNumber = getInvoiceId();
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse mr-auto" id="navbarNav">
-                    <ul class="navbar-nav navbarleft">
-                        <li class="nav-item">
-                            <a class="nav-link active text-primary pe-5 me-5" aria-current="page" href="invoice.php">CREATE INVOICE</a>
+                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
+                    <ul class="navbar-nav " style="margin-left: 10%;">
+                        <li class="nav-item pe-5">
+                            <a class="nav-link active text-primary" href="invoice.php">CREATE INVOICE</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark pe-5" href="viewinvoices.php">VIEW INVOICES</a>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark ps-5" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                        </li>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
 
         <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
@@ -117,7 +123,10 @@ $invoiceNumber = getInvoiceId();
                             <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="viewinvoices.php">VIEW CUSTOMERS</a>
+                            <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="customized_edits.php">Customized Edits</a>
                         </li>
                     </ul>
                 </div>
@@ -165,15 +174,21 @@ $invoiceNumber = getInvoiceId();
                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
-                        
-                        <h4 class="pb-2"><strong>Company Name</strong> </h4>
-                        <h6> <input name="cname" type="text" placeholder="Name" style="border: none;"></h6>
-                        <div class="address">
-                            <h6><textarea class="form-control" name="caddress" placeholder="Address" style="border: none; margin-right: 5px;"></textarea> </h6>
-                        </div>
-                        <h6> <input name="cphone" type="text" placeholder="Phone Number" style="border: none;"></h6>
-                        <h6> <input name="cemail" type="text" placeholder="Email" style="border: none;"></h6>
-                        <h6> <input name="cgst" type="text" placeholder="GST" style="border: none;"></h6>
+
+                        <h4>
+                            <select name="company" class="form-control" id="companySelect">
+                                <?php
+                                $sql = "SELECT `Company_name`,`Id` FROM `customer`";
+                                $res = $conn->query($sql);
+
+                                while ($row = mysqli_fetch_assoc($res)) {
+                                    echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </h4>
+
+
                     </div>
                 </div>
 
@@ -232,6 +247,7 @@ $invoiceNumber = getInvoiceId();
                                 <td>
                                     <select name="gst" id="gst" class="form-control gst">
                                         <?php
+                                        require_once('bhavidb.php');
                                         $sql2 = "SELECT `gst` FROM `gst_no`";
                                         $result = $conn->query($sql2);
 
