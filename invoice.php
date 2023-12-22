@@ -205,8 +205,8 @@ $invoiceNumber = getInvoiceId();
                                 <th style="width: 253px;"> SERVICES</th>
                                 <th style="width: 364px;">DESCRIPITION</th>
                                 <th>QUANTITY</th>
-                                <th>PRICE</th>
-                                <th>TOTAL PRICE </th>
+                                <th>PRICE/Unit</th>
+                                <th>TOTAL PRICE Per </th>
                                 <th>DISCOUNT</th>
                                 <th>FINAL</th>
                                 <th></th>
@@ -269,7 +269,7 @@ $invoiceNumber = getInvoiceId();
                     </table>
                     <div class="row container-fluid">
                         <div class="float-left mt-3 col-4">
-                            <textarea name="terms&conditions" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
+                            <textarea name="terms" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
                         </div>
                         <div class="row col-2">
                             <div class="text-center pt-5 ">
@@ -282,7 +282,7 @@ $invoiceNumber = getInvoiceId();
                             </div>
                         </div>
                         <div class="float-right mt-3 col-4 ms-10">
-                            <textarea name="terms&conditions" id="" cols="50" rows="5" placeholder="Note:"></textarea>
+                            <textarea name="note" id="" cols="50" rows="5" placeholder="Note:"></textarea>
                         </div>
                     </div>
 
