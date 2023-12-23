@@ -80,7 +80,14 @@ class PDF extends FPDF
             // Loop through each row and display the details
             do {
                 $this->Cell(30, 8, $data['Sname'], 'LR', 0, 'C');
-                $this->Cell(50, 8, $data['Description'], 'LR', 0, 'C');
+                // $this->Cell(50, 8, $data['Description'], 'LR', 0, 'C');
+
+                $x = $this->GetX();
+                $y = $this->GetY();
+                $this->Rect($x,$y,50,100);
+                $this->MultiCell(50, 8, $data['Description'],  0, 'L');
+                $this->SetXY($x+50,$y);
+                
                 $this->Cell(15, 8, $data['Qty'], 'LR', 0, 'C');
                 $this->Cell(25, 8, $data['Price'], 'LR', 0, 'C');
                 $this->Cell(20, 8, $data['Totalprice'], 'LR', 0, 'C');
