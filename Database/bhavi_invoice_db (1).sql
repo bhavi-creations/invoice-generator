@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2023 at 01:58 PM
+-- Generation Time: Dec 23, 2023 at 11:29 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -64,7 +64,9 @@ INSERT INTO `gst_no` (`si_No`, `gst`) VALUES
 (1, 0),
 (2, 5),
 (3, 12),
-(4, 18);
+(4, 18),
+(5, 50),
+(6, 20);
 
 -- --------------------------------------------------------
 
@@ -79,10 +81,10 @@ CREATE TABLE `invoice` (
   `Company_name` varchar(150) NOT NULL,
   `Cname` varchar(50) NOT NULL,
   `Cphone` varchar(150) NOT NULL,
-  `Caddress` varchar(150) NOT NULL,
+  `Caddress` text NOT NULL,
   `Cmail` varchar(150) NOT NULL,
   `Cgst` varchar(150) NOT NULL,
-  `Finaltotal` double(10,2) NOT NULL,
+  `Final` double(10,2) NOT NULL,
   `Gst` int(20) NOT NULL,
   `Gst_total` double(10,2) NOT NULL,
   `Grandtotal` double(10,2) NOT NULL,
@@ -95,9 +97,11 @@ CREATE TABLE `invoice` (
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`Sid`, `Invoice_no`, `Invoice_date`, `Company_name`, `Cname`, `Cphone`, `Caddress`, `Cmail`, `Cgst`, `Finaltotal`, `Gst`, `Gst_total`, `Grandtotal`, `Totalinwords`, `Terms`, `Note`) VALUES
-(1, 4, '2023-12-22', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 47.50, 0, 5.70, 47.50, 'forty seven rupees and five paisa only ', 'fsdfgsd', 'dffsgdfsgdsgd'),
-(5, 8, '2023-12-22', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 146.00, 0, 17.52, 146.00, 'one hundred and forty six rupees only ', '', '');
+INSERT INTO `invoice` (`Sid`, `Invoice_no`, `Invoice_date`, `Company_name`, `Cname`, `Cphone`, `Caddress`, `Cmail`, `Cgst`, `Final`, `Gst`, `Gst_total`, `Grandtotal`, `Totalinwords`, `Terms`, `Note`) VALUES
+(1, 4, '2023-12-22', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', '5-155,Ysr Colony, Madhavapatnam, Samalkota Madal,Kakinada District,AP', 'ram@gmail.com', '37AN89852SADSA', 47.50, 0, 5.70, 47.50, 'forty seven rupees and five paisa only ', 'fsdfgsd', 'dffsgdfsgdsgd'),
+(5, 8, '2023-12-22', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 146.00, 0, 17.52, 146.00, 'one hundred and forty six rupees only ', '', ''),
+(6, 9, '1970-01-01', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 146.00, 0, 17.52, 146.00, 'one hundred and forty six rupees only ', 'gfhgg', 'hfdhggdh'),
+(7, 10, '2023-12-29', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 192.00, 5, 9.60, 201.60, 'two hundred and one rupees and six paisa only ', 'dsfgggggggggggggdsgdf', 'fdssssssssssssssssssssssgfdsg');
 
 -- --------------------------------------------------------
 
@@ -127,7 +131,11 @@ INSERT INTO `service` (`Id`, `Sid`, `Sname`, `Description`, `Qty`, `Price`, `Tot
 (3, 2, 'Image Designing', '', 5, 20.00, 100.00, 2, 98),
 (4, 3, 'Log-Design', '', 2, 10.00, 200.00, 5, 48),
 (5, 4, 'Log-Design', '', 2, 10.00, 200.00, 5, 48),
-(6, 5, 'Log-Design', '', 2, 10.00, 200.00, 5, 48);
+(6, 5, 'Log-Design', '', 2, 10.00, 200.00, 5, 48),
+(7, 6, 'Log-Design', 'hfghgfh', 2, 10.00, 200.00, 5, 48),
+(8, 6, 'Log-Design', 'fdhgfdfh', 5, 20.00, 100.00, 2, 98),
+(9, 7, 'Log-Design', 'fgjjngfjhngfjhgfhjgggggggggggggggggggggggfhgj', 5, 20.00, 100.00, 5, 95),
+(10, 7, 'Social Media Management', 'dsgfdgdrfxhgfdhgfjhgfjhhgjytghhgjjhggggggggggggggggggggggggggggghj', 5, 20.00, 100.00, 3, 97);
 
 -- --------------------------------------------------------
 
@@ -162,7 +170,8 @@ INSERT INTO `service_names` (`si_No`, `service_Name`) VALUES
 (15, 'Viny Stickers'),
 (16, 'Calenders'),
 (17, 'Diaries'),
-(18, 'Branding');
+(18, 'Branding'),
+(19, 'fssadfdsf');
 
 --
 -- Indexes for dumped tables
@@ -212,25 +221,25 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `gst_no`
 --
 ALTER TABLE `gst_no`
-  MODIFY `si_No` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `si_No` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `Sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `service_names`
 --
 ALTER TABLE `service_names`
-  MODIFY `si_No` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `si_No` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
