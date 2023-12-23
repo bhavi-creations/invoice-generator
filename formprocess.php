@@ -32,7 +32,7 @@ if (isset($_POST["submit"])) {
     $terms = mysqli_real_escape_string($conn, $_POST["terms"]);
     $note = mysqli_real_escape_string($conn, $_POST["note"]);
 
-    $sql = "INSERT INTO invoice (Invoice_no, Invoice_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Finaltotal, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note) 
+    $sql = "INSERT INTO invoice (Invoice_no, Invoice_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note) 
             VALUES ('$invoice_no', '$invoice_date', '$company_name', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total', '$Gst' , '$Gst_total' ,'$Grand_total' , '$Totalin_word','$terms' , '$note')";
 
     if ($conn->query($sql)) {

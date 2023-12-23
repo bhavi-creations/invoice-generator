@@ -5,7 +5,7 @@ if(isset($_POST['submit'])) {
 
     $gst = mysqli_real_escape_string($conn,$_POST['gst']);
 
-    $sql = "INSERT INTO gst (gst) VALUES ('$gst')";
+    $sql = "INSERT INTO gst_no (gst) VALUES ('$gst')";
 
     $result = mysqli_query ($conn,$sql);
 

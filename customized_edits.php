@@ -26,6 +26,22 @@
     <link rel="stylesheet" href="img/style.css">
 
 
+
+    <style>
+        .table-container {
+           position: relative;
+        }
+
+        .table-head {
+            position: sticky;
+            top: 0;
+            background-color: #fff;  
+            z-index: 1;  
+        }
+
+    </style>
+
+
 </head>
 
 <body>
@@ -91,115 +107,144 @@
 
     </header>
 
-    <!-- Modal for Add Service-->
+    
+     <!-- Modal for Add Service-->
 
-    <div class="container mt-5">
-        <div class="modal" tabindex="-1" id="modal_service">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Service Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="servicesmodal.php" method="post">
-                            <div class="form-group">
-                                <label for="">Service Name</label>
-                                <input type="text" name="service_name" class="form-control">
+
+    <div class="row mt-5 ps-5"> 
+        <div class="col-6 ps-5"> 
+        
+        <div class="col-6 ps-5" style="margin-left: 30%;"> 
+        <div class="container mt-5 ms-5">
+            <div class="modal" tabindex="-1" id="modal_service">
+                 <div class="modal-dialog">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                                <h5 class="modal-title">Service Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="servicesmodal.php" method="post">
+                                        <div class="form-group">
+                                            <label for="">Service Name</label>
+                                            <input type="text" name="service_name" class="form-control">
+                                        </div>
+                                        <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                    </form>
+                                </div>
                             </div>
-                            <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-                        </form>
+                        </div>
+                    </div>
+                    <p class=""><a href="#" class="btn btn-success" id="add_service">ADD SERVICES</a></p>
+        </div>
+        </div>
+        
+                
+         <!-- Table For GST-->
+
+          <div class="col-10 ps-5">
+                <div class="container-fluid">
+                    <div class="table-container" style="height: 450px; overflow-y: auto;">
+                        <table class="table table-striped viewinvoicetable" style="width: 100%;">
+                            <thead class="table-head">
+                                <th style="width: 60px;">SI No</th>
+                                <th>Service Name</th>
+                                <!-- Add your other columns here -->
+                                <!-- Example: <th>Column 2</th> ... <th>Column 10</th> -->
+                            </thead>
+                            <tbody>
+                                <?php
+                                require_once('bhavidb.php');
+
+                                $sql = "SELECT * FROM service_names";
+                                $res = $conn->query($sql);
+                                while ($row = mysqli_fetch_assoc($res)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['si_No'] . "</td>";
+                                    echo "<td>" . $row['service_Name'] . "</td>";
+                                    // Add data for other columns here
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+           </div>
             </div>
-        </div>
-        <p class="float-end"><a href="#" class="btn btn-success" id="add_service">ADD SERVICES</a></p>
-    </div>
-
-    <!--table for Service name-->
-    <div class="container pt-5 ps-5 d-flex justify-content-center">
-        <div class="table-responsive">
-            <table class="table table-stripped viewinvoicetable" style="width: 486px;">
-                <thead>
-                    <th style=" width: 60px;">si_No</th>
-                    <th>service_Name</th>
-                </thead>
-
-                <tbody>
-                    <?php
-                    require_once('bhavidb.php');
-
-                    $sql = "SELECT * FROM service_names";
-                    $res = $conn->query($sql);
-                    while ($row = mysqli_fetch_assoc($res)) {
-                        echo "<tr>";
-                        echo "<td>" . $row['si_No'] . "</td>";
-                        echo "<td>" . $row['service_Name'] . "</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
-
-            </table>
-        </div>
-    </div>
 
 
-    <!-- Modal for Add GST-->
-
-    <div class="container mt-5">
-        <div class="modal" tabindex="-1" id="modal_gst">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">GST Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="gstmodal.php" method="post">
-                            <div class="form-group">
-                                <label for="">GST %</label>
-                                <input type="text" name="gst" class="form-control">
+      <!-- Table For GST-->
+    
+      <div class="col-6 mt-5 ps-5">
+           <div class="col-6 ps-5 "> 
+           <div class="container">
+                <div class="modal" tabindex="-1" id="modal_gst">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">GST Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-                        </form>
+                            <div class="modal-body">
+                                <form action="gstmodal.php" method="post">
+                                    <div class="form-group">
+                                        <label for="">GST %</label>
+                                        <input type="text" name="gst" class="form-control">
+                                    </div>
+                                    <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <p class=""><a href="#" class="btn btn-success" id="add_gst">ADD GST</a></p>
             </div>
+            </div>
+
+  
+
+
+        <!-- Modal for Add GST-->
+
+        <div class="col-6 mt-5 ps-5">
+                <div class="container   justify-content-center">
+                        <div class="table-responsive">
+                            <table class="table table-stripped viewinvoicetable" style="width: 250px;">
+                                <thead>
+                                    <th style=" width: 60px;">SI No</th>
+                                    <th>GST%</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    require_once('bhavidb.php');
+
+                                    $sql = "SELECT * FROM gst_no";
+                                    $res = $conn->query($sql);
+
+                                    if ($res === false) {
+                                    
+                                    } else {
+                                        while ($row = mysqli_fetch_assoc($res)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row['si_No'] . "</td>";
+                                            echo "<td>" . $row['gst'] . "</td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
         </div>
-        <p class="float-end"><a href="#" class="btn btn-success" id="add_gst">ADD GST</a></p>
+        <div class="col-2"></div>
+
+      </div>
+
     </div>
-    <!-- Table For GST-->
-    <div class="container pt-5 ps-5 d-flex justify-content-center">
-        <div class="table-responsive">
-            <table class="table table-stripped viewinvoicetable" style="width: 270px;">
-                <thead>
-                    <th style=" width: 60px;">si_No</th>
-                    <th>GST%</th>
-                </thead>
-                <tbody>
-                    <?php
-                    require_once('bhavidb.php');
 
-                    $sql = "SELECT * FROM gst_no";
-                    $res = $conn->query($sql);
-
-                    if ($res === false) {
-                       
-                    } else {
-                        while ($row = mysqli_fetch_assoc($res)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['si_No'] . "</td>";
-                            echo "<td>" . $row['gst'] . "</td>";
-                            echo "</tr>";
-                        }
-                    }
-                    ?>
-                </tbody>
-
-            </table>
-        </div>
-    </div>
 
     <script defer>
         document.addEventListener('DOMContentLoaded', function() {
