@@ -74,3 +74,7 @@ if (isset($_POST["submit"])) {
         echo "Invoice Added Failed: " . $conn->error;
     }
 }
+
+
+?>
+
