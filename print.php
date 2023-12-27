@@ -8,9 +8,10 @@ class PDF extends FPDF
     private $gst = 0;
     private $gst_total = 0;
     private $words = 0;
-    private $finalTotal = 0 ;
-
-
+    private $terms = 0;
+    private $finalTotal = 0;
+    private $totalPages = 0;
+    private $note = 0;
     function Header()
     {
         $this->Image("img/logo.png", 82, 6, 42, 23, "png");
@@ -33,12 +34,20 @@ class PDF extends FPDF
                 JOIN service ON invoice.Sid = service.Sid
                 WHERE invoice.Sid = 6;";
         $result = mysqli_query($conn, $sql);
+        $firstService = true; 
 
+        $this->SetY(40);
         while ($data = mysqli_fetch_assoc($result)) {
+            if (!$firstService && $this->GetY() + 40 > $this->GetPageHeight()) {
+                $this->AddPage();
+                $this->Header();
+                $this->SetY(40);
+                 $this->totalPages++; 
+            }
             $this->SetFont('Arial', 'B', 15);
-            $this->Cell(110, 5, 'INVOICE', 5, 0, 'L');
-            $this->Cell(0, 5, 'INVOICE NUMBER', 0, 1, 'L');
-            $this->Cell(110, 10, 'Date:  ' . $data['Invoice_date'], 0, 0, 'L');
+            $this->Cell(100, 5, 'INVOICE', 0, 0, 'L');
+            $this->Cell(0, 5, 'INVOICE   NUMBER', 0, 1, 'L');
+            $this->Cell(100, 10, 'Date:  ' . $data['Invoice_date'], 0, 0, 'L');
             $this->Cell(0, 10, 'BHAVI_KKD_2023_' . $data['Invoice_no'], 0, 1, 'L');
 
             $this->Cell(100, 15, 'Bhavi Creations Pvt. Ltd', 0, 0, 'L');
@@ -67,7 +76,7 @@ class PDF extends FPDF
             $this->Cell(86, 5, $data['Cgst'], 0, 1, 'L');
 
             $this->SetFont('Arial', 'B', 15);
-            $this->Cell(0, 15, 'BILLING', 0, 1, 'C');
+            $this->Cell(0, 35, 'BILLING', 0, 1, 'C');
 
             $this->SetFont('Arial', 'B', 8);
             $this->Cell(40, 8, 'SERVICES', 1, 0, 'C');
@@ -78,84 +87,123 @@ class PDF extends FPDF
             $this->Cell(20, 8, 'DISCOUNT', 1, 0, 'C');
             $this->Cell(20, 8, 'FINAL', 1, 1, 'C');
 
-            // Loop through each row and display the details
-            // Loop through each row and display the details
-// Loop through each row and display the details
-do {
-    $this->Cell(40, 30, $data['Sname'], 'LR', 0, 'C');
+            do {
+                $this->Cell(40, 30, $data['Sname'], 'LR', 0, 'C');
+                $x = $this->GetX();
+                $y = $this->GetY();
+                $this->MultiCell(50, 8, $data['Description'], 'LR');
+                $this->SetXY($x + 50, $y);
+                $this->Cell(10, 30, $data['Qty'], 'LR', 0, 'C');
+                $this->Cell(20, 30, $data['Price'], 'LR', 0, 'C');
+                $this->Cell(20, 30, $data['Totalprice'], 'LR', 0, 'C');
+                $this->Cell(20, 30, $data['Discount'], 'LR', 0, 'C');
+                $this->Cell(20, 30, $data['Finaltotal'], 'LR', 1, 'C');
 
-    // Save current X and Y position
-    $x = $this->GetX();
-    $y = $this->GetY();
+                $this->grandTotal = $data['Final'];
+                $this->gst = $data['Gst'];
+                $this->gst_total = $data['Gst_total'];
+                $this->words = $data['Totalinwords'];
+                $this->finalTotal = $data['Grandtotal'];
+                $this->terms = $data['Terms'];
+                $this->note = $data['Note'];
 
-   
-    $this->MultiCell(50, 8, $data['Description'], 'LR');
-
-    $this->SetXY($x + 50, $y);
-
-    $this->Cell(10, 30, $data['Qty'], 'LR', 0, 'C');
-    $this->Cell(20, 30, $data['Price'], 'LR', 0, 'C');
-    $this->Cell(20, 30, $data['Totalprice'], 'LR', 0, 'C');
-    $this->Cell(20, 30, $data['Discount'], 'LR', 0, 'C');
-    $this->Cell(20, 30, $data['Finaltotal'], 'LR', 1, 'C');
-
-    $this->grandTotal = $data['Final'];
-    $this->gst = $data['Gst'];
-    $this->gst_total = $data['Gst_total'];
-    $this->words = $data['Totalinwords'];
-    $this->finalTotal = $data['Grandtotal'];
-} while ($data = mysqli_fetch_assoc($result));
-
-
+                $firstService = false; 
+            } while ($data = mysqli_fetch_assoc($result));
         }
+        // $this->totalPages++;
 
         $this->Cell(160, 8, 'Grand Total', 1, 0, 'R');
         $this->Cell(20, 8, $this->grandTotal, 1, 1, 'C');
-        $this->Cell(140,8,'GST%',1,0,'R');
-        $this->Cell(20,8, $this->gst ,1,0,'C');
-        $this->Cell(20,8, $this->gst_total, 1, 1, 'C');
-        $this->Cell(140,8, $this->words, 1,0,'L');
-        $this->Cell(20,8,'Grand Total',1,0,'C');
-        $this->Cell(20,8, $this->finalTotal,1,1,'C');
+        $this->Cell(140, 8, 'GST%', 1, 0, 'R');
+        $this->Cell(20, 8, $this->gst, 1, 0, 'C');
+        $this->Cell(20, 8, $this->gst_total, 1, 1, 'C');
+        $this->Cell(140, 8, $this->words, 1, 0, 'L');
+        $this->Cell(20, 8, 'Grand Total', 1, 0, 'C');
+        $this->Cell(20, 8, $this->finalTotal, 1, 1, 'C');
+        $this->Ln(20);
+        
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0,8,'Terms & Conditons',0,1,'L');
+        $this->Ln(1);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0,8 ,$this->terms,0,'L');
+        $this->Ln(10);
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0,8,'Note',0,1,'L');
+        $this->Ln(1);
+        $this->SetFont('Arial', 'B', 12);
+        $this->MultiCell(0,8,$this->note,0,'L');
+        $this->SetY(-55);
 
+        
+        $this->Image("img/Vector.png", 25, 248, 22, 20, "png");
+        $this->SetFont('Arial', 'B', 10);
+        $this->Cell(11,5,'');
+        $this->Cell(100, 5, 'Scan to pay', 0, 0, 'L');
+
+        // $this->Cell(110);
+        $this->Cell(89, 5, 'Payment Details', 0, 1, 'L');
+
+        $this->SetFont('Arial', '', 10);
+        // $this->SetY(-35);
+        $this->Cell(110);
+        $this->Cell(89, 5, 'Bank Name : HDFC Bank, Kakinada', 0, 1, 'L');
+        $this->Cell(110);
+        $this->Cell(89, 5, 'Account Name : Bhavi Creations Private Limited', 0, 1, 'L');
+        $this->Cell(110);
+        $this->Cell(89, 5, 'Account No. : 59213749999999', 0, 1, 'L  ');
+        $this->Cell(110);
+        $this->Cell(89, 5, 'IFSC : HDFC000042', 0, 1, 'L');
+
+
+
+        // $this->Ln(20);
+
+        // $this->SetY(-15);
+
+        $this->SetFont('Arial', 'B', 10);
+
+        $this->Cell(0, 9, 'Google pay, Phone pay, Paytm 9642343434', 0, 0, 'C');
+        $this->totalPages = $this->PageNo();
     }
 
     function Footer()
-{
+    {
+        $this->PageNo();
+        if ($this->PageNo() == $this->totalPages) {    
+        // $this->SetY(-35);
 
-    $this->SetY(-35);
+        
+        // $this->SetY(-35);
+        // $this->SetFont('Arial', 'B', 10);
+        // $this->Cell(40, -10, 'Scan to pay', 0, 0, 'C');
 
-  
-    $this->SetY(-35);
-    $this->SetFont('Arial', 'B', 10);
-    $this->Cell(40,-10,'Scan to pay',0,0,'C');
+        // $this->Cell(100);
+        // $this->Cell(10, -10, 'Payment Details', 0, 1, 'R');
 
-    $this->Cell(100); // Move to the right side
-    $this->Cell(10, -10, 'Payment Details', 0, 1, 'R');
+        // $this->SetFont('Arial', '', 10);
+        // $this->SetY(-35);
+        // $this->Cell(110);
+        // $this->Cell(89, 5, 'Bank Name : HDFC Bank, Kakinada', 0, 1, 'L');
+        // $this->Cell(110);
+        // $this->Cell(89, 5, 'Account Name : Bhavi Creations Private Limited', 0, 1, 'L');
+        // $this->Cell(110);
+        // $this->Cell(89, 5, 'Account No. : 59213749999999', 0, 1, 'L  ');
+        // $this->Cell(110);
+        // $this->Cell(89, 5, 'IFSC : HDFC000042', 0, 1, 'L');
+        // $this->Image("img/Vector.png", 25, 263, 22, 20, "png");
 
-    $this->SetFont('Arial', '', 10);
-    $this->SetY(-35);
-    $this->Cell(110);
-    $this->Cell(89,5,'Bank Name : HDFC Bank, Kakinada',0,1,'L');
-    $this->Cell(110);
-    $this->Cell(89,5,'Account Name : Bhavi Creations Private Limited',0,1,'L');
-    $this->Cell(110);
-    $this->Cell(89,5,'Account No. : 59213749999999',0,1,'L  ');
-    $this->Cell(110);
-    $this->Cell(89,5,'IFSC : HDFC000042',0,1,'L');
-    $this->Image("img/Vector.png", 25, 263, 22, 20, "png");
 
-    
 
-    $this->Ln(20);
+        // $this->Ln(20);
 
-    $this->SetY(-15);
+        // $this->SetY(-15);
 
-    $this->SetFont('Arial', 'B', 10);
+        // $this->SetFont('Arial', 'B', 10);
 
-    $this->Cell(0, 10, 'Google pay, Phone pay, Paytm 9642343434', 0, 0, 'C');
+        // $this->Cell(0, 10, 'Google pay, Phone pay, Paytm 9642343434', 0, 0, 'C');
+    }
 }
-
 }
 
 $pdf = new PDF("P", 'mm', 'A4');
@@ -163,8 +211,3 @@ $pdf->SetMargins(15, 15, 15);
 $pdf->AddPage();
 $pdf->body();
 $pdf->Output();
-
-?>
-
-
-
