@@ -95,7 +95,7 @@ $invoiceNumber = getInvoiceId();
                             <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
                         </li>
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
+                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a> 
                         </li>
                     </ul>
                 </div>
@@ -150,11 +150,11 @@ $invoiceNumber = getInvoiceId();
                 <div class="row container pt-5 ps-5 mb-5">
                     <div class="col-lg-8 col-sm-12 col-md-12">
                         <h4><strong>INVOICE</strong></h4>
-                        <h5>Date <input type="date" name="invoice_date" id="" class=""></h5>
+                        <h5>Date : <input type="date" name="invoice_date" id="" class="" style="border-radius:3px;"></h5>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                         <h4><strong>INVOICE NUMBER </strong></h4>
-                        <h4><strong>BHAVI_KKD_2023_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>"></strong></h4>
+                        <h4><strong>BHAVI_KKD_2023_ <input  type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>"  readonly></strong></h4>
                     </div>
                 </div>
 
@@ -175,8 +175,15 @@ $invoiceNumber = getInvoiceId();
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
 
-                        <h4>
-                            <select name="company" class="form-control" id="companySelect">
+                        <h4> 
+                        <input type="text" class="form-control" placeholder=" " list=" " id="input-datalist">
+
+                        <datalist name="company" class="form-control" id="companySelect">
+        
+  
+
+
+                             
                                 <?php
                                 $sql = "SELECT `Company_name`,`Id` FROM `customer`";
                                 $res = $conn->query($sql);
@@ -185,7 +192,8 @@ $invoiceNumber = getInvoiceId();
                                     echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
                                 }
                                 ?>
-                            </select>
+                         
+                               </datalist>
                         </h4>
 
 
@@ -201,14 +209,14 @@ $invoiceNumber = getInvoiceId();
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Si_no</th>
-                                <th style="width: 253px;"> SERVICES</th>
-                                <th style="width: 364px;">DESCRIPITION</th>
-                                <th>QUANTITY</th>
-                                <th>PRICE/Unit</th>
-                                <th>TOTAL PRICE Per </th>
-                                <th>DISCOUNT</th>
-                                <th>FINAL</th>
+                                <th class="text-center">S.NO</th>
+                                <th style="width: 253px;" class="text-center"> SERVICES</th>
+                                <th style="width: 364px;" class="text-center">DESCRIPITION</th>
+                                <th class="text-center">QTY </th>
+                                <th class="text-center">PRICE/UNIT</th>
+                                <th class="text-center">SUB TOTAL </th>
+                                <th class="text-center">DISC</th>
+                                <th class="text-center">DISC TOTAL</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -239,11 +247,11 @@ $invoiceNumber = getInvoiceId();
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan='8' class='text-right' style="text-align: right;">Total</td>
+                                <td colspan='8' class='text-right' style="text-align: right;">Total Before Tax</td>
                                 <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
                             </tr>
                             <tr>
-                                <td colspan='7' class='text-right' style="text-align: right;">GST</td>
+                                <td colspan='7' class='text-right' style="text-align: right;">GST%</td>
                                 <td>
                                     <select name="gst" id="gst" class="form-control gst">
                                         <?php
@@ -261,36 +269,45 @@ $invoiceNumber = getInvoiceId();
                             </tr>
                             <tr>
                                 <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
-                                <td class='text-right' style="text-align: right;">Final Total</td>
+                                <td  class="text-center" class='text-right' style="text-align: right;">Grand Total</td>
                                 <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' required readonly></td>
                             </tr>
 
                         </tfoot>
                     </table>
-                    <div class="row container-fluid">
-                        <div class="float-left mt-3 col-4">
+
+                <div class="container mt-5">
+                    <div class="row   ">
+
+                        <div class="  mt-3 col-4 "style="margin-left:-5px;">
                             <textarea name="terms" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
                         </div>
-                        <div class="row col-2">
+                        <div class=" col-2">
                             <div class="text-center pt-5 ">
                                 <input type="submit" name="submit" value="Save" class="btn btn-primary ">
                             </div>
                         </div>
-                        <div class="row col-2">
+                        <div class=" col-2">
                             <div class="text-center pt-5 ">
                                 <input type="submit" name="Print" value="Print" class="btn btn-primary float-right">
                             </div>
                         </div>
-                        <div class="float-right mt-3 col-4 ms-10">
+                        <div class="  mt-3 col-4  ">
                             <textarea name="note" id="" cols="50" rows="5" placeholder="Note:"></textarea>
                         </div>
+
                     </div>
-
-
+                </div>
                     <!--  ENDING BILLING SECTION  -->
 
                     <!--   Functions of invoice -->
                     <script>
+
+                        document.addEventListener('DOMContentLoaded', e => {
+                         $('#companySelect').autocomplete()
+                            }, false);
+
+
                         $(document).ready(function() {
                             $("#date").datepicker({
                                 dateFormat: "dd-mm-yy"
@@ -439,7 +456,7 @@ $invoiceNumber = getInvoiceId();
                         // Function to convert decimal part to words
                         function amountToWordsDecimal(decimalPart) {
                             var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine '];
-                            var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+                            var b = ['', '', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
                             var n = ('00' + decimalPart).substr(-2).match(/^(\d{1})(\d{1})$/);
 

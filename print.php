@@ -31,7 +31,7 @@ class PDF extends FPDF
 
         $sql = "SELECT * FROM invoice
                 JOIN service ON invoice.Sid = service.Sid
-                WHERE invoice.Sid = 7;";
+                WHERE invoice.Sid = 6;";
         $result = mysqli_query($conn, $sql);
 
         while ($data = mysqli_fetch_assoc($result)) {

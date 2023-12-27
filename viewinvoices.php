@@ -131,10 +131,15 @@ $result = $conn->query($sql);
 
     <!-- Include your header content here -->
 
-    <div class="container pt-5 mt-5">
-        <div class="table-responsive">
+    <div class="container text-center mt-4">
+    <input type="text" id="search-input" placeholder="Search...">
+    </div>
+
+
+    <div class="container mt-4">
+        <div class="table-responsive" style="max-height:550px; overflow-y: auto;">
             <table class="table table-bordered viewinvoicetable">
-                <thead>
+                <thead  style="position: sticky; top: 0;">
                     <tr style="background-color: #f2f2f2;">
                         <th class="text-center">Invoice No</th>
                         <th>Customer Name</th>
@@ -153,11 +158,13 @@ $result = $conn->query($sql);
                         echo "<td>" . $row['Invoice_date'] . "</td>";
                         echo "<td>" . $row['Grandtotal'] . "</td>";
                         echo "<td> 
-                                  <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
-                                      <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
-                                      <button type='submit' class='btn btn-link'><img src='img/icons8-delete-24.png' alt=''></button>
-                                  </form>
-                              </td>";
+                            <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
+                                <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
+                                <button type='submit' class=\"view-button\">View</button>
+                                <span style='margin-right: 10px;'></span>  
+                                <button type='submit' class=\"delete-button\">Delete</button>
+                            </form> 
+                        </td>";
                         echo "</tr>";
                     }
                     ?>
@@ -165,6 +172,7 @@ $result = $conn->query($sql);
             </table>
         </div>
     </div>
+
 
     <!-- Include your footer content here -->
 
