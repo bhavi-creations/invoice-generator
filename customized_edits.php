@@ -67,7 +67,7 @@
                                 <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
                             </li>
                             <li class="nav-item pe-5">
-                                <a class="nav-link active text-primary" href="customized_edits.php">Customized Edits</a>
+                                <a class="nav-link active text-primary" href="customized_edits.php">CUSTOMIZED EDITS</a>
                             </li>
                         </ul>
                     </div>

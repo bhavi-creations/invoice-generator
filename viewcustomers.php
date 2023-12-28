@@ -51,7 +51,7 @@
                             <a class="nav-link active text-primary" href="viewcustomers.php">VIEW CUSTOMERS</a>
                         </li>
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
+                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
                         </li>
                     </ul>
                 </div>
@@ -81,6 +81,9 @@
             <li class="nav-item">
               <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
             </li>
+            <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
+                        </li>
           </ul>
         </div>
       </div>

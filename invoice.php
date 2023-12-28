@@ -77,63 +77,63 @@ $invoiceNumber = getInvoiceId();
     <!--  LARGE SCREEN NAVBAR  -->
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
-                    <ul class="navbar-nav " style="margin-left: 10%;">
-                        <li class="nav-item pe-5">
-                            <a class="nav-link active text-primary" href="invoice.php">CREATE INVOICE</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a> 
-                        </li>
-                    </ul>
-                </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse ms-auto " id="navbarNav">
+                <ul class="navbar-nav " style="margin-left: 10%;">
+                    <li class="nav-item pe-5">
+                        <a class="nav-link text-dark" href="invoice.php">CREATE INVOICE</a>
+                    </li>
+                    <li class="nav-item pe-5">
+                        <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
+                    </li>
+                    <li class="nav-item pe-5">
+                        <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                    </li>
+                    <li class="nav-item pe-5">
+                        <a class="nav-link active text-primary" href="customized_edits.php">CUSTOMIZED EDITS</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+</nav>
 
+<!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-        <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
+            <a class="navbar-brand" href="#">Navbar</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-                    <a class="navbar-brand" href="#">Navbar</a>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="customized_edits.php">Customized Edits</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="customized_edits.php">CUSTOMIZED EDITS</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    </header>
+</header>
 
     <!--  INVOICE  FORM  -->
 
@@ -176,9 +176,8 @@ $invoiceNumber = getInvoiceId();
                     <div class="col-lg-4 col-sm-12 col-md-12">
 
                         <h4> 
-                        <input type="text" class="form-control" placeholder=" " list=" " id="input-datalist">
-
-                        <datalist name="company" class="form-control" id="companySelect">
+ 
+                        <select name="company" class="form-control" id="companySelect">
         
   
 
@@ -193,7 +192,7 @@ $invoiceNumber = getInvoiceId();
                                 }
                                 ?>
                          
-                               </datalist>
+                               </select>
                         </h4>
 
 
