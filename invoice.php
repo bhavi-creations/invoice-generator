@@ -69,6 +69,14 @@ $invoiceNumber = getInvoiceId();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+        integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+
     <link rel="stylesheet" href="img/style.css">
 
 </head>
@@ -177,7 +185,7 @@ $invoiceNumber = getInvoiceId();
 
                         <h4>
 
-                            <select name="company" class="form-control" id="companySelect">
+                            <select name="company"  id="companySelect">
                                 <?php
                                 $sql = "SELECT `Company_name`,`Id` FROM `customer`";
                                 $res = $conn->query($sql);
@@ -189,8 +197,6 @@ $invoiceNumber = getInvoiceId();
 
                             </select>
                         </h4>
-
-
                     </div>
                 </div>
 
@@ -496,10 +502,20 @@ $invoiceNumber = getInvoiceId();
 
 
     <!-- ENDING   INVOICE  FORM  -->
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+    integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    ></script>
 
-
-
+    <script>
+        $(function () {
+            $("select").selectize();
+        });
+    </script>
 
 </body>
+
 
 </html>
