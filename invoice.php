@@ -95,7 +95,7 @@ $invoiceNumber = getInvoiceId();
                             <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
                         </li>
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a> 
+                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
                         </li>
                     </ul>
                 </div>
@@ -154,7 +154,7 @@ $invoiceNumber = getInvoiceId();
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                         <h4><strong>INVOICE NUMBER </strong></h4>
-                        <h4><strong>BHAVI_KKD_2023_ <input  type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>"  readonly></strong></h4>
+                        <h4><strong>BHAVI_KKD_2023_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
                     </div>
                 </div>
 
@@ -175,15 +175,9 @@ $invoiceNumber = getInvoiceId();
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
 
-                        <h4> 
-                        <input type="text" class="form-control" placeholder=" " list=" " id="input-datalist">
+                        <h4>
 
-                        <datalist name="company" class="form-control" id="companySelect">
-        
-  
-
-
-                             
+                            <select name="company" class="form-control" id="companySelect">
                                 <?php
                                 $sql = "SELECT `Company_name`,`Id` FROM `customer`";
                                 $res = $conn->query($sql);
@@ -192,8 +186,8 @@ $invoiceNumber = getInvoiceId();
                                     echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
                                 }
                                 ?>
-                         
-                               </datalist>
+
+                            </select>
                         </h4>
 
 
@@ -269,45 +263,36 @@ $invoiceNumber = getInvoiceId();
                             </tr>
                             <tr>
                                 <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
-                                <td  class="text-center" class='text-right' style="text-align: right;">Grand Total</td>
+                                <td class="text-center" class='text-right' style="text-align: right;">Grand Total</td>
                                 <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' required readonly></td>
                             </tr>
 
                         </tfoot>
                     </table>
 
-                <div class="container mt-5">
-                    <div class="row   ">
+                    <div class="container mt-5">
+                        <div class="row   ">
 
-                        <div class="  mt-3 col-4 "style="margin-left:-5px;">
-                            <textarea name="terms" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
-                        </div>
-                        <div class=" col-2">
-                            <div class="text-center pt-5 ">
-                                <input type="submit" name="submit" value="Save" class="btn btn-primary ">
+                            <div class="  mt-3 col-5     ">
+                                <textarea name="terms" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
                             </div>
-                        </div>
-                        <div class=" col-2">
-                            <div class="text-center pt-5 ">
-                                <input type="submit" name="Print" value="Print" class="btn btn-primary float-right">
-                            </div>
-                        </div>
-                        <div class="  mt-3 col-4  ">
-                            <textarea name="note" id="" cols="50" rows="5" placeholder="Note:"></textarea>
-                        </div>
+                            <div class=" col-2   pt-5 ps-5" style="margin-right:-5px;">
 
+                                <input type="submit" name="submit" value="Save & Print" class="btn btn-primary ">
+
+                            </div>
+
+
+                            <div class="  mt-3 col-5  " style="padding-left: 111px;">
+                                <textarea name=" note" id="" cols="50" rows="5" placeholder="Note:"></textarea>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
                     <!--  ENDING BILLING SECTION  -->
 
                     <!--   Functions of invoice -->
                     <script>
-
-                        document.addEventListener('DOMContentLoaded', e => {
-                         $('#companySelect').autocomplete()
-                            }, false);
-
-
                         $(document).ready(function() {
                             $("#date").datepicker({
                                 dateFormat: "dd-mm-yy"

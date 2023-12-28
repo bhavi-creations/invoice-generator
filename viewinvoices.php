@@ -130,10 +130,10 @@ $result = $conn->query($sql);
 <body>
 
     <!-- Include your header content here -->
-
+<!-- 
     <div class="container text-center mt-4">
     <input type="text" id="search-input" placeholder="Search...">
-    </div>
+    </div> -->
 
 
     <div class="container mt-4">
@@ -153,14 +153,15 @@ $result = $conn->query($sql);
                     // Loop through the fetched data and display it in the table
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
+                        "<td>" . $row['Sid'] . "</td>";
                         echo "<td>" . $row['Invoice_no'] . "</td>";
                         echo "<td>" . $row['Cname'] . "</td>";
                         echo "<td>" . $row['Invoice_date'] . "</td>";
                         echo "<td>" . $row['Grandtotal'] . "</td>";
                         echo "<td> 
+                        <button type='submit' class=\"view-button\"><a class=\"view-button\"  href=\"print.php?Sid=$row[Sid]\">View</a></button>
                             <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
                                 <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
-                                <button type='submit' class=\"view-button\">View</button>
                                 <span style='margin-right: 10px;'></span>  
                                 <button type='submit' class=\"delete-button\">Delete</button>
                             </form> 

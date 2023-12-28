@@ -1,7 +1,7 @@
 <?php
 require('fpdf/fpdf.php');
 require('bhavidb.php');
-
+$Sid = (isset($_GET['Sid']) && $_GET['Sid'] !== '') ? $_GET['Sid'] : 0;
 class PDF extends FPDF
 {
     private $grandTotal = 0;
@@ -12,11 +12,23 @@ class PDF extends FPDF
     private $finalTotal = 0;
     private $totalPages = 0;
     private $note = 0;
+
     function Header()
     {
         $this->Image("img/logo.png", 82, 6, 42, 23, "png");
         $this->Ln(20);
     }
+    function drawTableHeader()
+{
+    $this->SetFont('Arial', 'B', 8); // Set the font here
+    $this->Cell(40, 8, 'SERVICES', 1, 0, 'C');
+    $this->Cell(50, 8, 'DESCRIPTION', 1, 0, 'C');
+    $this->Cell(10, 8, 'Qty', 1, 0, 'C');
+    $this->Cell(20, 8, 'PRICE / UNIT', 1, 0, 'C');
+    $this->Cell(20, 8, 'TOTAL', 1, 0, 'C');
+    $this->Cell(20, 8, 'DISCOUNT', 1, 0, 'C');
+    $this->Cell(20, 8, 'FINAL', 1, 1, 'C');
+}
 
     function body()
     {
@@ -26,24 +38,34 @@ class PDF extends FPDF
         $database = 'bhavi_invoice_db';
 
         $conn = mysqli_connect($server, $username, $pass, $database);
+
+        // Check connection
         if (!$conn) {
-            echo "Connection failed";
+            die("Connection failed: " . mysqli_connect_error());
         }
+        $Sid = (isset($_GET['Sid']) && $_GET['Sid'] !== '') ? $_GET['Sid'] : 0;
 
         $sql = "SELECT * FROM invoice
                 JOIN service ON invoice.Sid = service.Sid
-                WHERE invoice.Sid = 6;";
+                WHERE invoice.Sid = $Sid;";
         $result = mysqli_query($conn, $sql);
-        $firstService = true; 
+
+        // Check for query execution success
+        if (!$result) {
+            die("Query failed: " . mysqli_error($conn));
+        }
+
+        $firstService = true;
 
         $this->SetY(40);
         while ($data = mysqli_fetch_assoc($result)) {
             if (!$firstService && $this->GetY() + 40 > $this->GetPageHeight()) {
                 $this->AddPage();
                 $this->Header();
+                $this->drawTableHeader();
                 $this->SetY(40);
-                 $this->totalPages++; 
             }
+
             $this->SetFont('Arial', 'B', 15);
             $this->Cell(100, 5, 'INVOICE', 0, 0, 'L');
             $this->Cell(0, 5, 'INVOICE   NUMBER', 0, 1, 'L');
@@ -78,15 +100,7 @@ class PDF extends FPDF
             $this->SetFont('Arial', 'B', 15);
             $this->Cell(0, 35, 'BILLING', 0, 1, 'C');
 
-            $this->SetFont('Arial', 'B', 8);
-            $this->Cell(40, 8, 'SERVICES', 1, 0, 'C');
-            $this->Cell(50, 8, 'DESCRIPTION', 1, 0, 'C');
-            $this->Cell(10, 8, 'Qty', 1, 0, 'C');
-            $this->Cell(20, 8, 'PRICE / UNIT', 1, 0, 'C');
-            $this->Cell(20, 8, 'TOTAL', 1, 0, 'C');
-            $this->Cell(20, 8, 'DISCOUNT', 1, 0, 'C');
-            $this->Cell(20, 8, 'FINAL', 1, 1, 'C');
-
+            $this->drawTableHeader();
             do {
                 $this->Cell(40, 30, $data['Sname'], 'LR', 0, 'C');
                 $x = $this->GetX();
@@ -107,11 +121,10 @@ class PDF extends FPDF
                 $this->terms = $data['Terms'];
                 $this->note = $data['Note'];
 
-                $firstService = false; 
+                $firstService = false;
             } while ($data = mysqli_fetch_assoc($result));
         }
-        // $this->totalPages++;
-
+        $this->SetFont('Arial','',10);
         $this->Cell(160, 8, 'Grand Total', 1, 0, 'R');
         $this->Cell(20, 8, $this->grandTotal, 1, 1, 'C');
         $this->Cell(140, 8, 'GST%', 1, 0, 'R');
@@ -120,32 +133,32 @@ class PDF extends FPDF
         $this->Cell(140, 8, $this->words, 1, 0, 'L');
         $this->Cell(20, 8, 'Grand Total', 1, 0, 'C');
         $this->Cell(20, 8, $this->finalTotal, 1, 1, 'C');
-        $this->Ln(20);
-        
+        $this->Ln(30);
+
         $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0,8,'Terms & Conditons',0,1,'L');
-        $this->Ln(1);
+        $this->Cell(0, 8, 'Terms & Conditons', 0, 1, 'L');
+        $this->Ln(10);
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0,8 ,$this->terms,0,'L');
+        $this->MultiCell(0, 8, $this->terms, 0, 'L');
         $this->Ln(10);
         $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0,8,'Note',0,1,'L');
+        $this->Cell(0, 8, 'Note', 0, 1, 'L');
         $this->Ln(1);
         $this->SetFont('Arial', 'B', 12);
-        $this->MultiCell(0,8,$this->note,0,'L');
+        $this->MultiCell(0, 8, $this->note, 0, 'L');
         $this->SetY(-55);
 
-        
+
         $this->Image("img/Vector.png", 25, 248, 22, 20, "png");
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(11,5,'');
+        $this->Cell(11, 5, '');
         $this->Cell(100, 5, 'Scan to pay', 0, 0, 'L');
 
         // $this->Cell(110);
         $this->Cell(89, 5, 'Payment Details', 0, 1, 'L');
 
         $this->SetFont('Arial', '', 10);
-        // $this->SetY(-35);
+
         $this->Cell(110);
         $this->Cell(89, 5, 'Bank Name : HDFC Bank, Kakinada', 0, 1, 'L');
         $this->Cell(110);
@@ -157,9 +170,7 @@ class PDF extends FPDF
 
 
 
-        // $this->Ln(20);
 
-        // $this->SetY(-15);
 
         $this->SetFont('Arial', 'B', 10);
 
@@ -169,41 +180,14 @@ class PDF extends FPDF
 
     function Footer()
     {
-        $this->PageNo();
-        if ($this->PageNo() == $this->totalPages) {    
-        // $this->SetY(-35);
+        $this->SetY(-20);
+        $this->Line(10, $this->GetY(), $this->GetPageWidth() - 10, $this->GetY());
+        $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
 
-        
-        // $this->SetY(-35);
-        // $this->SetFont('Arial', 'B', 10);
-        // $this->Cell(40, -10, 'Scan to pay', 0, 0, 'C');
-
-        // $this->Cell(100);
-        // $this->Cell(10, -10, 'Payment Details', 0, 1, 'R');
-
-        // $this->SetFont('Arial', '', 10);
-        // $this->SetY(-35);
-        // $this->Cell(110);
-        // $this->Cell(89, 5, 'Bank Name : HDFC Bank, Kakinada', 0, 1, 'L');
-        // $this->Cell(110);
-        // $this->Cell(89, 5, 'Account Name : Bhavi Creations Private Limited', 0, 1, 'L');
-        // $this->Cell(110);
-        // $this->Cell(89, 5, 'Account No. : 59213749999999', 0, 1, 'L  ');
-        // $this->Cell(110);
-        // $this->Cell(89, 5, 'IFSC : HDFC000042', 0, 1, 'L');
-        // $this->Image("img/Vector.png", 25, 263, 22, 20, "png");
-
-
-
-        // $this->Ln(20);
-
-        // $this->SetY(-15);
-
-        // $this->SetFont('Arial', 'B', 10);
-
-        // $this->Cell(0, 10, 'Google pay, Phone pay, Paytm 9642343434', 0, 0, 'C');
+        if ($this->PageNo() == $this->totalPages) {
+        }
     }
-}
 }
 
 $pdf = new PDF("P", 'mm', 'A4');

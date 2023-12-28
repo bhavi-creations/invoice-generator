@@ -142,9 +142,9 @@
         <p class="float-end"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
       </div>
 
-      <div class="col-6">
+      <!-- <div class="col-6">
       <input type="text" class="form-control" placeholder="Search..." id="searchInput" style="width:200px;">
-      </div>
+      </div> -->
 
 
     </div>

@@ -63,7 +63,7 @@ if (isset($_POST["submit"])) {
             if ($conn->query($sql2)) {
                 echo "<SCRIPT>
                     window.alert('invoice added')
-                    window.location.href='invoice.php';</SCRIPT>";
+                    window.location.href='print.php?Sid=$Sid';</SCRIPT>";
             } else {
                 echo "Invoice Added Failed: " . $conn->error;
             }
