@@ -77,7 +77,6 @@ $invoiceNumber = getInvoiceId();
     <!--  LARGE SCREEN NAVBAR  -->
     <header>
 
-<<<<<<< HEAD
         <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
@@ -100,65 +99,41 @@ $invoiceNumber = getInvoiceId();
                         </li>
                     </ul>
                 </div>
-=======
-<nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse ms-auto " id="navbarNav">
-                <ul class="navbar-nav " style="margin-left: 10%;">
-                    <li class="nav-item pe-5">
-                        <a class="nav-link text-dark" href="invoice.php">CREATE INVOICE</a>
-                    </li>
-                    <li class="nav-item pe-5">
-                        <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
-                    </li>
-                    <li class="nav-item pe-5">
-                        <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                    </li>
-                    <li class="nav-item pe-5">
-                        <a class="nav-link active text-primary" href="customized_edits.php">CUSTOMIZED EDITS</a>
-                    </li>
-                </ul>
->>>>>>> 43ff8d20fb18f0bd443f4ce9e684f9dd6e68c712
             </div>
-        </div>
-</nav>
+        </nav>
 
-<!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-            <a class="navbar-brand" href="#">Navbar</a>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
+        <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="customized_edits.php">CUSTOMIZED EDITS</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
+                    <a class="navbar-brand" href="#">Navbar</a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="customized_edits.php">Customized Edits</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-</header>
+    </header>
 
     <!--  INVOICE  FORM  -->
 
@@ -200,20 +175,9 @@ $invoiceNumber = getInvoiceId();
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
 
-<<<<<<< HEAD
                         <h4>
 
                             <select name="company" class="form-control" id="companySelect">
-=======
-                        <h4> 
- 
-                        <select name="company" class="form-control" id="companySelect">
-        
-  
-
-
-                             
->>>>>>> 43ff8d20fb18f0bd443f4ce9e684f9dd6e68c712
                                 <?php
                                 $sql = "SELECT `Company_name`,`Id` FROM `customer`";
                                 $res = $conn->query($sql);
@@ -222,13 +186,8 @@ $invoiceNumber = getInvoiceId();
                                     echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
                                 }
                                 ?>
-<<<<<<< HEAD
 
                             </select>
-=======
-                         
-                               </select>
->>>>>>> 43ff8d20fb18f0bd443f4ce9e684f9dd6e68c712
                         </h4>
 
 
