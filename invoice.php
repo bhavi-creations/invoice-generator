@@ -182,21 +182,27 @@ $invoiceNumber = getInvoiceId();
                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
-
                         <h4>
-
                             <select name="company"  id="companySelect">
                                 <?php
-                                $sql = "SELECT `Company_name`,`Id` FROM `customer`";
-                                $res = $conn->query($sql);
-
-                                while ($row = mysqli_fetch_assoc($res)) {
-                                    echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                }
+                                    $sql = "SELECT * FROM `customer`";
+                                    $res = $conn->query($sql);
+                                    $fetched_data = [];
+                                    echo "<option value=''>Select Customer/Company</option>";
+                                    while ($row = mysqli_fetch_assoc($res)) {
+                                        $fetched_data[] = $row;
+                                        echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
+                                    }
+                                    // this hidden input is used to store the data & get the data in javascript
+                                    echo "<input type='hidden' id='company_data' value='".json_encode($fetched_data)."' />";
                                 ?>
-
                             </select>
                         </h4>
+                        <p class="mb-1" id="company_name"></p>
+                        <p class="mb-1" id="name"></p>
+                        <p class="mb-1" id="email"></p>
+                        <p class="mb-1" id="phone"></p>
+                        <p class="mb-1" id="gst"></p>
                     </div>
                 </div>
 
@@ -512,7 +518,25 @@ $invoiceNumber = getInvoiceId();
     <script>
         $(function () {
             $("select").selectize();
+
+            $('#companySelect').change(()=>{
+                var selectedCompany = $('#companySelect').val();
+                var companyData = JSON.parse($('#company_data').val());
+                console.log(companyData);
+                companyData.forEach(element => {
+                    if(element.Id == selectedCompany){
+                        console.log(element);
+                        $('#company_name').html(element.Company_name);
+                        $('#name').html(element.Name);
+                        $('#email').html(element.Email);
+                        $('#phone').html(element.Phone);
+                        $('#gst').html(element.Gst_no);
+                    }
+                });
+            });
         });
+
+       
     </script>
 
 </body>
