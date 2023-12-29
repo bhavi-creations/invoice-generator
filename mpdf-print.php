@@ -1,6 +1,6 @@
 <?php
 
-require_once ('bhavidb.php');
+require_once('bhavidb.php');
 
 $sql = "SELECT * FROM invoice
 JOIN service ON invoice.Sid = service.Sid
@@ -9,15 +9,11 @@ $result = mysqli_query($conn, $sql);
 
 // Check for query execution success
 if (!$result) {
-die("Query failed: " . mysqli_error($conn));
+	die("Query failed: " . mysqli_error($conn));
 }
 
 // Fetch data from the result set
 $row = mysqli_fetch_assoc($result);
-
-// // Close the result set
-// mysqli_free_result($result);
-
 
 $html = '
 <html>
@@ -100,7 +96,7 @@ INVOICE NUMBER
 DATE:  ' . $row['Invoice_date'] . '
 </td>
 <td width="40%" style="text-align: left;">
-BHAVI_KKD_2023_ ' . $row['Invoice_no'] .'
+BHAVI_KKD_2023_ ' . $row['Invoice_no'] . '
 </td>
 </tr>
 </table>
@@ -110,7 +106,7 @@ BHAVI_KKD_2023_ ' . $row['Invoice_no'] .'
 <br />opposite to New RTO Office, behind J.N.T.U,<br />Engineering College Play Ground,RangaRaoNagar, Kakinada,
 <br />Phone no: 9642343434 <br /> Email: admin@bhavicreations.com <br /> GSTIN 37AAKCB6060HIZB <br /></td>
 <td width="30%"></td>
-<td width="45%" style=""><span style="font-size: 7pt; color: #555555; font-family: sans;">SHIP TO:</span><br /><br /> '. $row['Company_name'] .', <br />'. $row['Cname'] .', <br /> '.$row['Caddress'].' <br /> '.$row['Cphone'] .', <br /> '.$row['Cmail'] .' <br /> ' .$row['Cgst'] .' </td>
+<td width="45%" style=""><span style="font-size: 7pt; color: #555555; font-family: sans;">SHIP TO:</span><br /><br /> ' . $row['Company_name'] . ', <br />' . $row['Cname'] . ', <br /> ' . $row['Caddress'] . ' <br /> ' . $row['Cphone'] . ', <br /> ' . $row['Cmail'] . ' <br /> ' . $row['Cgst'] . ' </td>
 </tr></table>
 
 <br />
@@ -127,22 +123,22 @@ BHAVI_KKD_2023_ ' . $row['Invoice_no'] .'
 <td width="15%">Final</td>
 </tr>
 </thead>
-<tbody>
-<!-- ITEMS HERE -->
-<?php while ($row = mysqli_fetch_assoc($result)) { ?>
-<tr>
-                <td align="center">' .$row["Sname"] . ' </td>
-                <td align="center">' . $row['Description'] . '</td>
-                <td>' . $row['Qty'] . '</td>
-                <td class="cost">' . $row['Price'] . '</td>
-                <td class="cost">' . $row['Totalprice'] . '</td>
-                <td class="cost">' . $row['Discount'] . '</td>
-                <td class="cost">' . $row['Finaltotal'] . '</td>
-              </tr>;
-			  <?php } ?>
+<tbody>';
 
+while ($row = mysqli_fetch_assoc($result)) {
+	$html .= '
+		<tr>
+			<td align="center">' . $row["Sname"] . ' </td>
+			<td align="center">' . $row['Description'] . '</td>
+			<td>' . $row['Qty'] . '</td>
+			<td class="cost">' . $row['Price'] . '</td>
+			<td class="cost">' . $row['Totalprice'] . '</td>
+			<td class="cost">' . $row['Discount'] . '</td>
+			<td class="cost">' . $row['Finaltotal'] . '</td>
+		</tr>';
+}
 
-<!-- END ITEMS HERE -->
+$html .= '
 <tr>
 <td class="blanktotal" colspan="3" rowspan="6"></td>
 <td class="totals">Subtotal:</td>
