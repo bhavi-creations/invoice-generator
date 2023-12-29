@@ -1,197 +1,234 @@
 <?php
-require('fpdf/fpdf.php');
+
+require_once('bhavidb.php');
 require('bhavidb.php');
 $Sid = (isset($_GET['Sid']) && $_GET['Sid'] !== '') ? $_GET['Sid'] : 0;
-class PDF extends FPDF
-{
-    private $grandTotal = 0;
-    private $gst = 0;
-    private $gst_total = 0;
-    private $words = 0;
-    private $terms = 0;
-    private $finalTotal = 0;
-    private $totalPages = 0;
-    private $note = 0;
+$sql = "SELECT * FROM invoice
+JOIN service ON invoice.Sid = service.Sid
+WHERE invoice.Sid = $Sid;";
+$result = mysqli_query($conn, $sql);
 
-    function Header()
-    {
-        $this->Image("img/logo.png", 82, 6, 42, 23, "png");
-        $this->Ln(20);
-    }
-    function drawTableHeader()
-{
-    $this->SetFont('Arial', 'B', 8); // Set the font here
-    $this->Cell(40, 8, 'SERVICES', 1, 0, 'C');
-    $this->Cell(50, 8, 'DESCRIPTION', 1, 0, 'C');
-    $this->Cell(10, 8, 'Qty', 1, 0, 'C');
-    $this->Cell(20, 8, 'PRICE / UNIT', 1, 0, 'C');
-    $this->Cell(20, 8, 'TOTAL', 1, 0, 'C');
-    $this->Cell(20, 8, 'DISCOUNT', 1, 0, 'C');
-    $this->Cell(20, 8, 'FINAL', 1, 1, 'C');
+$sql2 = "SELECT * FROM service WHERE service.Sid = $Sid;";
+$result2 = mysqli_query($conn, $sql2);
+
+if (!$result) {
+	die("Query failed: " . mysqli_error($conn));
 }
 
-    function body()
-    {
-        $server = 'localhost';
-        $username = 'root';
-        $pass = '';
-        $database = 'bhavi_invoice_db';
+$row = mysqli_fetch_assoc($result);
 
-        $conn = mysqli_connect($server, $username, $pass, $database);
-
-        // Check connection
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
-        $Sid = (isset($_GET['Sid']) && $_GET['Sid'] !== '') ? $_GET['Sid'] : 0;
-
-        $sql = "SELECT * FROM invoice
-                JOIN service ON invoice.Sid = service.Sid
-                WHERE invoice.Sid = $Sid;";
-        $result = mysqli_query($conn, $sql);
-
-        // Check for query execution success
-        if (!$result) {
-            die("Query failed: " . mysqli_error($conn));
-        }
-
-        $firstService = true;
-
-        $this->SetY(40);
-        while ($data = mysqli_fetch_assoc($result)) {
-            if (!$firstService && $this->GetY() + 40 > $this->GetPageHeight()) {
-                $this->AddPage();
-                $this->Header();
-                $this->drawTableHeader();
-                $this->SetY(40);
-            }
-
-            $this->SetFont('Arial', 'B', 15);
-            $this->Cell(100, 5, 'INVOICE', 0, 0, 'L');
-            $this->Cell(0, 5, 'INVOICE   NUMBER', 0, 1, 'L');
-            $this->Cell(100, 10, 'Date:  ' . $data['Invoice_date'], 0, 0, 'L');
-            $this->Cell(0, 10, 'BHAVI_KKD_2023_' . $data['Invoice_no'], 0, 1, 'L');
-
-            $this->Cell(100, 15, 'Bhavi Creations Pvt. Ltd', 0, 0, 'L');
-            $this->Cell(86, 15, $data['Company_name'], 0, 1, 'L');
-
-            $this->SetFont('Arial', '', 10);
-            $this->Cell(100, 5, '', 0, 0, 'L');
-            $this->Cell(86, 5, $data['Cname'], 0, 1, 'L');
-            $text = "Plot no28, H No70, 17-28, RTO Office Rd, opposite to New RTO Office, behind J.N.T.U Engineering College Play Ground, RangaRaoNagar, Kakinada, AndhraPradesh533003";
-            $this->SetFont('Arial', '', 10);
-
-            $startX = $this->GetX();
-            $startY = $this->GetY();
-
-            $this->MultiCell(80, 5, $text, 0, 'L');
-
-            $this->SetXY($startX + 100, $startY);
-
-            $this->MultiCell(100, 5, $data['Caddress'], 0, 'L');
-            $this->SetXY($startX, $startY + 25);
-            $this->Cell(100, 5, 'Phone no: 9642343434', 0, 0, 'L');
-            $this->Cell(86, 5, $data['Cphone'], 0, 1, 'L');
-            $this->Cell(100, 5, 'Email: admin@bhavicreations.com', 0, 0, 'L');
-            $this->Cell(86, 5, $data['Cmail'], 0, 1, 'L');
-            $this->Cell(100, 5, 'GSTIN 37AAKCB6060HIZB', 0, 0, 'L');
-            $this->Cell(86, 5, $data['Cgst'], 0, 1, 'L');
-
-            $this->SetFont('Arial', 'B', 15);
-            $this->Cell(0, 35, 'BILLING', 0, 1, 'C');
-
-            $this->drawTableHeader();
-            do {
-                $this->Cell(40, 30, $data['Sname'], 'LR', 0, 'C');
-                $x = $this->GetX();
-                $y = $this->GetY();
-                $this->MultiCell(50, 8, $data['Description'], 'LR');
-                $this->SetXY($x + 50, $y);
-                $this->Cell(10, 30, $data['Qty'], 'LR', 0, 'C');
-                $this->Cell(20, 30, $data['Price'], 'LR', 0, 'C');
-                $this->Cell(20, 30, $data['Totalprice'], 'LR', 0, 'C');
-                $this->Cell(20, 30, $data['Discount'], 'LR', 0, 'C');
-                $this->Cell(20, 30, $data['Finaltotal'], 'LR', 1, 'C');
-
-                $this->grandTotal = $data['Final'];
-                $this->gst = $data['Gst'];
-                $this->gst_total = $data['Gst_total'];
-                $this->words = $data['Totalinwords'];
-                $this->finalTotal = $data['Grandtotal'];
-                $this->terms = $data['Terms'];
-                $this->note = $data['Note'];
-
-                $firstService = false;
-            } while ($data = mysqli_fetch_assoc($result));
-        }
-        $this->SetFont('Arial','',10);
-        $this->Cell(160, 8, 'Grand Total', 1, 0, 'R');
-        $this->Cell(20, 8, $this->grandTotal, 1, 1, 'C');
-        $this->Cell(140, 8, 'GST%', 1, 0, 'R');
-        $this->Cell(20, 8, $this->gst, 1, 0, 'C');
-        $this->Cell(20, 8, $this->gst_total, 1, 1, 'C');
-        $this->Cell(140, 8, $this->words, 1, 0, 'L');
-        $this->Cell(20, 8, 'Grand Total', 1, 0, 'C');
-        $this->Cell(20, 8, $this->finalTotal, 1, 1, 'C');
-        $this->Ln(30);
-
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 8, 'Terms & Conditons', 0, 1, 'L');
-        $this->Ln(10);
-        $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 8, $this->terms, 0, 'L');
-        $this->Ln(10);
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 8, 'Note', 0, 1, 'L');
-        $this->Ln(1);
-        $this->SetFont('Arial', 'B', 12);
-        $this->MultiCell(0, 8, $this->note, 0, 'L');
-        $this->SetY(-55);
-
-
-        $this->Image("img/Vector.png", 25, 248, 22, 20, "png");
-        $this->SetFont('Arial', 'B', 10);
-        $this->Cell(11, 5, '');
-        $this->Cell(100, 5, 'Scan to pay', 0, 0, 'L');
-
-        // $this->Cell(110);
-        $this->Cell(89, 5, 'Payment Details', 0, 1, 'L');
-
-        $this->SetFont('Arial', '', 10);
-
-        $this->Cell(110);
-        $this->Cell(89, 5, 'Bank Name : HDFC Bank, Kakinada', 0, 1, 'L');
-        $this->Cell(110);
-        $this->Cell(89, 5, 'Account Name : Bhavi Creations Private Limited', 0, 1, 'L');
-        $this->Cell(110);
-        $this->Cell(89, 5, 'Account No. : 59213749999999', 0, 1, 'L  ');
-        $this->Cell(110);
-        $this->Cell(89, 5, 'IFSC : HDFC000042', 0, 1, 'L');
-
-
-
-
-
-        $this->SetFont('Arial', 'B', 10);
-
-        $this->Cell(0, 9, 'Google pay, Phone pay, Paytm 9642343434', 0, 0, 'C');
-        $this->totalPages = $this->PageNo();
-    }
-
-    function Footer()
-    {
-        $this->SetY(-20);
-        $this->Line(10, $this->GetY(), $this->GetPageWidth() - 10, $this->GetY());
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
-
-        if ($this->PageNo() == $this->totalPages) {
-        }
-    }
+$html = '
+<html>
+<head>
+<style>
+body {font-family: sans-serif;
+	font-size: 10pt;
+}
+p {	margin: 0pt; }
+table.items {
+	border: 0.1mm solid #000000;
+}
+td { vertical-align: top; }
+.items td {
+	border-left: 0.1mm solid #000000;
+	border-right: 0.1mm solid #000000;
+}
+table thead td { background-color: #EEEEEE;
+	text-align: center;
+	border: 0.1mm solid #000000;
+	font-variant: small-caps;
+	font-size: 12px;
+	font-weight: bold;
+}
+.items td.blanktotal {
+	background-color: #EEEEEE;
+	border: 0.1mm solid #000000;
+	background-color: #FFFFFF;
+	border: 0mm none #000000;
+	border-top: 0.1mm solid #000000;
+	border-right: 0.1mm solid #000000;
+}
+.items td.totals {
+	text-align: center;
+	border: 0.1mm solid #000000;
+}
+.items td.cost {
+	text-align: "." center;
 }
 
-$pdf = new PDF("P", 'mm', 'A4');
-$pdf->SetMargins(15, 15, 15);
-$pdf->AddPage();
-$pdf->body();
-$pdf->Output();
+.table-heading{
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+}
+.table-content{
+	font-size: 12px;
+}
+.term{
+	style="border: none;"
+}
+</style>
+</head>
+<body>
+
+<!--mpdf
+<htmlpageheader name="myheader">
+    <table width="100%" height="50%">
+        <tr>
+            <td style="text-align: center;">
+                <img src="img/logo.png" alt="" class="" height="12%" width="25%">
+            </td>
+        </tr>
+    </table>
+</htmlpageheader>
+
+<htmlpagefooter name="myfooter">
+<table>
+<tr>
+<td style="width: 70%; text-align: left; font-weight: bold;">
+Scan To Pay
+</td>
+<td style="width: 20%; font-weight: bold;">
+Payment Details<br/>
+</td>
+</tr>
+<tr>
+<td style="width: 70%; text-align: left; font-weight: bold;">
+<img src="img/qrcode.jpg" alt="" class="" height="15%" width="15%">
+</td>
+<td style="width: 60%; text-align: left; font-weight: ;">
+Bank Name : HDFC Bank, Kakinada<br/>
+Account Name : Bhavi Creations Private Limited<br/>
+Account No. : 59213749999999<br/>
+IFSC : HDFC000042
+</td>
+<tr/>
+<tr>
+<td colspan="2" style=" text-align: center; font-weight: bold; border: 1px;">
+Google pay, Phone pay, Paytm 8686394079
+</td>
+</tr>
+</table>
+<div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">
+Page {PAGENO} of {nb}
+</div>
+</htmlpagefooter>
+
+<sethtmlpageheader name="myheader" value="on" show-this-page="1" />
+<sethtmlpagefooter name="myfooter" value="on" />
+mpdf-->
+
+
+<table width="100%" style="font-family: Arial; " cellpadding="8" class="table-heading"><tr>
+<td width="70%" style="text-align: left;">
+INVOICE
+</td>
+<td width="40%" style="text-align: left;">
+INVOICE NUMBER
+</td>
+</tr>
+<tr>
+<td width="70%" style="text-align: left;">
+DATE:  ' . $row['Invoice_date'] . '
+</td>
+<td width="40%" style="text-align: left;">
+BHAVI_KKD_2023_ ' . $row['Invoice_no'] . '
+</td>
+</tr>
+</table>
+
+<table width="100%" style="font-family: Arial; font-size: 12px;" cellpadding="10"><tr>
+<td width="45%" style=" "><span style="font-size: 7pt; color: #555555; font-family: sans;">SOLD From:</span><br /><br />Bhavi Creations Pvt. Ltd<br />Plot no28, H No70, 17-28, RTO Office Rd,
+<br />opposite to New RTO Office, behind J.N.T.U,<br />Engineering College Play Ground,RangaRaoNagar, Kakinada,
+<br />Phone no: 9642343434 <br /> Email: admin@bhavicreations.com <br /> GSTIN 37AAKCB6060HIZB <br /></td>
+<td width="30%"></td>
+<td width="45%" style=""><span style="font-size: 7pt; color: #555555; font-family: sans;">SHIP TO:</span><br /><br /> ' . $row['Company_name'] . ', <br />' . $row['Cname'] . ', <br /> ' . $row['Caddress'] . ' <br /> ' . $row['Cphone'] . ', <br /> ' . $row['Cmail'] . ' <br /> ' . $row['Cgst'] . ' </td>
+</tr></table>
+
+<br />
+
+<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8">
+<thead>
+<tr>
+<td width="5%">Si.no</td>
+<td width="20%">Services</td>
+<td width="50%">Description</td>
+<td width="5%">Qty</td>
+<td width="5%">Unit Price</td>
+<td width="5%">Total</td>
+<td width="5%">Discount</td>
+<td width="5%">Final</td>
+</tr>
+</thead>
+<tbody>';
+$counter = 1;
+while ($data = mysqli_fetch_assoc($result2)) {
+	$html .= '
+		<tr >
+			<td class="serial-number">' . sprintf('%02d', $counter) . '</td>
+			<td class="table-content" align="center">' . $data["Sname"] . ' </td>
+			<td class="table-content" align="center">' . $data['Description'] . '</td>
+			<td class="table-content" align="center">' . $data['Qty'] . '</td>
+			<td class="cost table-content">' . $data['Price'] . '</td>
+			<td class="cost table-content">' . $data['Totalprice'] . '</td>
+			<td class="cost table-content">' . $data['Discount'] . '</td>
+			<td class="cost table-content">' . $data['Finaltotal'] . '</td>
+		</tr>';
+		$counter++; 
+}
+
+$html .= '
+<tr>
+<td class="blanktotal" colspan="6" rowspan="1"></td>
+<td class="totals table-content ">Subtotal:</td>
+<td class="totals cost table-content">' . $row['Final'] . '</td>
+</tr>
+<tr>
+<td class="table-content" style="text-align: right;" colspan="6">GST %</td>
+<td class=" cost table-content">' . $row['Gst'] . '</td>
+<td class="totals cost table-content">' . $row['Gst_total'] . '</td>
+</tr>
+<tr>
+<td colspan="6" class="totals table-content">' . $row['Totalinwords'] . '</td>
+<td class="totals table-content">Grand Total</td>
+<td class="totals cost table-content">' . $row['Grandtotal'] . '</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<p style="font-weight: bold;">Terms&Conditions</p>
+<p>' . $row['Terms'] . '</p>
+<br/>
+<p style="font-weight: bold;">Note:</p>
+<p>' . $row['Note'] . '</p>
+
+
+
+</body>
+</html>
+';
+
+$path = (getenv('MPDF_ROOT')) ? getenv('MPDF_ROOT') : __DIR__;
+require_once $path . '/vendor/autoload.php';
+
+$mpdf = new \Mpdf\Mpdf([
+	'margin_left' => 20,
+	'margin_right' => 15,
+	'margin_top' => 35,
+	'margin_bottom' => 25,
+	'margin_header' => 5,
+	'margin_footer' => 10
+]);
+
+$mpdf->SetProtection(array('print'));
+$mpdf->SetTitle("Bhavi Creations. - Invoice");
+$mpdf->SetAuthor("Bhavi Creations.");
+$mpdf->SetWatermarkText("");
+$mpdf->showWatermarkText = true;
+$mpdf->watermark_font = 'DejaVuSansCondensed';
+$mpdf->watermarkTextAlpha = 0.1;
+$mpdf->SetDisplayMode('fullpage');
+
+$mpdf->WriteHTML($html);
+
+$mpdf->Output();
