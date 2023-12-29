@@ -1,5 +1,24 @@
 <?php
 
+require_once ('bhavidb.php');
+
+$sql = "SELECT * FROM invoice
+JOIN service ON invoice.Sid = service.Sid
+WHERE invoice.Sid = 7;";
+$result = mysqli_query($conn, $sql);
+
+// Check for query execution success
+if (!$result) {
+die("Query failed: " . mysqli_error($conn));
+}
+
+// Fetch data from the result set
+$row = mysqli_fetch_assoc($result);
+
+// // Close the result set
+// mysqli_free_result($result);
+
+
 $html = '
 <html>
 <head>
@@ -36,16 +55,25 @@ table thead td { background-color: #EEEEEE;
 .items td.cost {
 	text-align: "." center;
 }
+
+.table-heading{
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 18px;
+}
 </style>
 </head>
 <body>
 
 <!--mpdf
 <htmlpageheader name="myheader">
-<table width="100%"><tr>
-<td width="50%" style="color:#0000BB; "><span style="font-weight: bold; font-size: 14pt;">Acme Trading Co.</span><br />123 Anystreet<br />Your City<br />GD12 4LP<br /><span style="font-family:dejavusanscondensed;">&#9742;</span> 01777 123 567</td>
-<td width="50%" style="text-align: right;">Invoice No.<br /><span style="font-weight: bold; font-size: 12pt;">0012345</span></td>
-</tr></table>
+    <table width="100%" height="50%">
+        <tr>
+            <td style="text-align: center;">
+                <img src="img/logo.png" alt="" class="" height="12%" width="25%">
+            </td>
+        </tr>
+    </table>
 </htmlpageheader>
 
 <htmlpagefooter name="myfooter">
@@ -58,12 +86,31 @@ Page {PAGENO} of {nb}
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
 
-<div style="text-align: right">Date: 13th November 2008</div>
 
-<table width="100%" style="font-family: serif;" cellpadding="10"><tr>
-<td width="45%" style="border: 0.1mm solid #888888; "><span style="font-size: 7pt; color: #555555; font-family: sans;">SOLD TO:</span><br /><br />345 Anotherstreet<br />Little Village<br />Their City<br />CB22 6SO</td>
-<td width="10%">&nbsp;</td>
-<td width="45%" style="border: 0.1mm solid #888888;"><span style="font-size: 7pt; color: #555555; font-family: sans;">SHIP TO:</span><br /><br />345 Anotherstreet<br />Little Village<br />Their City<br />CB22 6SO</td>
+<table width="100%" style="font-family: Arial; " cellpadding="8" class="table-heading"><tr>
+<td width="70%" style="text-align: left;">
+INVOICE
+</td>
+<td width="40%" style="text-align: left;">
+INVOICE NUMBER
+</td>
+</tr>
+<tr>
+<td width="70%" style="text-align: left;">
+DATE:  ' . $row['Invoice_date'] . '
+</td>
+<td width="40%" style="text-align: left;">
+BHAVI_KKD_2023_ ' . $row['Invoice_no'] .'
+</td>
+</tr>
+</table>
+
+<table width="100%" style="font-family: Arial; font-size: 12px;" cellpadding="10"><tr>
+<td width="45%" style=" "><span style="font-size: 7pt; color: #555555; font-family: sans;">SOLD From:</span><br /><br />Bhavi Creations Pvt. Ltd<br />Plot no28, H No70, 17-28, RTO Office Rd,
+<br />opposite to New RTO Office, behind J.N.T.U,<br />Engineering College Play Ground,RangaRaoNagar, Kakinada,
+<br />Phone no: 9642343434 <br /> Email: admin@bhavicreations.com <br /> GSTIN 37AAKCB6060HIZB <br /></td>
+<td width="30%"></td>
+<td width="45%" style=""><span style="font-size: 7pt; color: #555555; font-family: sans;">SHIP TO:</span><br /><br /> '. $row['Company_name'] .', <br />'. $row['Cname'] .', <br /> '.$row['Caddress'].' <br /> '.$row['Cphone'] .', <br /> '.$row['Cmail'] .' <br /> ' .$row['Cgst'] .' </td>
 </tr></table>
 
 <br />
@@ -71,162 +118,30 @@ mpdf-->
 <table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8">
 <thead>
 <tr>
-<td width="15%">Ref. No.</td>
-<td width="10%">Quantity</td>
+<td width="25%">Services</td>
 <td width="45%">Description</td>
+<td width="10%">Qty</td>
 <td width="15%">Unit Price</td>
-<td width="15%">Amount</td>
+<td width="15%">Total</td>
+<td width="15%">Discount</td>
+<td width="15%">Final</td>
 </tr>
 </thead>
 <tbody>
 <!-- ITEMS HERE -->
+<?php while ($row = mysqli_fetch_assoc($result)) { ?>
 <tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
+                <td align="center">' .$row["Sname"] . ' </td>
+                <td align="center">' . $row['Description'] . '</td>
+                <td>' . $row['Qty'] . '</td>
+                <td class="cost">' . $row['Price'] . '</td>
+                <td class="cost">' . $row['Totalprice'] . '</td>
+                <td class="cost">' . $row['Discount'] . '</td>
+                <td class="cost">' . $row['Finaltotal'] . '</td>
+              </tr>;
+			  <?php } ?>
+
+
 <!-- END ITEMS HERE -->
 <tr>
 <td class="blanktotal" colspan="3" rowspan="6"></td>
@@ -270,9 +185,9 @@ require_once $path . '/vendor/autoload.php';
 $mpdf = new \Mpdf\Mpdf([
 	'margin_left' => 20,
 	'margin_right' => 15,
-	'margin_top' => 48,
+	'margin_top' => 35,
 	'margin_bottom' => 25,
-	'margin_header' => 10,
+	'margin_header' => 5,
 	'margin_footer' => 10
 ]);
 
