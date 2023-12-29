@@ -69,13 +69,7 @@ $invoiceNumber = getInvoiceId();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
-        integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="img/style.css">
 
@@ -183,18 +177,18 @@ $invoiceNumber = getInvoiceId();
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
                         <h4>
-                            <select name="company"  id="companySelect">
+                            <select name="company" id="companySelect">
                                 <?php
-                                    $sql = "SELECT * FROM `customer`";
-                                    $res = $conn->query($sql);
-                                    $fetched_data = [];
-                                    echo "<option value=''>Select Customer/Company</option>";
-                                    while ($row = mysqli_fetch_assoc($res)) {
-                                        $fetched_data[] = $row;
-                                        echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                    }
-                                    // this hidden input is used to store the data & get the data in javascript
-                                    echo "<input type='hidden' id='company_data' value='".json_encode($fetched_data)."' />";
+                                $sql = "SELECT * FROM `customer`";
+                                $res = $conn->query($sql);
+                                $fetched_data = [];
+                                echo "<option value=''>Select Customer/Company</option>";
+                                while ($row = mysqli_fetch_assoc($res)) {
+                                    $fetched_data[] = $row;
+                                    echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
+                                }
+                                // this hidden input is used to store the data & get the data in javascript
+                                echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
                                 ?>
                             </select>
                         </h4>
@@ -276,7 +270,7 @@ $invoiceNumber = getInvoiceId();
                             <tr>
                                 <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
                                 <td class="text-center" class='text-right' style="text-align: right;">Grand Total</td>
-                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' required readonly></td>
+                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
                             </tr>
 
                         </tfoot>
@@ -372,7 +366,12 @@ $invoiceNumber = getInvoiceId();
                                 $(".total").each(function() {
                                     tot += Number($(this).val());
                                 });
-                                $("#grand_total").val(tot);
+
+                                // Format the grand total to always have two decimal places
+                                var formatted_total = tot.toFixed(2);
+
+                                // Ensure that the formatted total is treated as a string
+                                $("#grand_total").val(formatted_total.toString());
                             }
                         });
 
@@ -390,7 +389,11 @@ $invoiceNumber = getInvoiceId();
                             var grand_total = Number($("#grand_total").val());
                             var gst = Number($(".gst").val());
                             var gst_amount = (grand_total * gst) / 100;
-                            $("#gst_total").val(gst_amount);
+
+                            // Format the gst_amount to two decimal places
+                            var formatted_gst_amount = gst_amount.toFixed(2);
+
+                            $("#gst_total").val(formatted_gst_amount);
                         }
 
                         $("body").on("keyup", ".grand_total", function() {
@@ -410,7 +413,11 @@ $invoiceNumber = getInvoiceId();
                             var grand_total = Number($("#grand_total").val());
                             var gst_amount = Number($("#gst_total").val());
                             var final_total = grand_total + gst_amount;
-                            $("#final_total").val(final_total);
+
+                            // Format the final_total to two decimal places
+                            var formatted_final_total = final_total.toFixed(2);
+
+                            $("#final_total").val(formatted_final_total);
 
                             var words = amountToWords(final_total);
                             $("#words").val(words);
@@ -450,18 +457,28 @@ $invoiceNumber = getInvoiceId();
                             return str;
                         }
 
-                        // Function to convert decimal part to words
                         function amountToWordsDecimal(decimalPart) {
                             var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine '];
-                            var b = ['', '', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+                            var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
                             var n = ('00' + decimalPart).substr(-2).match(/^(\d{1})(\d{1})$/);
 
                             if (!n) return '';
 
                             var str = '';
-                            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + '' : '';
-                            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'paisa ' : '';
+
+                            if (n[1] != 0 || n[2] != 0) {
+                                // If both digits are non-zero, use the combined word
+                                str += (n[1] > 0 ? b[n[1]] : '') + (n[1] > 0 && n[2] > 0 ? ' ' : '') + (n[2] > 0 ? a[n[2]] : '');
+                            } else if (n[1] != 0) {
+                                // If only the first digit is non-zero, use its word
+                                str += (b[n[1]]);
+                            } else if (n[2] != 0) {
+                                // If only the second digit is non-zero, use its word
+                                str += (a[n[2]]);
+                            }
+
+                            str += (str !== '') ? ' paisa ' : '';
 
                             return str;
                         }
@@ -508,23 +525,18 @@ $invoiceNumber = getInvoiceId();
 
 
     <!-- ENDING   INVOICE  FORM  -->
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
-    integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        $(function () {
+        $(function() {
             $("select").selectize();
 
-            $('#companySelect').change(()=>{
+            $('#companySelect').change(() => {
                 var selectedCompany = $('#companySelect').val();
                 var companyData = JSON.parse($('#company_data').val());
                 console.log(companyData);
                 companyData.forEach(element => {
-                    if(element.Id == selectedCompany){
+                    if (element.Id == selectedCompany) {
                         console.log(element);
                         $('#company_name').html(element.Company_name);
                         $('#name').html(element.Name);
@@ -535,8 +547,6 @@ $invoiceNumber = getInvoiceId();
                 });
             });
         });
-
-       
     </script>
 
 </body>

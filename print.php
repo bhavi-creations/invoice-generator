@@ -1,5 +1,8 @@
 <?php
 
+   
+
+
 require_once('bhavidb.php');
 require('bhavidb.php');
 $Sid = (isset($_GET['Sid']) && $_GET['Sid'] !== '') ? $_GET['Sid'] : 0;
@@ -83,39 +86,14 @@ table thead td { background-color: #EEEEEE;
 </htmlpageheader>
 
 <htmlpagefooter name="myfooter">
-<table>
-<tr>
-<td style="width: 70%; text-align: left; font-weight: bold;">
-Scan To Pay
-</td>
-<td style="width: 20%; font-weight: bold;">
-Payment Details<br/>
-</td>
-</tr>
-<tr>
-<td style="width: 70%; text-align: left; font-weight: bold;">
-<img src="img/qrcode.jpg" alt="" class="" height="15%" width="15%">
-</td>
-<td style="width: 60%; text-align: left; font-weight: ;">
-Bank Name : HDFC Bank, Kakinada<br/>
-Account Name : Bhavi Creations Private Limited<br/>
-Account No. : 59213749999999<br/>
-IFSC : HDFC000042
-</td>
-<tr/>
-<tr>
-<td colspan="2" style=" text-align: center; font-weight: bold; border: 1px;">
-Google pay, Phone pay, Paytm 8686394079
-</td>
-</tr>
-</table>
+
 <div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">
 Page {PAGENO} of {nb}
 </div>
 </htmlpagefooter>
 
 <sethtmlpageheader name="myheader" value="on" show-this-page="1" />
-<sethtmlpagefooter name="myfooter" value="on" />
+<sethtmlpagefooter name="myfooter" value="on" show-this-page="lastpage" />
 mpdf-->
 
 
@@ -137,7 +115,7 @@ BHAVI_KKD_2023_ ' . $row['Invoice_no'] . '
 </tr>
 </table>
 
-<table width="100%" style="font-family: Arial; font-size: 12px;" cellpadding="10"><tr>
+<table width="100%" style="font-family: Arial; font-size: 15px;" cellpadding="10"><tr>
 <td width="45%" style=" "><span style="font-size: 7pt; color: #555555; font-family: sans;">SOLD From:</span><br /><br />Bhavi Creations Pvt. Ltd<br />Plot no28, H No70, 17-28, RTO Office Rd,
 <br />opposite to New RTO Office, behind J.N.T.U,<br />Engineering College Play Ground,RangaRaoNagar, Kakinada,
 <br />Phone no: 9642343434 <br /> Email: admin@bhavicreations.com <br /> GSTIN 37AAKCB6060HIZB <br /></td>
@@ -147,17 +125,18 @@ BHAVI_KKD_2023_ ' . $row['Invoice_no'] . '
 
 <br />
 
-<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8">
+<table class="items" width="100%" style="border-collapse: collapse; " cellpadding="8">
 <thead>
+
 <tr>
-<td width="5%">Si.no</td>
-<td width="20%">Services</td>
-<td width="50%">Description</td>
-<td width="5%">Qty</td>
-<td width="5%">Unit Price</td>
-<td width="5%">Total</td>
-<td width="5%">Discount</td>
-<td width="5%">Final</td>
+<td >Si.no</td>
+<td >Services</td>
+<td >Description</td>
+<td >Qty</td>
+<td >Unit Price</td>
+<td >Total</td>
+<td >Discount</td>
+<td >Final</td>
 </tr>
 </thead>
 <tbody>';
@@ -201,7 +180,38 @@ $html .= '
 <br/>
 <p style="font-weight: bold;">Note:</p>
 <p>' . $row['Note'] . '</p>
+<br/>
+<br/>
+<br/>
+<br/>
 
+
+<table>
+<tr>
+	<td style="width: 70%; text-align: left; font-weight: bold;">
+		Scan To Pay
+	</td>
+	<td style="width: 20%; font-weight: bold;">
+		Payment Details<br/>
+	</td>
+</tr>
+<tr>
+	<td style="width: 70%; text-align: left; font-weight: bold;">
+		<img src="img/qrcode.jpg" alt="" class="" height="15%" width="15%">
+	</td>
+	<td style="width: 60%; text-align: left; font-weight: ;">
+		Bank Name : HDFC Bank, Kakinada<br/>
+		Account Name : Bhavi Creations Private Limited<br/>
+		Account No. : 59213749999999<br/>
+		IFSC : HDFC000042
+	</td>
+<tr/>
+<tr>
+	<td colspan="2" style=" text-align: center; font-weight: bold; border: 1px;">
+		Google pay, Phone pay, Paytm 8686394079
+	</td>
+</tr>
+</table>
 
 
 </body>
