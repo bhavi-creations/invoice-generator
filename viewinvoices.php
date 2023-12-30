@@ -65,7 +65,7 @@ $result = $conn->query($sql);
                 <div class="collapse navbar-collapse ms-auto " id="navbarNav">
                     <ul class="navbar-nav " style="margin-left: 10%;">
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="invoice.php">CREATE INVOICE</a>
+                            <a class="nav-link text-dark" href="index.php">CREATE INVOICE</a>
                         </li>
                         <li class="nav-item pe-5">
                             <a class="nav-link active text-primary" href="viewinvoices.php">VIEW INVOICES</a>
@@ -95,7 +95,7 @@ $result = $conn->query($sql);
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="invoice.php">CREATE INVOICE</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">CREATE INVOICE</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
