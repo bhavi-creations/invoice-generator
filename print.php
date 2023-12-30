@@ -129,14 +129,14 @@ BHAVI_KKD_2023_ ' . $row['Invoice_no'] . '
 <thead>
 
 <tr>
-<td >Si.no</td>
-<td >Services</td>
-<td >Description</td>
-<td >Qty</td>
-<td >Unit Price</td>
-<td >Total</td>
-<td >Discount</td>
-<td >Final</td>
+    <td width="5%">Si.no</td>
+    <td width="15%">Services</td>
+    <td width="20%">Description</td>
+    <td width="5%">Qty</td>
+    <td width="10%">Unit Price</td>
+    <td width="10%">Total</td>
+    <td width="10%">Discount</td>
+    <td width="15%">Final</td>
 </tr>
 </thead>
 <tbody>';
@@ -146,7 +146,7 @@ while ($data = mysqli_fetch_assoc($result2)) {
 		<tr >
 			<td class="serial-number">' . sprintf('%02d', $counter) . '</td>
 			<td class="table-content" align="center">' . $data["Sname"] . ' </td>
-			<td class="table-content" align="center">' . $data['Description'] . '</td>
+			<td class="table-content" align="center" style="word-wrap: break-word;">' . $data['Description'] . '</td>
 			<td class="table-content" align="center">' . $data['Qty'] . '</td>
 			<td class="cost table-content">' . $data['Price'] . '</td>
 			<td class="cost table-content">' . $data['Totalprice'] . '</td>
@@ -169,8 +169,18 @@ $html .= '
 </tr>
 <tr>
 <td colspan="6" class="totals table-content">' . $row['Totalinwords'] . '</td>
-<td class="totals table-content">Grand Total</td>
+<td class="totals table-content">Total</td>
 <td class="totals cost table-content">' . $row['Grandtotal'] . '</td>
+</tr>
+<tr>
+<td colspan="6" class="totals table-content"></td>
+<td class="totals table-content">Advance</td>
+<td class="totals cost table-content">' . $row['advance'] . '</td>
+</tr>
+<tr>
+<td colspan="6" class="totals table-content">' . $row['balancewords'] . '</td>
+<td class="totals table-content">Balance</td>
+<td class="totals cost table-content">' . $row['balance'] . '</td>
 </tr>
 </tbody>
 </table>

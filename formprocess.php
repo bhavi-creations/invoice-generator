@@ -31,9 +31,13 @@ if (isset($_POST["submit"])) {
     $Totalin_word = mysqli_real_escape_string($conn, $_POST["words"]);
     $terms = mysqli_real_escape_string($conn, $_POST["terms"]);
     $note = mysqli_real_escape_string($conn, $_POST["note"]);
+    $advance = mysqli_real_escape_string($conn, $_POST["advance"]);
+    $balance = mysqli_real_escape_string($conn, $_POST["balance"]);
+    $balancewords = mysqli_real_escape_string($conn, $_POST["balancewords"]);
 
-    $sql = "INSERT INTO invoice (Invoice_no, Invoice_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note) 
-            VALUES ('$invoice_no', '$invoice_date', '$company_name', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total', '$Gst' , '$Gst_total' ,'$Grand_total' , '$Totalin_word','$terms' , '$note')";
+
+    $sql = "INSERT INTO invoice (Invoice_no, Invoice_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note , advance, balance, balancewords) 
+            VALUES ('$invoice_no', '$invoice_date', '$company_name', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total', '$Gst' , '$Gst_total' ,'$Grand_total' , '$Totalin_word','$terms' , '$note' ,'$advance' , '$balance' ,'$balancewords')";
 
     if ($conn->query($sql)) {
         $Sid = $conn->insert_id; // Get the inserted Sid

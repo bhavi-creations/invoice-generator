@@ -269,8 +269,17 @@ $invoiceNumber = getInvoiceId();
                             </tr>
                             <tr>
                                 <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
-                                <td class="text-center" class='text-right' style="text-align: right;">Grand Total</td>
+                                <td class="text-center" class='text-right' style="text-align: right;">Total</td>
                                 <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
+                            </tr>
+                            <tr>
+                                <td colspan="8" class="text-right" class='text-right' style="text-align: right;">Advance</td>
+                                <td colspan="2"><input type='text' name='advance' id='advance' class='form-control advance'></td>
+                            </tr>
+                            <tr>
+                                <td colspan="7"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords"></td>
+                                <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
+                                <td colspan="2"><input type='text' name='balance' id='balance' class='form-control balance' readonly></td>
                             </tr>
 
                         </tfoot>
@@ -333,6 +342,25 @@ $invoiceNumber = getInvoiceId();
                             });
 
 
+                            /* ---Balnce Calculations--*/
+
+                            $("body").on("keyup", ".final_total", function() {
+                                var final = Number($(this).val());
+                                var adv = Number($("#advance").val());
+                                $("#balance").val(final - adv);
+                                grand_total();
+                            });
+
+                            $("body").on("keyup", "#advance", function() {
+                                var adv = Number($(this).val());
+                                var final = Number($("#final_total").val());
+                                $("#balance").val(final - adv);
+                                grand_total();
+                            });
+
+
+                            /*----Ending balnce--*/
+
                             $("body").on("keyup", ".price", function() {
                                 var price = Number($(this).val());
                                 var qty = Number($(this).closest("tr").find(".qty").val());
@@ -367,16 +395,16 @@ $invoiceNumber = getInvoiceId();
                                     tot += Number($(this).val());
                                 });
 
-                                // Format the grand total to always have two decimal places
+
                                 var formatted_total = tot.toFixed(2);
 
-                                // Ensure that the formatted total is treated as a string
+
                                 $("#grand_total").val(formatted_total.toString());
                             }
                         });
 
 
-                        // Additional script for GST calculations
+
                         $("body").on("keyup", ".grand_total", function() {
                             gst_total();
                         });
@@ -421,7 +449,24 @@ $invoiceNumber = getInvoiceId();
 
                             var words = amountToWords(final_total);
                             $("#words").val(words);
+
+
                         }
+
+                        // Function to update balance words
+                        function updateBalanceWords() {
+                            var balance = Number($("#balance").val());
+                            var balanceWords = amountToWords(balance);
+                            $("#balancewords").val(balanceWords);
+                        }
+
+                        // Call the updateBalanceWords function whenever there is a change in the balance input field
+                        $("body").on("keyup", "#balance", function() {
+                            updateBalanceWords();
+                        });
+
+                        // Initial call to update balance words
+                        updateBalanceWords();
 
 
                         function amountToWords(num) {
@@ -507,7 +552,7 @@ $invoiceNumber = getInvoiceId();
 
                     <div class="googlepay">
                         <div class="col-lg-12 col-sm-12 col-md-12">
-                            <h6 class="text-center">Google pay , Phone pay. Paytm 9642343434</h6>
+                            <h6 class="text-center">Google pay , Phone pay. Paytm 8686394079</h6>
                         </div>
                     </div>
                     <!--  ENDING  GOOGLEPAY SECTION  -->
