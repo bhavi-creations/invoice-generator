@@ -357,9 +357,9 @@ $invoiceNumber = getInvoiceId();
                             /*----Ending balnce--*/
 
 
-                            // $("#advance").val();
+                            // $("#advance").val(0);
 
-                            $("body").on("input", ".price, .qty, .subtotal, .discount, .final_total, #advance", function() {
+                            $("body").on("input", ".price, .qty, .subtotal, .discount, .final_total, #advance, .gst", function() {
                                 var $row = $(this).closest("tr");
 
                                 var price = Number($row.find(".price").val());
@@ -373,11 +373,15 @@ $invoiceNumber = getInvoiceId();
 
                                 // Update final_total and advance fields
                                 var finalTotal = Number($("#final_total").val());
-                                var advance = Number($("#advance").val());
-                                $("#balance").val(finalTotal - advance);
 
-                                updateBalanceWords();
+
                                 grand_total();
+                                gst_total();
+                                final_total();
+                                updateBalanceWords();
+                                updateBalance();
+
+
                             });
                             grand_total();
                             gst_total();
@@ -392,6 +396,15 @@ $invoiceNumber = getInvoiceId();
                                 updateBalanceWords();
                             });
                         });
+
+                        function updateBalance() {
+                            var finalTotal = Number($("#final_total").val());
+                            var advance = Number($("#advance").val());
+                            var balance = finalTotal - advance;
+
+                            $("#balance").val(balance);
+                            updateBalanceWords();
+                        }
 
                         function grand_total() {
                             var tot = 0;
@@ -440,10 +453,6 @@ $invoiceNumber = getInvoiceId();
                         }
 
 
-                        function amountToWords(amount) {
-
-
-                        }
 
 
 
