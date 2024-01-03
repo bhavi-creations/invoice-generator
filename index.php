@@ -7,7 +7,7 @@ require_once('bhavidb.php');
 
 function getInvoiceId()
 {
-    $server='localhost';
+    $server = 'localhost';
     // Condition to check if the script is running locally or on a server
     if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1') {
         // Local environment details
@@ -41,7 +41,7 @@ function getInvoiceId()
         }
 
 
-        $formattedInvoiceNumber = sprintf('%03d', $nextInvoiceNumber);
+        $formattedInvoiceNumber = sprintf('%04d', $nextInvoiceNumber);
 
 
         $result->free();
@@ -165,7 +165,7 @@ $invoiceNumber = getInvoiceId();
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                         <h4><strong>INVOICE NUMBER </strong></h4>
-                        <h4><strong>BHAVI_KKD_2023_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
+                        <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
                     </div>
                 </div>
 
@@ -274,7 +274,7 @@ $invoiceNumber = getInvoiceId();
                                         ?>
                                     </select>
                                 </td>
-                                <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total' required></td>
+                                <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total'></td>
                             </tr>
                             <tr>
                                 <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
@@ -351,99 +351,66 @@ $invoiceNumber = getInvoiceId();
                             });
 
 
-                            /* ---Balnce Calculations--*/
 
-                            $("body").on("keyup", ".final_total", function() {
-                                var final = Number($(this).val());
-                                var adv = Number($("#advance").val());
-                                $("#balance").val(final - adv);
-                                grand_total();
-                            });
-
-                            $("body").on("keyup", "#advance", function() {
-                                var adv = Number($(this).val());
-                                var final = Number($("#final_total").val());
-                                $("#balance").val(final - adv);
-                                grand_total();
-                            });
 
 
                             /*----Ending balnce--*/
 
-                            $("body").on("keyup", ".price", function() {
-                                var price = Number($(this).val());
-                                var qty = Number($(this).closest("tr").find(".qty").val());
-                                $(this).closest("tr").find(".subtotal").val(price * qty);
+
+                            // $("#advance").val();
+
+                            $("body").on("input", ".price, .qty, .subtotal, .discount, .final_total, #advance", function() {
+                                var $row = $(this).closest("tr");
+
+                                var price = Number($row.find(".price").val());
+                                var qty = Number($row.find(".qty").val());
+                                $row.find(".subtotal").val(price * qty);
+
+                                var subtotal = Number($row.find(".subtotal").val());
+                                var discount = Number($row.find(".discount").val());
+                                $row.find(".total").val(subtotal - (subtotal * (discount / 100)));
+
+
+                                // Update final_total and advance fields
+                                var finalTotal = Number($("#final_total").val());
+                                var advance = Number($("#advance").val());
+                                $("#balance").val(finalTotal - advance);
+
+                                updateBalanceWords();
                                 grand_total();
                             });
-
-                            $("body").on("keyup", ".qty", function() {
-                                var qty = Number($(this).val());
-                                var price = Number($(this).closest("tr").find(".price").val());
-                                $(this).closest("tr").find(".subtotal").val(price * qty);
-                                grand_total();
-                            });
-
-                            $("body").on("keyup", ".subtotal", function() {
-                                var subtotal = Number($(this).val());
-                                var discount = Number($(this).closest("tr").find(".discount").val());
-                                $(this).closest("tr").find(".total").val(subtotal - (subtotal * (discount / 100)));
-                                grand_total();
-                            });
-
-                            $("body").on("keyup", ".discount", function() {
-                                var discount = Number($(this).val());
-                                var subtotal = Number($(this).closest("tr").find(".subtotal").val());
-                                $(this).closest("tr").find(".total").val(subtotal - (subtotal * (discount / 100)));
-                                grand_total();
-                            });
-
-                            function grand_total() {
-                                var tot = 0;
-                                $(".total").each(function() {
-                                    tot += Number($(this).val());
-                                });
-
-
-                                var formatted_total = tot.toFixed(2);
-
-
-                                $("#grand_total").val(formatted_total.toString());
-                            }
-                        });
-
-
-
-                        $("body").on("keyup", ".grand_total", function() {
+                            grand_total();
                             gst_total();
+                            final_total();
+                            updateBalanceWords();
+
+                            $("body").on("change", ".gst", function() {
+                                calculateTotals();
+                            });
+
+                            $("body").on("keyup", "#balance", function() {
+                                updateBalanceWords();
+                            });
                         });
 
-                        $("body").on("change", ".gst", function() {
-                            gst_total();
-                        });
+                        function grand_total() {
+                            var tot = 0;
+                            $(".total").each(function() {
+                                tot += Number($(this).val());
+                            });
+
+                            var formatted_total = tot.toFixed(2);
+                            $("#grand_total").val(formatted_total.toString());
+                        }
 
                         function gst_total() {
                             var grand_total = Number($("#grand_total").val());
                             var gst = Number($(".gst").val());
                             var gst_amount = (grand_total * gst) / 100;
 
-                            // Format the gst_amount to two decimal places
                             var formatted_gst_amount = gst_amount.toFixed(2);
 
                             $("#gst_total").val(formatted_gst_amount);
-                        }
-
-                        $("body").on("keyup", ".grand_total", function() {
-                            calculateTotals();
-                        });
-
-                        $("body").on("change", ".gst", function() {
-                            calculateTotals();
-                        });
-
-                        function calculateTotals() {
-                            gst_total();
-                            final_total();
                         }
 
                         function final_total() {
@@ -451,31 +418,33 @@ $invoiceNumber = getInvoiceId();
                             var gst_amount = Number($("#gst_total").val());
                             var final_total = grand_total + gst_amount;
 
-                            // Format the final_total to two decimal places
                             var formatted_final_total = final_total.toFixed(2);
 
                             $("#final_total").val(formatted_final_total);
 
                             var words = amountToWords(final_total);
                             $("#words").val(words);
-
-
                         }
 
-                        // Function to update balance words
                         function updateBalanceWords() {
                             var balance = Number($("#balance").val());
                             var balanceWords = amountToWords(balance);
                             $("#balancewords").val(balanceWords);
                         }
 
-                        // Call the updateBalanceWords function whenever there is a change in the balance input field
-                        $("body").on("keyup", "#balance", function() {
+                        function calculateTotals() {
+                            grand_total();
+                            gst_total();
+                            final_total();
                             updateBalanceWords();
-                        });
+                        }
 
-                        // Initial call to update balance words
-                        updateBalanceWords();
+
+                        function amountToWords(amount) {
+
+
+                        }
+
 
 
                         function amountToWords(num) {
