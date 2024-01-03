@@ -128,12 +128,12 @@
 
                   <div class="form-group">
                     <label for="">Email</label>
-                    <input type="email" name="cemail" required class="form-control">
+                    <input type="email" name="cemail"  class="form-control">
                   </div>
 
                   <div class="form-group">
                     <label for="">GST_No</label>
-                    <input type="text" name="cgst" id="gstInput" required class="form-control">
+                    <input type="text" name="cgst" id="gstInput" class="form-control">
                   </div>
                   <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
                 </form>
@@ -183,11 +183,11 @@
               </div>
               <div class="form-group">
                 <label for="update_cemail">Email</label>
-                <input type="text" name="cemail" id="update_cemail" required class="form-control" value="<?php echo $Email; ?>">
+                <input type="text" name="cemail" id="update_cemail"  class="form-control" value="<?php echo $Email; ?>">
               </div>
               <div class="form-group">
                 <label for="update_gstInput">GST_No</label>
-                <input type="text" name="cgst" id="update_gstInput" required class="form-control" value="<?php echo $Gst_no; ?>">
+                <input type="text" name="cgst" id="update_gstInput"  class="form-control" value="<?php echo $Gst_no; ?>">
               </div>
               <input type="submit" value="update" name="Update" id="update_customer" class="btn btn-success mt-5">
             </form>
