@@ -80,7 +80,43 @@ $invoiceNumber = getInvoiceId();
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet">
+
+
     <link rel="stylesheet" href="img/style.css">
+
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12 px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .navbar-nav li:hover .dropdown-content {
+            display: block;
+        }
+    </style>
 
 </head>
 
@@ -96,17 +132,29 @@ $invoiceNumber = getInvoiceId();
                 </button>
                 <div class="collapse navbar-collapse ms-auto " id="navbarNav">
                     <ul class="navbar-nav " style="margin-left: 10%;">
+                        <li class="nav-item pe-4">
+                            <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
+                        </li>
+
+                            <!-- Invoice dropdown -->
+                        <li class="dropdown nav-item pe-4">
+                            <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+</svg></a>
+                            <div class="dropdown-content">
+                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
+                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
+                            </div>
+                        </li>
+                    
+                        <!-- <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
+                        </li> -->
                         <li class="nav-item pe-5">
-                            <a class="nav-link active text-primary" href="index.php">CREATE INVOICE</a>
+                            <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
                         </li>
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
+                            <a class="nav-link text-dark" href="#">Reports</a>
                         </li>
                     </ul>
                 </div>
@@ -154,17 +202,17 @@ $invoiceNumber = getInvoiceId();
             <!-- FORM -->
 
             <form class=" formborder rounded p-4 pb-4 mb-5" action="formprocess.php" method="post">
-                <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="30%" width="30%">
+                <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
 
                 <!-- FORM INVOICENUMBER -->
 
                 <div class="row container pt-5 ps-5 mb-5">
                     <div class="col-lg-8 col-sm-12 col-md-12">
-                        <h4><strong>INVOICE</strong></h4>
+                        <h5><strong>Invoice</strong></h5>
                         <h5>Date : <input type="date" name="invoice_date" id="" class="" style="border-radius:3px;"></h5>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
-                        <h4><strong>INVOICE NUMBER </strong></h4>
+                        <h5><strong>Invoice Number </strong></h5>
                         <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
                     </div>
                 </div>
@@ -218,14 +266,14 @@ $invoiceNumber = getInvoiceId();
                         <thead>
                             <tr>
                                 <th></th>
-                                <th class="text-center">S.NO</th>
-                                <th style="width: 253px;" class="text-center"> SERVICES</th>
-                                <th style="width: 364px;" class="text-center">DESCRIPITION</th>
-                                <th class="text-center">QTY </th>
-                                <th class="text-center">PRICE/UNIT</th>
-                                <th class="text-center">SUB TOTAL </th>
-                                <th class="text-center">DISC</th>
-                                <th class="text-center">DISC TOTAL</th>
+                                <th class="text-center">S.no</th>
+                                <th style="width: 253px;" class="text-center"> Services</th>
+                                <th style="width: 364px;" class="text-center">Description</th>
+                                <th class="text-center">Qty </th>
+                                <th class="text-center">Price/Unit</th>
+                                <th class="text-center">Sub Total </th>
+                                <th class="text-center">Disc</th>
+                                <th class="text-center">Disc Total</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -521,11 +569,11 @@ $invoiceNumber = getInvoiceId();
                     <div class="row container pt-5 ms-5 mb-5">
                         <span class="verticalline mb-5"></span>
                         <div class="col-lg-6  col-sm-12 col-md-12 ps-5">
-                            <h4 class="mb-3"><strong>Scan to Pay:</strong></h4>
-                            <h4><img src="img/Vector.svg" alt="" height="20%" width="20%"></h4>
+                            <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                            <h4><img src="img/qrcode.jpg" alt="" height="20%" width="20%"></h4>
                         </div>
                         <div class="col-lg-6  col-sm-12 col-md-12 invoicenumber">
-                            <h4 class="mb-3"><strong>Payment details</strong></h4>
+                            <h5 class="mb-2"><strong>Payment details</strong></h5>
                             <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
                             <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
                             <h6 class="mb-2">Account No. : 59213749999999</h6>

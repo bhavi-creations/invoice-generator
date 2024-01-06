@@ -24,39 +24,73 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BHAVIINVOICE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHAVIINVOICE</title>
 
-   <!-- BOOTSTRAP PLUGIN -->
+    <!-- BOOTSTRAP PLUGIN -->
 
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-   
-<!-- jQuery -->
 
-    
+    <!-- jQuery -->
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    
+
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
 
-<!-- ADDING STYLE SHEET  -->
+    <!-- ADDING STYLE SHEET  -->
 
-   <link rel="stylesheet" href="img/style.css">
-   
+    <link rel="stylesheet" href="img/style.css">
+
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12 px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .navbar-nav li:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+
 
 </head>
+
 <body>
 
-    <!--  LARGE SCREEN NAVBAR  --> 
+    <!--  LARGE SCREEN NAVBAR  -->
 
-    <header> 
+    <header>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,26 +98,42 @@ $result = $conn->query($sql);
                 </button>
                 <div class="collapse navbar-collapse ms-auto " id="navbarNav">
                     <ul class="navbar-nav " style="margin-left: 10%;">
+                        <li class="nav-item pe-4">
+                            <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
+                        </li>
+
+                        <!-- Invoice dropdown -->
+                        <li class="dropdown nav-item pe-4">
+                            <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg></a>
+                            <div class="dropdown-content">
+                                <a class="nav-link text-dark" href="index.php">
+                                    <h6>Create Invoice</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="viewinvoices.php">
+                                    <h6>View Invoices</h6>
+                                </a>
+                            </div>
+                        </li>
+
+                        <!-- <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
+                        </li> -->
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="index.php">CREATE INVOICE</a>
+                            <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
                         </li>
                         <li class="nav-item pe-5">
-                            <a class="nav-link active text-primary" href="viewinvoices.php">VIEW INVOICES</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
+                            <a class="nav-link text-dark" href="#">Reports</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-    <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
+        <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
@@ -113,71 +163,79 @@ $result = $conn->query($sql);
 
     </header>
 
-    
-    
+
+
 </body>
+
 </html>
 
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <!-- Include your head content here -->
 
 </head>
+
 <body>
 
     <!-- Include your header content here -->
-<!-- 
+    <!-- 
     <div class="container text-center mt-4">
     <input type="text" id="search-input" placeholder="Search...">
     </div> -->
 
 
-    <div class="container mt-4">
-        <div class="table-responsive" style="max-height:550px; overflow-y: auto;">
-            <table class="table table-bordered viewinvoicetable">
-                <thead  style="position: sticky; top: 0;">
-                    <tr style="background-color: #f2f2f2;">
-                        <th class="text-center">Invoice No</th>
-                        <th>Customer Name</th>
-                        <th>Issued Date</th>
-                        <th>Invoice Amount</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="product_tbody viewinvoicetable">
-                    <?php
-                    // Loop through the fetched data and display it in the table
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        "<td>" . $row['Sid'] . "</td>";
-                        echo "<td>" . $row['Invoice_no'] . "</td>";
-                        echo "<td>" . $row['Cname'] . "</td>";
-                        echo "<td>" . $row['Invoice_date'] . "</td>";
-                        echo "<td>" . $row['Grandtotal'] . "</td>";
-                        echo "<td> 
-                        <button type='submit' class=\"view-button\"><a class=\"view-button\"  href=\"print.php?Sid=$row[Sid]\">View</a></button>
-                            <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
-                                <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
-                                <span style='margin-right: 10px;'></span>  
-                                <button type='submit' class=\"delete-button\">Delete</button>
-                            </form> 
+    <div class="container " style="margin-top: 70px;">
+    <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
+        <table class="table table-bordered viewinvoicetable">
+            <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
+                <tr>
+                    <th class="text-center" style="width: 10%;">Invoice No</th>
+                    <th style="width: 30%;">Customer Name</th>
+                    <th style="width: 20%;">Issued Date</th>
+                    <th style="width: 20%;">Invoice Amount</th>
+                    <th style="width: 20%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="product_tbody viewinvoicetable">
+                <?php
+                // Loop through the fetched data and display it in the table
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['Invoice_no'] . "</td>";
+                    echo "<td>" . $row['Cname'] . "</td>";
+                    echo "<td>" . $row['Invoice_date'] . "</td>";
+                    echo "<td>" . $row['Grandtotal'] . "</td>";
+                    echo "<td> 
+                            <div class='btn-group'>
+                                <button type='submit' class='view-button'>
+                                    <a class='view-button' href='print.php?Sid={$row['Sid']}'>View</a>
+                                </button>
+                                <span style='margin-left: 10px;'></span>
+                                <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
+                                    <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
+                                    <button type='submit' class='delete-button'>Delete</button>
+                                </form> 
+                            </div>
                         </td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
+</div>
+
 
 
     <!-- Include your footer content here -->
 
 </body>
+
 </html>
 
 <?php

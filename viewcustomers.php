@@ -25,6 +25,37 @@
   <!-- ADDING STYLE SHEET  -->
   <link rel="stylesheet" href="img/style.css">
 
+  <style>
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12 px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .navbar-nav li:hover .dropdown-content {
+      display: block;
+    }
+  </style>
 
 </head>
 
@@ -33,30 +64,46 @@
   <!--  LARGE SCREEN NAVBAR  -->
   <header>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
-                    <ul class="navbar-nav " style="margin-left: 10%;">
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="index.php">CREATE INVOICE</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link active text-primary" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse ms-auto " id="navbarNav">
+          <ul class="navbar-nav " style="margin-left: 10%;">
+            <li class="nav-item pe-4">
+              <a class="nav-link active text-primary" href="viewcustomers.php">Customers</a>
+            </li>
+
+            <!-- Invoice dropdown -->
+            <li class="dropdown nav-item pe-4">
+              <a class="nav-link  text-dark" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                </svg></a>
+              <div class="dropdown-content">
+                <a class="nav-link text-dark" href="index.php">
+                  <h6>Create Invoice</h6>
+                </a>
+                <a class="nav-link text-dark" href="viewinvoices.php">
+                  <h6>View Invoices</h6>
+                </a>
+              </div>
+            </li>
+
+            <!-- <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
+                        </li> -->
+            <li class="nav-item pe-5">
+              <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
+            </li>
+            <li class="nav-item pe-5">
+              <a class="nav-link text-dark" href="#">Reports</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
@@ -82,8 +129,8 @@
               <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
             </li>
             <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
-                        </li>
+              <a class="nav-link text-dark" href="customized_edits.php">CUSTOMIZED EDITS</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -95,7 +142,7 @@
 
   <div class="container text-center mt-4 ">
     <div class="row">
-      <div class="col-6">
+      <div class="col-7">
         <div class="modal" tabindex="-1" id="modal_frm">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -108,12 +155,12 @@
                   <div class="form-group">
 
                     <label for="">Company Name</label>
-                    <input type="text" name="company_name"  class="form-control">
+                    <input type="text" name="company_name" class="form-control">
                   </div>
 
                   <div class="form-group">
                     <label for="">Name</label>
-                    <input type="text" name="cname"  class="form-control">
+                    <input type="text" name="cname" class="form-control">
                   </div>
 
                   <div class="form-group">
@@ -128,7 +175,7 @@
 
                   <div class="form-group">
                     <label for="">Email</label>
-                    <input type="email" name="cemail"  class="form-control">
+                    <input type="email" name="cemail" class="form-control">
                   </div>
 
                   <div class="form-group">
@@ -141,7 +188,7 @@
             </div>
           </div>
         </div>
-     
+
         <p class="float-end"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
       </div>
 
@@ -171,7 +218,7 @@
               </div>
               <div class="form-group">
                 <label for="update_cname">Name</label>
-                <input type="text" name="cname" id="update_cname"  class="form-control" value="<?php echo $Name; ?>">
+                <input type="text" name="cname" id="update_cname" class="form-control" value="<?php echo $Name; ?>">
               </div>
               <div class="form-group">
                 <label for="update_caddress">Address</label>
@@ -183,11 +230,11 @@
               </div>
               <div class="form-group">
                 <label for="update_cemail">Email</label>
-                <input type="text" name="cemail" id="update_cemail"  class="form-control" value="<?php echo $Email; ?>">
+                <input type="text" name="cemail" id="update_cemail" class="form-control" value="<?php echo $Email; ?>">
               </div>
               <div class="form-group">
                 <label for="update_gstInput">GST_No</label>
-                <input type="text" name="cgst" id="update_gstInput"  class="form-control" value="<?php echo $Gst_no; ?>">
+                <input type="text" name="cgst" id="update_gstInput" class="form-control" value="<?php echo $Gst_no; ?>">
               </div>
               <input type="submit" value="update" name="Update" id="update_customer" class="btn btn-success mt-5">
             </form>
@@ -199,11 +246,11 @@
 
   <!-- Table for View Customers-->
   <div class="container   mt-2">
-    <div class="table-responsive"  style="max-height:525px; overflow-y: auto;">
+    <div class="table-responsive" style="max-height:500px; overflow-y: auto;">
       <table class="table table-bordered viewinvoicetable">
-        <thead style="position: sticky; top: 0;">
+        <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
           <tr style=" background-color: #f2f2f2;">
-            <th> Customer Id </th>
+            <th> Cus-Id </th>
             <th> Company Name </th>
             <th> Customer Name </th>
             <th> Customer Phone </th>
@@ -230,12 +277,15 @@
 
             // Pass the customer ID as a parameter to the JavaScript function
             echo "<td>
+            <div class='btn-group'>
             <a href=\"#\" class=\"update_customer\" data-bs-toggle=\"modal\" data-bs-target=\"#update_frm\" data-id=\"{$row['Id']}\">
             <button  class=\"update-button\">Update</button>
-            </a>  <br><br> 
+            </a>  <br><br>
+            <span style='margin-left: 10px;'></span> 
              <a href=\"delete.php?Id={$row['Id']}\" onClick=\"return confirm('Are you sure you want to delete?')\">
              <button class=\"delete-button\">Delete</button>
              </a>
+             </div>
              </td>";
             echo "</tr>";
           }

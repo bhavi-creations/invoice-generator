@@ -28,6 +28,36 @@
 
 
     <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12 px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .navbar-nav li:hover .dropdown-content {
+            display: block;
+        }
+    
         .table-container {
            position: relative;
         }
@@ -49,30 +79,43 @@
     <!--  LARGE SCREEN NAVBAR  -->
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse ms-auto " id="navbarNav">
-                        <ul class="navbar-nav " style="margin-left: 10%;">
-                            <li class="nav-item pe-5">
-                                <a class="nav-link text-dark" href="index.php">CREATE INVOICE</a>
-                            </li>
-                            <li class="nav-item pe-5">
-                                <a class="nav-link text-dark" href="viewinvoices.php">VIEW INVOICES</a>
-                            </li>
-                            <li class="nav-item pe-5">
-                                <a class="nav-link text-dark" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                            </li>
-                            <li class="nav-item pe-5">
-                                <a class="nav-link active text-primary" href="customized_edits.php">CUSTOMIZED EDITS</a>
-                            </li>
-                        </ul>
-                    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
+                    <ul class="navbar-nav " style="margin-left: 10%;">
+                        <li class="nav-item pe-4">
+                            <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
+                        </li>
+
+                            <!-- Invoice dropdown -->
+                        <li class="dropdown nav-item pe-4">
+                            <a class="nav-link active text-dark" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+</svg></a>
+                            <div class="dropdown-content">
+                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
+                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
+                            </div>
+                        </li>
+                    
+                        <!-- <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
+                        </li> -->
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-primary" href="customized_edits.php">Customized Edits</a>
+                        </li>
+                        <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="#">Reports</a>
+                        </li>
+                    </ul>
                 </div>
+            </div>
         </nav>
+
 
         <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
