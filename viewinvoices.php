@@ -48,6 +48,7 @@ $result = $conn->query($sql);
     <!-- ADDING STYLE SHEET  -->
 
     <link rel="stylesheet" href="img/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <style>
         .dropdown {
@@ -124,7 +125,7 @@ $result = $conn->query($sql);
                             <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
                         </li>
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="#">Reports</a>
+                            <a class="nav-link text-dark" href="report.php">Reports</a>
                         </li>
                     </ul>
                 </div>
@@ -190,27 +191,29 @@ $result = $conn->query($sql);
 
 
     <div class="container " style="margin-top: 70px;">
-    <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
-        <table class="table table-bordered viewinvoicetable">
-            <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
-                <tr>
-                    <th class="text-center" style="width: 10%;">Invoice No</th>
-                    <th style="width: 30%;">Customer Name</th>
-                    <th style="width: 20%;">Issued Date</th>
-                    <th style="width: 20%;">Invoice Amount</th>
-                    <th style="width: 20%;">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="product_tbody viewinvoicetable">
-                <?php
-                // Loop through the fetched data and display it in the table
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row['Invoice_no'] . "</td>";
-                    echo "<td>" . $row['Cname'] . "</td>";
-                    echo "<td>" . $row['Invoice_date'] . "</td>";
-                    echo "<td>" . $row['Grandtotal'] . "</td>";
-                    echo "<td> 
+        <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
+            <table class="table table-bordered viewinvoicetable">
+                <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
+                    <tr>
+                        <th class="text-center" style="width: 10%;">Invoice No</th>
+                        <th style="width: 30%;">Customer Name</th>
+                        <th style="width: 20%;">Issued Date</th>
+                        <th style="width: 10%;">Invoice Amount</th>
+                        <th style="width: 10%;" class="status">Status</th>
+                        <th style="width: 20%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="product_tbody viewinvoicetable">
+                    <?php
+                    // Loop through the fetched data and display it in the table
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row['Invoice_no'] . "</td>";
+                        echo "<td>" . $row['Cname'] . "</td>";
+                        echo "<td>" . $row['Invoice_date'] . "</td>";
+                        echo "<td>" . $row['Grandtotal'] . "</td>";
+                        echo "<td class='status' data-invoice-no='" . $row['Invoice_no'] . "'>" . $row['status'] .  "</td>";
+                        echo "<td> 
                             <div class='btn-group'>
                                 <button type='submit' class='view-button'>
                                     <a class='view-button' href='print.php?Sid={$row['Sid']}'>View</a>
@@ -220,25 +223,61 @@ $result = $conn->query($sql);
                                     <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
                                     <button type='submit' class='delete-button'>Delete</button>
                                 </form> 
+                              <span style='margin-left: 10px;'></span>
+                              <select name='status' class='status-dropdown' data-invoice-no=' " . $row['Invoice_no'] . " '>
+                              <option value=''>Status</option>
+                              <option value='paid'>Paid</option>
+                              <option value='pending'>Pending</option>
+                           </select>
                             </div>
-                        </td>";
-                    echo "</tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+                        </td>"; 
+
+                        echo "</tr>";
+                    }
+                    ?>
+
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 
 
     <!-- Include your footer content here -->
+
+    <script>
+        $(document).ready(function() {
+            $('.status-dropdown').change(function() {
+                var selectedStatus = $(this).val();
+                var invoiceNo = $(this).data('invoice-no');
+
+                // Make an AJAX request to update the status
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_status.php',
+                    data: {
+                        invoiceNo: invoiceNo,
+                        selectedStatus: selectedStatus
+                    },
+                    ssuccess: function(response) {
+                        console.log(response);
+                        $('td[data-invoice-no="' + invoiceNo + '"].status').text(selectedStatus);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+       
+    </script>
+
 
 </body>
 
 </html>
 
 <?php
-// Close the database connection
+
 $conn->close();
 ?>

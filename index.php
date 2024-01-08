@@ -154,7 +154,7 @@ $invoiceNumber = getInvoiceId();
                             <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
                         </li>
                         <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="#">Reports</a>
+                            <a class="nav-link text-dark" href="report.php">Reports</a>
                         </li>
                     </ul>
                 </div>
@@ -261,6 +261,14 @@ $invoiceNumber = getInvoiceId();
 
                 <!-- BILLING SECTION  -->
                 <h3 class="text-center mb-5"><B>BILLING</B></h3>
+
+            <div class="col-1 ms-2 mb-3">
+                <select name="status" id="">
+                    <option value="paid">Paid</option>
+                    <option value="pending">Not paid</option>
+                </select>
+            </div>
+        
                 <div class="container-fluid billing">
                     <table border="1">
                         <thead>

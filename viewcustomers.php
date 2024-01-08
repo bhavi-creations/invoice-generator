@@ -98,7 +98,7 @@
               <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
             </li>
             <li class="nav-item pe-5">
-              <a class="nav-link text-dark" href="#">Reports</a>
+              <a class="nav-link text-dark" href="report.php">Reports</a>
             </li>
           </ul>
         </div>

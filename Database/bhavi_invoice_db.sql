@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2024 at 05:34 AM
+-- Generation Time: Jan 08, 2024 at 12:15 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -45,7 +45,10 @@ INSERT INTO `customer` (`Id`, `Company_name`, `Name`, `Phone`, `Email`, `Address
 (1, 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'ram@gmail.com', 'KKD', '37AN89852SADSA'),
 (2, 'abhinaya', 'raj', '07498188555', 'raj@gmail.com', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', '38GN58POMVD'),
 (3, 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'ram@gmail.com', 'KKD', 'EWQRWEREW'),
-(4, 'smart physiocare', 'pawan', '7730000000000', 'phanichalikonda@gmail.com', 'apsp', '2245452JNDKLWSAFC');
+(4, 'smart physiocare', 'pawan', '7730000000000', 'phanichalikonda@gmail.com', 'apsp', '2245452JNDKLWSAFC'),
+(5, 'smart physiocare', 'pawan', '7730000000000', '', 'apsp', ''),
+(6, 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'ram@gmail.com', 'KKD', '37AN89852'),
+(7, 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'ram@gmail.com', 'KKD', '37AN89852');
 
 -- --------------------------------------------------------
 
@@ -96,29 +99,34 @@ CREATE TABLE `invoice` (
   `Note` text NOT NULL,
   `advance` double(10,2) NOT NULL,
   `balance` double(10,2) NOT NULL,
-  `balancewords` text NOT NULL
+  `balancewords` text NOT NULL,
+  `status` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`Sid`, `Invoice_no`, `Invoice_date`, `Company_name`, `Cname`, `Cphone`, `Caddress`, `Cmail`, `Cgst`, `Final`, `Gst`, `Gst_total`, `Grandtotal`, `Totalinwords`, `Terms`, `Note`, `advance`, `balance`, `balancewords`) VALUES
-(7, 10, '2023-12-29', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', '5-155,YSR Colony, Madhavapatnam, Samalkota Mandal, Kakinada District, Andhrapradesh , 533005', 'ram@gmail.com', '37AN89852SADSA', 192.00, 5, 9.60, 201.60, 'two hundred and one rupees and six paisa only ', '1.pay within 115 days.\r\n2.i want immeadiatly', 'bfldsfgdskfjhfds and you have to ppay with in 15 days', 0.00, 0.00, ''),
-(8, 11, '2023-12-28', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 38.00, 5, 1.90, 39.90, 'thirty nine rupees and nine paisa only ', 'dfsdffffffffffffffffff', 'fdsgfdggfh', 0.00, 0.00, ''),
-(16, 12, '2023-12-28', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 38.00, 0, 0.00, 38.00, 'thirty eight rupees only ', 'hfdfghfghg', 'fghfghfgh', 0.00, 0.00, ''),
-(17, 13, '2023-12-28', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 38.00, 0, 0.00, 38.00, 'thirty eight rupees only ', 'dsgfdsgfdg', 'dgfgdfgfdgfdgdg', 0.00, 0.00, ''),
-(18, 14, '1970-01-01', 'smart physiocare', 'pawan', '7730000000000', 'apsp', 'phanichalikonda@gmail.com', '2245452JNDKLWSAFC', 45000.00, 12, 5400.00, 50400.00, 'fifty thousand four hundred only ', 'full amount before', '', 0.00, 0.00, ''),
-(19, 15, '1970-01-01', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', '37AN89852SADSA', 19.00, 12, 2.28, 21.28, 'twenty one rupees and two eight paisa only ', 'dffdsdfgsdgdfg', 'dfgdfgds', 0.00, 0.00, ''),
-(20, 16, '2023-12-28', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 95.00, 5, 4.75, 99.75, 'ninety nine rupees and seven five paisa only ', '', '', 0.00, 0.00, ''),
-(23, 18, '2023-12-29', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 58890.44, 5, 2944.52, 61834.96, 'sixty one thousand eight hundred and thirty four rupees and six two paisa only ', 'ffyuykujyrfucvuy', 'gfuyfoi8u7f78otoltl.', 0.00, 0.00, ''),
-(24, 19, '2023-12-21', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 38.00, 0, 0.00, 38.00, 'thirty eight rupees only ', 'gbdfsgdfg', 'dfgdfgds', 5.00, 33.00, ''),
-(25, 20, '2023-12-30', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 38.00, 12, 4.56, 42.56, 'forty two rupees and fifty six  paisa only ', 'gfdsgdsgffdg', 'sdfhgbfdgdffg', 5.00, 37.56, ''),
-(28, 21, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 95.00, 5, 4.75, 99.75, 'ninety nine rupees and seventy five  paisa only ', 'fdsssssssssssssssssssssssssssgrdfeeeeegszzzzzzzzbvtvehtrtrtrtrtrtrtrtrtrtrtrtrhghdrt', 'rethbgfuvfdluihrru ieuirgjhgreo', 50.00, 49.75, ''),
-(29, 22, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 213750.00, 5, 10687.50, 224437.50, 'two lakh twenty four thousand four hundred and thirty seven rupees and five  paisa only ', 'please pay with in 15 days', 'only transaction available like gpay and ppay', 20000.00, 204437.50, ''),
-(30, 22, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 213750.00, 5, 10687.50, 224437.50, 'two lakh twenty four thousand four hundred and thirty seven rupees and five  paisa only ', 'please pay with in 15 days', 'only transaction available like gpay and ppay', 20000.00, 204437.50, ''),
-(31, 23, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 4750.00, 5, 237.50, 4987.50, 'four thousand nine hundred and eighty seven rupees and five  paisa only ', 'sdzdgfdfgfdgfdgdf', 'gdsfgdfsgdfjgbhlrdriguyoli', 200.00, 4787.50, 'four thousand seven hundred and eighty seven rupees and five  paisa only '),
-(32, 24, '2023-12-29', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 142.40, 5, 7.12, 149.52, 'one hundred and forty nine rupees and fifty two  paisa only ', 'tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt', 'tttttttttttttttttttttttttttttttttttttttttttttttttttttt', 23.00, 126.52, 'only ');
+INSERT INTO `invoice` (`Sid`, `Invoice_no`, `Invoice_date`, `Company_name`, `Cname`, `Cphone`, `Caddress`, `Cmail`, `Cgst`, `Final`, `Gst`, `Gst_total`, `Grandtotal`, `Totalinwords`, `Terms`, `Note`, `advance`, `balance`, `balancewords`, `status`) VALUES
+(24, 19, '2023-12-21', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 38.00, 0, 0.00, 38.00, 'thirty eight rupees only ', 'gbdfsgdfg', 'dfgdfgds', 5.00, 33.00, '', 'paid'),
+(25, 20, '2023-12-30', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 38.00, 12, 4.56, 42.56, 'forty two rupees and fifty six  paisa only ', 'gfdsgdsgffdg', 'sdfhgbfdgdffg', 5.00, 37.56, '', 'paid'),
+(28, 21, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 95.00, 5, 4.75, 99.75, 'ninety nine rupees and seventy five  paisa only ', 'fdsssssssssssssssssssssssssssgrdfeeeeegszzzzzzzzbvtvehtrtrtrtrtrtrtrtrtrtrtrtrhghdrt', 'rethbgfuvfdluihrru ieuirgjhgreo', 50.00, 49.75, '', 'pending'),
+(29, 22, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 213750.00, 5, 10687.50, 224437.50, 'two lakh twenty four thousand four hundred and thirty seven rupees and five  paisa only ', 'please pay with in 15 days', 'only transaction available like gpay and ppay', 20000.00, 204437.50, '', 'pending'),
+(30, 22, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 213750.00, 5, 10687.50, 224437.50, 'two lakh twenty four thousand four hundred and thirty seven rupees and five  paisa only ', 'please pay with in 15 days', 'only transaction available like gpay and ppay', 20000.00, 204437.50, '', 'pending'),
+(31, 23, '2023-12-30', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 4750.00, 5, 237.50, 4987.50, 'four thousand nine hundred and eighty seven rupees and five  paisa only ', 'sdzdgfdfgfdgfdgdf', 'gdsfgdfsgdfjgbhlrdriguyoli', 200.00, 4787.50, 'four thousand seven hundred and eighty seven rupees and five  paisa only ', 'pending'),
+(32, 24, '2023-12-29', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 142.40, 5, 7.12, 149.52, 'one hundred and forty nine rupees and fifty two  paisa only ', 'tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt', 'tttttttttttttttttttttttttttttttttttttttttttttttttttttt', 23.00, 126.52, 'only ', 'paid'),
+(34, 25, '2024-01-18', 'smart physiocare', 'pawan', '7730000000000', 'apsp', 'phanichalikonda@gmail.com', '2245452JNDKLWSAFC', 62040.00, 18, 11167.20, 73207.20, 'seventy three thousand two hundred and seven rupees and two  paisa only ', 'gfjgfjgfjhgj', 'gfjghfjh', 800.00, 72407.20, 'seventy two thousand four hundred and seven rupees and two  paisa only ', 'pending'),
+(35, 26, '2024-01-25', 'abhinaya', 'raj', '07498188555', '5-155 ysr colony madhavapatnam eg dist kakinada ap india 533005', 'raj@gmail.com', '38GN58POMVD', 13411.80, 50, 6705.90, 20117.70, 'twenty thousand one hundred and seventeen rupees and ninety seven  paisa only ', 'gfj hggjfgjh ', ' jgf gjhhgj', 50.00, 20067.70, 'twenty thousand and sixty seven rupees and seven  paisa only ', 'pending'),
+(36, 27, '1970-01-01', 'smart physiocare', 'pawan', '7730000000000', 'apsp', 'phanichalikonda@gmail.com', '2245452JNDKLWSAFC', 27550.00, 5, 1377.50, 28927.50, 'twenty eight thousand nine hundred and twenty seven rupees and five  paisa only ', '', '', 0.00, 28927.50, 'twenty eight thousand nine hundred and twenty seven rupees and five  paisa only ', 'paid'),
+(37, 28, '1970-01-01', '', '', '', '', '', '', 27550.00, 0, 0.00, 27550.00, 'twenty seven thousand five hundred and fifty rupees only ', '', '', 500.00, 27050.00, 'twenty seven thousand and fifty rupees only ', 'paid'),
+(38, 29, '1970-01-01', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 2375095.00, 0, 0.00, 2375095.00, 'twenty three lakh seventy five thousand and ninety five rupees only ', '', '', 0.00, 2375095.00, 'twenty three lakh seventy five thousand and ninety five rupees only ', 'pending'),
+(39, 30, '2024-01-25', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 2375.00, 18, 427.50, 2802.50, 'two thousand eight hundred and two rupees and five  paisa only ', '', '', 0.00, 2802.50, 'two thousand eight hundred and two rupees and five  paisa only ', 'pending'),
+(40, 30, '2024-01-25', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 2375.00, 18, 427.50, 2802.50, 'two thousand eight hundred and two rupees and five  paisa only ', '', '', 0.00, 2802.50, 'two thousand eight hundred and two rupees and five  paisa only ', 'pending'),
+(41, 31, '2024-01-08', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 23750.00, 0, 0.00, 23750.00, 'twenty three thousand seven hundred and fifty rupees only ', '', '', 0.00, 23750.00, 'twenty three thousand seven hundred and fifty rupees only ', 'paid'),
+(42, 32, '2024-02-10', '', '', '', '', '', '', 2375.00, 0, 0.00, 2375.00, 'two thousand three hundred and seventy five rupees only ', '', '', 100.00, 2275.00, 'two thousand two hundred and seventy five rupees only ', 'pending'),
+(43, 32, '2024-03-15', 'smart physiocare', 'pawan', '7730000000000', 'apsp', 'phanichalikonda@gmail.com', '2245452JNDKLWSAFC', 2375.00, 0, 0.00, 2375.00, 'two thousand three hundred and seventy five rupees only ', '', '', 100.00, 0.00, 'only ', 'pending'),
+(44, 33, '2024-01-26', 'Bhavi Creations', 'Rajkumar Giduthuri', '09848012555', 'KKD', 'ram@gmail.com', 'EWQRWEREW', 2300.00, 0, 0.00, 2300.00, 'two thousand three hundred only ', '', '', 0.00, 2300.00, 'two thousand three hundred only ', 'paid'),
+(45, 34, '2024-05-08', 'smart physiocare', 'pawan', '7730000000000', 'apsp', '', '', 2375.00, 0, 0.00, 2375.00, 'two thousand three hundred and seventy five rupees only ', '', '', 0.00, 2375.00, 'two thousand three hundred and seventy five rupees only ', 'paid');
 
 -- --------------------------------------------------------
 
@@ -224,7 +232,24 @@ INSERT INTO `service` (`Id`, `Sid`, `Sname`, `Description`, `Qty`, `Price`, `Tot
 (79, 29, 'Log-Design', 'i need good logo with 1515*20', 45, 5000.00, 225000.00, 5, 213750),
 (80, 30, 'Log-Design', 'i need good logo with 1515*20', 45, 5000.00, 225000.00, 5, 213750),
 (81, 31, 'Log-Design', 'dffgggdsdsdsdsdsdsgfdggggggf', 50, 100.00, 5000.00, 5, 4750),
-(82, 32, 'Log-Design', 'ggggggggggggggggggggggggggggggggggg', 4, 40.00, 160.00, 11, 142);
+(82, 32, 'Log-Design', 'ggggggggggggggggggggggggggggggggggg', 4, 40.00, 160.00, 11, 142),
+(83, 33, 'Log-Design', '', 50, 50.00, 2500.00, 5, 2375),
+(84, 34, 'Log-Design', '', 50, 80.00, 4000.00, 5, 3800),
+(85, 34, 'Log-Design', '', 80, 800.00, 64000.00, 9, 58240),
+(86, 35, 'Log-Design', 'lhluidffh h', 50, 50.00, 2500.00, 5, 2375),
+(87, 35, 'Log-Design', 'fghfh fgjh ', 58, 80.00, 4640.00, 8, 4269),
+(88, 35, 'Log-Design', 'fdgd hfg dfg', 80, 90.00, 7200.00, 6, 6768),
+(89, 36, 'Log-Design', '', 50, 580.00, 29000.00, 5, 27550),
+(90, 37, 'Log-Design', '', 50, 580.00, 29000.00, 5, 27550),
+(91, 38, 'Log-Design', '', 2, 50.00, 100.00, 5, 95),
+(92, 38, 'Log-Design', '', 500, 5000.00, 2500000.00, 5, 2375000),
+(93, 39, 'Log-Design', '', 50, 50.00, 2500.00, 5, 2375),
+(94, 40, 'Log-Design', '', 50, 50.00, 2500.00, 5, 2375),
+(95, 41, 'Log-Design', '', 50, 500.00, 25000.00, 5, 23750),
+(96, 42, 'Log-Design', '', 50, 50.00, 2500.00, 5, 2375),
+(97, 43, 'Log-Design', '', 50, 50.00, 2500.00, 5, 2375),
+(98, 44, 'Log-Design', '', 50, 50.00, 2500.00, 8, 2300),
+(99, 45, 'Log-Design', '', 50, 50.00, 2500.00, 5, 2375);
 
 -- --------------------------------------------------------
 
@@ -302,7 +327,7 @@ ALTER TABLE `service_names`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `gst_no`
@@ -314,13 +339,13 @@ ALTER TABLE `gst_no`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `Sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `service_names`
