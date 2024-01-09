@@ -259,9 +259,10 @@ $result = $conn->query($sql);
                         invoiceNo: invoiceNo,
                         selectedStatus: selectedStatus
                     },
-                    ssuccess: function(response) {
+                    success: function(response) {
                         console.log(response);
                         $('td[data-invoice-no="' + invoiceNo + '"].status').text(selectedStatus);
+                        location.reload(true);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -269,7 +270,7 @@ $result = $conn->query($sql);
                 });
             });
         });
-       
+
     </script>
 
 

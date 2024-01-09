@@ -5,12 +5,12 @@ require_once('bhavidb.php');
 
 // echo $database;
 
- $sql1 = "SELECT * FROM invoice WHERE `status` = 'pending';";
+$sql1 = "SELECT * FROM invoice WHERE `status` = 'pending';";
 
- $result = $conn->query($sql1);
- 
- $sql2 ="SELECT * FROM invoice WHERE `status`= 'paid';";
- $result2 = $conn->query($sql2);
+$result = $conn->query($sql1);
+
+$sql2 = "SELECT * FROM invoice WHERE `status`= 'paid';";
+$result2 = $conn->query($sql2);
 
 ?>
 
@@ -33,7 +33,7 @@ require_once('bhavidb.php');
 
 
 
- 
+
 
     <link rel="stylesheet" href="img/style.css">
 
@@ -87,17 +87,21 @@ require_once('bhavidb.php');
                             <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
                         </li>
 
-                            <!-- Invoice dropdown -->
+                        <!-- Invoice dropdown -->
                         <li class="dropdown nav-item pe-4">
                             <a class="nav-link active text-dark" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-</svg></a>
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg></a>
                             <div class="dropdown-content">
-                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
-                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
+                                <a class="nav-link text-dark" href="index.php">
+                                    <h6>Create Invoice</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="viewinvoices.php">
+                                    <h6>View Invoices</h6>
+                                </a>
                             </div>
                         </li>
-                    
+
                         <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
                         </li>
@@ -110,7 +114,7 @@ require_once('bhavidb.php');
         </nav>
 
 
-     
+
     </header>
 
     <div class="container " style="margin-top: 70px;">
@@ -131,6 +135,9 @@ require_once('bhavidb.php');
                 </thead>
                 <tbody id="product_tbody viewinvoicetable">
                     <?php
+
+                    $totalAdvance = 0;
+                    $totalBalance = 0;
                     // Loop through the fetched data and display it in the table
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
@@ -139,20 +146,31 @@ require_once('bhavidb.php');
                         echo "<td>" . $row['Invoice_date'] . "</td>";
                         echo "<td>" . $row['Grandtotal'] . "</td>";
                         echo "<td>" . $row['advance'] . "</td>";
+                        $totalAdvance += $row['advance'];
                         echo "<td>" . $row['balance'] . "</td>";
+                        $totalBalance += $row['balance'];
                         echo "<td>" . $row['status'] .  "</td>";
                         echo "</tr>";
                     }
                     ?>
 
                 </tbody>
+                <tfoot style="background-color: #f2f2f2; position: sticky; bottom: 0; z-index: 1;">
+                    <tr>
+                        <td>Total</td>
+                        <td colspan="3"></td>
+                        <td style="font-weight: bold;"><?php echo $totalAdvance ?></td>
+                        <td style="font-weight: bold;"><?php echo $totalBalance ?></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
-    
+
 
     <div class="container pb-5" style="margin-top: 70px;">
-    <h5 style="text-align: center;" class="mb-4"><strong>Paid Invoices</strong></h5>
+        <h5 style="text-align: center;" class="mb-4"><strong>Paid Invoices</strong></h5>
         <div class="table-responsive ms-5" style="max-height: 350px; max-width: 1194px; overflow-y: auto;">
             <table class="table table-bordered viewinvoicetable">
                 <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
@@ -182,38 +200,39 @@ require_once('bhavidb.php');
             </table>
         </div>
     </div>
-    
-<?php
- 
 
-	
+    <?php
 
-require_once('bhavidb.php');
 
-// Fetch paid invoices
-$sql = "SELECT MONTH(Invoice_date) AS month, SUM(Grandtotal) AS totalAmount
+
+
+    require_once('bhavidb.php');
+
+    // Fetch paid invoices
+    $sql = "SELECT MONTH(Invoice_date) AS month, SUM(Grandtotal) AS totalAmount
         FROM invoice
         WHERE `status` = 'paid'
         GROUP BY MONTH(Invoice_date);";
 
-$result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-$dataPoints = array();
+    $dataPoints = array();
 
-// Loop through the fetched data and organize it for the chart
-while ($row = $result->fetch_assoc()) {
-    $dataPoints[] = array("label" => getMonthName($row['month']), "y" => $row['totalAmount']);
-}
+    // Loop through the fetched data and organize it for the chart
+    while ($row = $result->fetch_assoc()) {
+        $dataPoints[] = array("label" => getMonthName($row['month']), "y" => $row['totalAmount']);
+    }
 
-function getMonthName($monthNumber) {
-    $dateObj = DateTime::createFromFormat('!m', $monthNumber);
-    return $dateObj->format('F');
-}
+    function getMonthName($monthNumber)
+    {
+        $dateObj = DateTime::createFromFormat('!m', $monthNumber);
+        return $dateObj->format('F');
+    }
 
-?>
- 
-<script>
-        window.onload = function () {
+    ?>
+
+    <script>
+        window.onload = function() {
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 exportEnabled: true,
@@ -248,8 +267,9 @@ function getMonthName($monthNumber) {
     </div>
 
 
-    
+
 
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 </body>
-</html>              
+
+</html>
