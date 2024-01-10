@@ -35,9 +35,9 @@
       display: none;
       position: absolute;
       background-color: #f9f9f9;
-      min-width: 160px;
+      min-width: 182px;
       box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-      z-index: 1;
+      z-index: 3;
     }
 
     .dropdown-content a {
@@ -81,14 +81,11 @@
               <a class="nav-link  text-dark" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                   <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                 </svg></a>
-              <div class="dropdown-content">
-                <a class="nav-link text-dark" href="index.php">
-                  <h6>Create Invoice</h6>
-                </a>
-                <a class="nav-link text-dark" href="viewinvoices.php">
-                  <h6>View Invoices</h6>
-                </a>
-              </div>
+                <div class="dropdown-content">
+                                 <a class="nav-link text-dark" href="quotation.php"><h6>Create Quotation</h6></a>
+                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
+                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
+                            </div>
             </li>
 
             <!-- <li class="nav-item pe-5">

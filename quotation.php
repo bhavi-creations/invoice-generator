@@ -27,7 +27,7 @@ function getInvoiceId()
         die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
     }
 
-    $query = "SELECT Invoice_no FROM invoice ORDER BY Invoice_no DESC LIMIT 1";
+    $query = "SELECT Invoice_no FROM quotation ORDER BY Invoice_no DESC LIMIT 1";
 
     if ($result = $conn->query($query)) {
         $row_cnt = $result->num_rows;
@@ -136,18 +136,24 @@ $invoiceNumber = getInvoiceId();
                             <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
                         </li>
 
-                            <!-- Invoice dropdown -->
+                        <!-- Invoice dropdown -->
                         <li class="dropdown nav-item pe-4">
                             <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-</svg></a>
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg></a>
                             <div class="dropdown-content">
-                                 <a class="nav-link text-dark" href="quotation.php"><h6>Create Quotation</h6></a>
-                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
-                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
+                                <a class="nav-link text-dark" href="quotation.php">
+                                    <h6>Create Quotation</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="index.php">
+                                    <h6>Create Invoice</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="viewinvoices.php">
+                                    <h6>View Invoices</h6>
+                                </a>
                             </div>
                         </li>
-                    
+
                         <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
@@ -202,18 +208,18 @@ $invoiceNumber = getInvoiceId();
 
             <!-- FORM -->
 
-            <form class=" formborder rounded p-4 pb-4 mb-5" action="formprocess.php" method="post">
+            <form class=" formborder rounded p-4 pb-4 mb-5" action="quotationform.php" method="post">
                 <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
 
                 <!-- FORM INVOICENUMBER -->
 
                 <div class="row container pt-5 ps-5 mb-5">
                     <div class="col-lg-8 col-sm-12 col-md-12">
-                        <h5><strong>Invoice</strong></h5>
+                        <h5><strong>Quotation</strong></h5>
                         <h5>Date : <input type="date" name="invoice_date" id="" class="" style="border-radius:3px;"></h5>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
-                        <h5><strong>Invoice Number </strong></h5>
+                        <h5><strong>Quotation Number </strong></h5>
                         <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
                     </div>
                 </div>
@@ -261,15 +267,15 @@ $invoiceNumber = getInvoiceId();
                 <!-- ENDING COMPANY DETAILS -->
 
                 <!-- BILLING SECTION  -->
-                <h3 class="text-center mb-5"><B>BILLING</B></h3>
+                <h3 class="text-center mb-5"><B>Price Quotation</B></h3>
 
-            <div class="col-1 ms-2 mb-3">
+                <!-- <div class="col-1 ms-2 mb-3">
                 <select name="status" id="">
                     <option value="paid">Paid</option>
                     <option value="pending">Not paid</option>
                 </select>
-            </div>
-        
+            </div> -->
+
                 <div class="container-fluid billing">
                     <table border="1">
                         <thead>

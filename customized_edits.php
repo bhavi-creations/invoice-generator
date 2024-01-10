@@ -37,9 +37,10 @@
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            min-width: 160px;
+            min-width: 182px;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-            z-index: 1;
+            z-index: 3;
+            /* margin-top: 8px; */
         }
 
         .dropdown-content a {
@@ -56,19 +57,19 @@
 
         .navbar-nav li:hover .dropdown-content {
             display: block;
+
         }
-    
+
         .table-container {
-           position: relative;
+            position: relative;
         }
 
         .table-head {
             position: sticky;
             top: 0;
-            background-color: #fff;  
-            z-index: 1;  
+            background-color: #fff;
+            z-index: 1;
         }
-
     </style>
 
 
@@ -79,7 +80,7 @@
     <!--  LARGE SCREEN NAVBAR  -->
     <header>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,17 +92,24 @@
                             <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
                         </li>
 
-                            <!-- Invoice dropdown -->
+                        <!-- Invoice dropdown -->
                         <li class="dropdown nav-item pe-4">
                             <a class="nav-link active text-dark" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-</svg></a>
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg></a>
                             <div class="dropdown-content">
-                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
-                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
+                                <a class="nav-link text-dark" href="quotation.php">
+                                    <h6>Create Quotation</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="index.php">
+                                    <h6>Create Invoice</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="viewinvoices.php">
+                                    <h6>View Invoices</h6>
+                                </a>
                             </div>
                         </li>
-                    
+
                         <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
@@ -150,139 +158,138 @@
 
     </header>
 
-    
-     <!-- Modal for Add Service-->
 
-        <div class="container">
-            <div class="row   "> 
-                <div class="col-6  mt-3"> 
-                
-                    <div class="text-center "  > 
-                        <div class="container  ">
-                            <div class="modal" tabindex="-1" id="modal_service">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                                <h5 class="modal-title">Service Details</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="servicesmodal.php" method="post">
-                                                        <div class="form-group">
-                                                            <label for="">Service Name</label>
-                                                            <input type="text" name="service_name" class="form-control">
-                                                        </div>
-                                                        <input type="submit" name="submit" id="submit" class="btn btn-success  ">
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
+    <!-- Modal for Add Service-->
+
+    <div class="container">
+        <div class="row   ">
+            <div class="col-6  mt-3">
+
+                <div class="text-center ">
+                    <div class="container  ">
+                        <div class="modal" tabindex="-1" id="modal_service">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Service Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <p class=""><a href="#" class="btn btn-success" id="add_service">ADD SERVICES</a></p>
-                        </div>
-                    </div>
-                
-                        
-    
-
-                    <div class=" ">
-                            <div class="container ">
-                                <div class="table-container" style="height: 450px; overflow-y: auto;">
-                                    <table class="table table-striped viewinvoicetable" style="width: 100%;">
-                                        <thead style="position: sticky; top: 0;  background-color: #f2f2f2;"     class="table-head">
-                                            <th style="width: 60px;">SI No</th>
-                                            <th  class="service_name">Service Name</th>
-                                            <!-- Add your other columns here -->
-                                            <!-- Example: <th>Column 2</th> ... <th>Column 10</th> -->
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            require_once('bhavidb.php');
-
-                                            $sql = "SELECT * FROM service_names";
-                                            $res = $conn->query($sql);
-                                            while ($row = mysqli_fetch_assoc($res)) {
-                                                echo "<tr>";
-                                                echo "<td>" . $row['si_No'] . "</td>";
-                                                echo "<td>" . $row['service_Name'] . "</td>";
-                                                // Add data for other columns here
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
+                                    <div class="modal-body">
+                                        <form action="servicesmodal.php" method="post">
+                                            <div class="form-group">
+                                                <label for="">Service Name</label>
+                                                <input type="text" name="service_name" class="form-control">
+                                            </div>
+                                            <input type="submit" name="submit" id="submit" class="btn btn-success  ">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <p class=""><a href="#" class="btn btn-success" id="add_service">ADD SERVICES</a></p>
                     </div>
                 </div>
+
+
+
+
+                <div class=" ">
+                    <div class="container ">
+                        <div class="table-container" style="height: 450px; overflow-y: auto;">
+                            <table class="table table-striped viewinvoicetable" style="width: 100%;">
+                                <thead style="  background-color: #f2f2f2;" class="table-head">
+                                    <th style="width: 60px;">SI No</th>
+                                    <th class="service_name">Service Name</th>
+                                    <!-- Add your other columns here -->
+                                    <!-- Example: <th>Column 2</th> ... <th>Column 10</th> -->
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    require_once('bhavidb.php');
+
+                                    $sql = "SELECT * FROM service_names";
+                                    $res = $conn->query($sql);
+                                    while ($row = mysqli_fetch_assoc($res)) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row['si_No'] . "</td>";
+                                        echo "<td>" . $row['service_Name'] . "</td>";
+                                        // Add data for other columns here
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
             <!-- Table For GST-->
-            
-                <div class="col-6 mt-3">
-                    
-                        <div class="container  text-center ">
-                            <div class="modal" tabindex="-1" id="modal_gst">
-                                <div class="modal-dialog modal-dialog-centered modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">GST Details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <div class="col-6 mt-3">
+
+                <div class="container  text-center ">
+                    <div class="modal" tabindex="-1" id="modal_gst">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">GST Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="gstmodal.php" method="post">
+                                        <div class="form-group">
+                                            <label for="">GST %</label>
+                                            <input type="text" name="gst" class="form-control">
                                         </div>
-                                        <div class="modal-body">
-                                            <form action="gstmodal.php" method="post">
-                                                <div class="form-group">
-                                                    <label for="">GST %</label>
-                                                    <input type="text" name="gst" class="form-control">
-                                                </div>
-                                                <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-                                            </form>
-                                        </div>
-                                    </div>
+                                        <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                    </form>
                                 </div>
                             </div>
-                            <p class=""><a href="#" class="btn btn-success" id="add_gst">ADD GST</a></p>
                         </div>
-                     
- 
-                 
-                    <div class="container add_gst "  style="margin-left:120px;">
-                            <div class="table-responsive"   >
-                                <table class="table table-stripped viewinvoicetable" style="width: 300px; " >
-                                    <thead>
-                                        <th style=" width: 60px;">SI No</th>
-                                        <th>GST%</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        require_once('bhavidb.php');
-
-                                        $sql = "SELECT * FROM gst_no";
-                                        $res = $conn->query($sql);
-
-                                        if ($res === false) {
-                                        
-                                        } else {
-                                            while ($row = mysqli_fetch_assoc($res)) {
-                                                echo "<tr>";
-                                                echo "<td>" . $row['si_No'] . "</td>";
-                                                echo "<td>" . $row['gst'] . "</td>";
-                                                echo "</tr>";
-                                            }
-                                        }
-                                        ?>
-                                    </tbody>
-
-                                </table>
-                            </div>
                     </div>
-                     
-                     
-
+                    <p class=""><a href="#" class="btn btn-success" id="add_gst">ADD GST</a></p>
                 </div>
 
+
+
+                <div class="container add_gst " style="margin-left:120px;">
+                    <div class="table-responsive">
+                        <table class="table table-stripped viewinvoicetable" style="width: 300px; ">
+                            <thead>
+                                <th style=" width: 60px;">SI No</th>
+                                <th>GST%</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                require_once('bhavidb.php');
+
+                                $sql = "SELECT * FROM gst_no";
+                                $res = $conn->query($sql);
+
+                                if ($res === false) {
+                                } else {
+                                    while ($row = mysqli_fetch_assoc($res)) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row['si_No'] . "</td>";
+                                        echo "<td>" . $row['gst'] . "</td>";
+                                        echo "</tr>";
+                                    }
+                                }
+                                ?>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+
+
             </div>
+
         </div>
+    </div>
 
     <script defer>
         document.addEventListener('DOMContentLoaded', function() {
