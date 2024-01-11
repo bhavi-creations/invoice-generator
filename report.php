@@ -96,6 +96,7 @@ $result2 = $conn->query($sql2);
                                  <a class="nav-link text-dark" href="quotation.php"><h6>Create Quotation</h6></a>
                                 <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
                                 <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
+                                <a class="nav-link text-dark" href="viewquotes.php"><h6>View Quotes</h6></a>
                             </div>
                         </li>
 

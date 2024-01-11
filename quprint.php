@@ -108,10 +108,10 @@ Quotation Number
 </tr>
 <tr>
 <td width="70%" style="text-align: left;">
-DATE:  ' . $row['Invoice_date'] . '
+DATE:  ' . $row['quotation_date'] . '
 </td>
 <td width="40%" style="text-align: left;">
-BHAVI_KKD_2024_ ' . $row['Invoice_no'] . '
+BHAVI_KKD_2024_ ' . $row['quotation_no'] . '
 </td>
 </tr>
 </table>

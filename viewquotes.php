@@ -6,10 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     $deleteId = $_POST['delete_id'];
 
     // Perform the delete operation, modify the query based on your table structure
-    $deleteSql = "DELETE FROM invoice WHERE Invoice_no = $deleteId";
+    $deleteSql = "DELETE FROM quotation WHERE quotation_no = $deleteId";
     if ($conn->query($deleteSql) === TRUE) {
         // Record deleted successfully
-        header("Location: viewinvoices.php"); // Redirect to the same page after deletion
+        header("Location: viewquotes.php"); // Redirect to the same page after deletion
         exit(); // Add exit() to stop script execution
     } else {
         // Error deleting record
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 }
 
 // Fetch data from the database
-$sql = "SELECT * FROM invoice";
+$sql = "SELECT * FROM quotation";
 $result = $conn->query($sql);
 ?>
 
@@ -193,11 +193,11 @@ $result = $conn->query($sql);
             <table class="table table-bordered viewinvoicetable">
                 <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
                     <tr>
-                        <th class="text-center" style="width: 10%;">Invoice No</th>
+                        <th class="text-center" style="width: 10%;">Quotation No</th>
                         <th style="width: 30%;">Customer Name</th>
                         <th style="width: 20%;">Issued Date</th>
-                        <th style="width: 10%;">Invoice Amount</th>
-                        <th style="width: 10%;" class="status">Status</th>
+                        <th style="width: 10%;">Quotation Amount</th>
+                        <!-- <th style="width: 10%;" class="status">Status</th> -->
                         <th style="width: 20%;">Actions</th>
                     </tr>
                 </thead>
@@ -206,28 +206,21 @@ $result = $conn->query($sql);
                     // Loop through the fetched data and display it in the table
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
-                        echo "<td>" . $row['Invoice_no'] . "</td>";
+                        echo "<td>" . $row['quotation_no'] . "</td>";
                         echo "<td>" . $row['Cname'] . "</td>";
-                        echo "<td>" . $row['Invoice_date'] . "</td>";
+                        echo "<td>" . $row['quotation_date'] . "</td>";
                         echo "<td>" . $row['Grandtotal'] . "</td>";
-                        echo "<td class='status' data-invoice-no='" . $row['Invoice_no'] . "'>" . $row['status'] .  "</td>";
                         echo "<td> 
                             <div class='btn-group'>
                                 <button type='submit' class='view-button'>
-                                    <a class='view-button' href='print.php?Sid={$row['Sid']}'>View</a>
+                                    <a class='view-button' href='quprint.php?Sid={$row['Sid']}'>View</a>
                                 </button>
                                 <span style='margin-left: 10px;'></span>
                                 <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
-                                    <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
+                                    <input type='hidden' name='delete_id' value='" . $row['quotation_no'] . "'>
                                     <button type='submit' class='delete-button'>Delete</button>
                                 </form> 
-                              <span style='margin-left: 10px;'></span>
-                              <select name='status' class='status-dropdown' data-invoice-no=' " . $row['Invoice_no'] . " '>
-                              <option value=''>Status</option>
-                              <option value='paid'>Paid</option>
-                              <option value='pending'>Pending</option>
-                           </select>
-                            </div>
+                             
                         </td>"; 
 
                         echo "</tr>";
@@ -243,7 +236,7 @@ $result = $conn->query($sql);
 
     <!-- Include your footer content here -->
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('.status-dropdown').change(function() {
                 var selectedStatus = $(this).val();
@@ -269,7 +262,7 @@ $result = $conn->query($sql);
             });
         });
 
-    </script>
+    </script> -->
 
 
 </body>

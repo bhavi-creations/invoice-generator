@@ -37,7 +37,7 @@ if (isset($_POST["submit"])) {
     // $status = mysqli_real_escape_string($conn,$_POST["status"]);
 
 
-    $sql = "INSERT INTO quotation (Invoice_no, Invoice_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note , advance, balance, balancewords ) 
+    $sql = "INSERT INTO quotation (quotation_no, quotation_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note , advance, balance, balancewords ) 
             VALUES ('$invoice_no', '$invoice_date', '$company_name', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total', '$Gst' , '$Gst_total' ,'$Grand_total' , '$Totalin_word','$terms' , '$note' ,'$advance' , '$balance' ,'$balancewords' )";
 
     if ($conn->query($sql)) {
