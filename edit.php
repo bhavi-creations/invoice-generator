@@ -1,62 +1,42 @@
 <?php
 
-define('INVOICE_INITIAL_VALUE', '1');
 
 
 require_once('bhavidb.php');
 
-function getInvoiceId()
-{
-    $server = 'localhost';
-    // Condition to check if the script is running locally or on a server
-    if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1') {
-        // Local environment details
-        $username = 'root';
-        $pass = '';
-        $database = 'bhavi_invoice_db';
-    } else {
-        // Server environment details
-        $username = 'cnpthbbs_invoice_user';
-        $pass = '%tNc6peV4-}w';
-        $database = 'cnpthbbs_invoice';
-    }
-
-    $conn = mysqli_connect($server, $username, $pass, $database);
-
-    if ($conn->connect_error) {
-        die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
-    }
-
-    $query = "SELECT Invoice_no FROM invoice ORDER BY Invoice_no DESC LIMIT 1";
-
-    if ($result = $conn->query($query)) {
-        $row_cnt = $result->num_rows;
-
-        $row = mysqli_fetch_assoc($result);
-
-        if ($row_cnt == 0) {
-            $nextInvoiceNumber = INVOICE_INITIAL_VALUE;
-        } else {
-            $nextInvoiceNumber = $row['Invoice_no'] + 1;
-        }
+$invoice_id = (isset($_GET['Sid']) ? $_GET['Sid'] : '');
 
 
-        $formattedInvoiceNumber = sprintf('%04d', $nextInvoiceNumber);
+$stmt = $conn->prepare("SELECT * FROM `invoice` WHERE Sid = $invoice_id ");
+$stmt->execute();
+$result = $stmt->get_result();
+
+$sql2 = "SELECT * FROM service WHERE service.Sid = $invoice_id;";
+$result2 = mysqli_query($conn, $sql2);
 
 
-        $result->free();
-
-
-        $conn->close();
-
-        return $formattedInvoiceNumber;
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $invoice_no = $row['Invoice_no'];
+        $invoice_date = $row['Invoice_date'];
+        $company_name = $row['Company_name'];
+        $cname = $row['Cname'];
+        $cphone = $row['Cphone'];
+        $caddress = $row['Caddress'];
+        $cemail = $row['Cmail'];
+        $cgst = $row['Cgst'];
+        $final_total = $row['Final'];
+        $Gst_total = $row['Gst_total'];
+        $Grand_total = $row['Grandtotal'];
+        $Totalin_word = $row['Totalinwords'];
+        $terms = $row['Terms'];
+        $note = $row['Note'];
+        $advance = $row['advance'];
+        $balance = $row['balance'];
+        $balancewords = $row['balancewords'];
+        $gst = $row['Gst'];
     }
 }
-
-$invoiceNumber = getInvoiceId();
-
-/* Customer Details */
-
 
 
 ?>
@@ -86,7 +66,7 @@ $invoiceNumber = getInvoiceId();
 
     <link rel="stylesheet" href="img/style.css">
 
-        
+
 
     <style>
         .dropdown {
@@ -229,7 +209,7 @@ $invoiceNumber = getInvoiceId();
 
             <!-- FORM -->
 
-            <form class=" formborder rounded p-4 pb-4 mb-5" action="formprocess.php" method="post">
+            <form class=" formborder rounded p-4 pb-4 mb-5" action="editform.php" method="post">
                 <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
 
                 <!-- FORM INVOICENUMBER -->
@@ -237,11 +217,11 @@ $invoiceNumber = getInvoiceId();
                 <div class="row container pt-5 ps-5 mb-5">
                     <div class="col-lg-8 col-sm-12 col-md-12">
                         <h5><strong>Invoice</strong></h5>
-                        <h5>Date : <input type="date" name="invoice_date" id="" class="" style="border-radius:3px;"></h5>
+                        <h5>Date : <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoice_date; ?>" readonly></h5>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                         <h5><strong>Invoice Number </strong></h5>
-                        <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
+                        <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoice_no; ?>" readonly></strong></h4>
                     </div>
                 </div>
 
@@ -261,27 +241,13 @@ $invoiceNumber = getInvoiceId();
                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                     </div>
                     <div class="col-lg-4 col-sm-12 col-md-12">
-                        <h4>
-                            <select name="company" id="companySelect">
-                                <?php
-                                $sql = "SELECT * FROM `customer`";
-                                $res = $conn->query($sql);
-                                $fetched_data = [];
-                                echo "<option value=''>Select Customer/Company</option>";
-                                while ($row = mysqli_fetch_assoc($res)) {
-                                    $fetched_data[] = $row;
-                                    echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                }
-                                // this hidden input is used to store the data & get the data in javascript
-                                echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
-                                ?>
-                            </select>
-                        </h4>
-                        <p class="mb-1" id="company_name"></p>
-                        <p class="mb-1" id="name"></p>
-                        <p class="mb-1" id="email"></p>
-                        <p class="mb-1" id="phone"></p>
-                        <p class="mb-1" id="gst"></p>
+                        <h4> To</h4>
+                        <p class="mb-1" id="company_name"><?php echo $company_name; ?></p>
+                        <p class="mb-1" id="name"><?php echo $cname; ?></p>
+                        <p class="mb-1" id="email"><?php echo $cemail; ?></p>
+                        <p class="mb-1" id="phone"><?php echo $cphone; ?></p>
+                        <p class="mb-1" id="gst"><?php echo $cgst; ?></p>
+
                     </div>
                 </div>
 
@@ -289,90 +255,72 @@ $invoiceNumber = getInvoiceId();
 
                 <!-- BILLING SECTION  -->
                 <h3 class="text-center mb-5"><B>BILLING</B></h3>
-
-                <div class="col-1 ms-2 mb-3">
-                    <select name="status" id="">
-                        <option value="paid">Paid</option>
-                        <option value="pending">Not paid</option>
-                    </select>
-                </div>
-
                 <div class="container-fluid billing">
                     <table border="1">
                         <thead>
                             <tr>
-                                <th></th>
+
                                 <th class="text-center">S.no</th>
-                                <th style="width: 253px;" class="text-center"> Services</th>
-                                <th style="width: 364px;" class="text-center">Description</th>
+                                <th style="width: 324px;" class="text-center"> Services</th>
+                                <th style="width: 420px;" class="text-center">Description</th>
                                 <th class="text-center">Qty </th>
                                 <th class="text-center">Price/Unit</th>
                                 <th class="text-center">Sub Total </th>
                                 <th class="text-center">Disc</th>
                                 <th class="text-center">Disc Total</th>
-                                <th></th>
+                                <!-- <th></th> -->
                             </tr>
                         </thead>
                         <tbody id="product_tbody">
                             <tr>
-                                <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
-                                <td class="serial-number">01</td>
-                                <td> <select name="Sname[]" class="form-control">
-                                        <?php
-                                        $sql = "SELECT `service_name` FROM `service_names`";
-                                        $res = $conn->query($sql);
+                                <?php
+                                $counter = 1;
+                                while ($data = mysqli_fetch_assoc($result2)) {
 
-                                        while ($row = mysqli_fetch_assoc($res)) {
-                                            echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
-                                        }
-                                        ?>
-                                    </select></td>
-                                <td><textarea class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
-                                <td><input type='text' required name='Qty[]' class='form-control qty'></td>
-                                <td><input type='text' required name='Price[]' class='form-control price'></td>
-                                <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
-                                <td><input type='text' required name='discount[]' class='form-control discount'></td>
-                                <td><input type='text' required name='total[]' class='form-control total'></td>
-                                <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
+                                    echo  "<tr >";
+                                    echo "<td class='serial-number'>" . sprintf('%02d', $counter) . "</td>";
+                                    echo "<td class= 'text-center'>" . $data['Sname'] . " </td>";
+                                    echo "<td class= 'text-center'>" . $data['Description'] . "</td>";
+                                    echo "<td class= 'text-center'>" . $data['Qty'] . "</td>";
+                                    echo "<td class= 'text-center'>" . $data['Price'] . "</td>";
+                                    echo "<td class= 'text-center'>" . $data['Totalprice'] . "</td>";
+                                    echo "<td class= 'text-center'>" . $data['Discount'] . "</td>";
+                                    echo "<td class= 'text-center'>" . $data['Finaltotal'] . "</td>";
+                                    echo "</tr>";
+                                    $counter++;
+                                }
+                                ?>
                             </tr>
 
                             <!-- Add more rows as needed -->
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan='8' class='text-right' style="text-align: right;">Total Before Tax</td>
-                                <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
+                                <td colspan='7' class='text-right' style="text-align: right;">Total Before Tax</td>
+                                <td colspan="1" class="text-center"><?php echo $final_total; ?></td>
                             </tr>
                             <tr>
-                                <td colspan='7' class='text-right' style="text-align: right;">GST%</td>
-                                <td>
-                                    <select name="gst" id="gst" class="form-control gst">
-                                        <?php
-                                        require_once('bhavidb.php');
-                                        $sql2 = "SELECT `gst` FROM `gst_no`";
-                                        $result = $conn->query($sql2);
-
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            echo "<option value='" . $row['gst'] . "'>" . $row['gst'] . "</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                                <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total'></td>
+                                <td colspan='6' class='text-right' style="text-align: right;">GST%</td>
+                                <td class="text-center"><?php echo $gst; ?></td>
+                                <td colspan="1" class="text-center"><?php echo $Gst_total; ?></td>
                             </tr>
                             <tr>
-                                <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
+                                <td colspan="6" class="text-center"><?php echo $Totalin_word; ?></td>
                                 <td class="text-center" class='text-right' style="text-align: right;">Total</td>
-                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
+                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' value="<?php echo $Grand_total; ?>" readonly></td>
+                            <tr>
+                                <td colspan="7" class="text-right" class='text-right' style="text-align: right;">Pre Advance</td>
+                                <td colspan="" class="text-center"><input type='text' name='advance' id='advance' class='form-control advance' value="<?php echo $advance; ?>" readonly></td>
                             </tr>
                             <tr>
-                                <td colspan="8" class="text-right" class='text-right' style="text-align: right;">Advance</td>
-                                <td colspan="2"><input type='text' name='advance' id='advance' class='form-control advance'></td>
+                                <td colspan="7" class="text-right" class='text-right' style="text-align: right;">New Advance</td>
+                                <td colspan="" class="text-center"><input type='text' name='newadvance' id='newadvance' class='form-control newadvance'></td>
                             </tr>
                             <tr>
-                                <td colspan="7"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords"></td>
+                                <td colspan="6"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords" value="<?php echo $balancewords; ?>"></td>
                                 <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
-                                <td colspan="2"><input type='text' name='balance' id='balance' class='form-control balance' readonly></td>
+                                <td colspan="" class="text-center"><input type='text' name='balance' id='balance' class='form-control balance' value="<?php echo $balance; ?>" readonly></td>
+                                <input type='text' name='totaladvance' id='totaladvance' class='form-control totaladvance' hidden>
                             </tr>
 
                         </tfoot>
@@ -402,80 +350,16 @@ $invoiceNumber = getInvoiceId();
                     <!--   Functions of invoice -->
                     <script>
                         $(document).ready(function() {
-                            $("#date").datepicker({
-                                dateFormat: "dd-mm-yy"
-                            });
-
-                            $("#btn-add-row").click(function() {
-                                var row = "<tr><td></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'><?php $sql = 'SELECT `service_name` FROM `service_names`';
-                                                                                                                                        $res = $conn->query($sql);
-                                                                                                                                        while ($row = mysqli_fetch_assoc($res)) {
-                                                                                                                                            echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
-                                                                                                                                        } ?></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
-
-                                $("#product_tbody").append(row);
-
-                                // Update serial numbers
-                                updateSerialNumbers();
-                            });
-
-                            // Function to update serial numbers
-                            function updateSerialNumbers() {
-                                $(".serial-number").each(function(index) {
-                                    $(this).text((index + 1).toString().padStart(2, '0'));
-                                });
-                            }
-
-                            $("body").on("click", "#btn-row-remove", function() {
-                                if (confirm("Are You Sure?")) {
-                                    $(this).closest("tr").remove();
-                                    updateSerialNumbers();
-                                    grand_total();
-                                }
-                            });
-
-
-
-
-
-                            /*----Ending balnce--*/
-
-
-                            // $("#advance").val(0);
-
-                            $("body").on("input", ".price, .qty, .subtotal, .discount, .final_total, #advance, .gst", function() {
+                            $("body").on("input", " #final_total,#advance, #newadvance", function() {
                                 var $row = $(this).closest("tr");
-
-                                var price = Number($row.find(".price").val());
-                                var qty = Number($row.find(".qty").val());
-                                $row.find(".subtotal").val(price * qty);
-
-                                var subtotal = Number($row.find(".subtotal").val());
-                                var discount = Number($row.find(".discount").val());
-                                $row.find(".total").val(subtotal - (subtotal * (discount / 100)));
-
-
-                                // Update final_total and advance fields
-                                var finalTotal = Number($("#final_total").val());
-
-
-                                grand_total();
-                                gst_total();
-                                final_total();
                                 updateBalanceWords();
                                 updateBalance();
 
 
                             });
-                            grand_total();
-                            gst_total();
-                            final_total();
-                            updateBalanceWords();
+                         
 
-                            $("body").on("change", ".gst", function() {
-                                calculateTotals();
-                            });
-
+                           
                             $("body").on("keyup", "#balance", function() {
                                 updateBalanceWords();
                             });
@@ -484,44 +368,16 @@ $invoiceNumber = getInvoiceId();
                         function updateBalance() {
                             var finalTotal = Number($("#final_total").val());
                             var advance = Number($("#advance").val());
-                            var balance = finalTotal - advance;
+                            var newadvance = Number($("#newadvance").val());
+                            var balance = finalTotal - advance - newadvance;
+                            var totaladvance = advance + newadvance;
 
+                            $("#totaladvance") .val(totaladvance);
                             $("#balance").val(balance);
                             updateBalanceWords();
                         }
 
-                        function grand_total() {
-                            var tot = 0;
-                            $(".total").each(function() {
-                                tot += Number($(this).val());
-                            });
-
-                            var formatted_total = tot.toFixed(2);
-                            $("#grand_total").val(formatted_total.toString());
-                        }
-
-                        function gst_total() {
-                            var grand_total = Number($("#grand_total").val());
-                            var gst = Number($(".gst").val());
-                            var gst_amount = (grand_total * gst) / 100;
-
-                            var formatted_gst_amount = gst_amount.toFixed(2);
-
-                            $("#gst_total").val(formatted_gst_amount);
-                        }
-
-                        function final_total() {
-                            var grand_total = Number($("#grand_total").val());
-                            var gst_amount = Number($("#gst_total").val());
-                            var final_total = grand_total + gst_amount;
-
-                            var formatted_final_total = final_total.toFixed(2);
-
-                            $("#final_total").val(formatted_final_total);
-
-                            var words = amountToWords(final_total);
-                            $("#words").val(words);
-                        }
+                       
 
                         function updateBalanceWords() {
                             var balance = Number($("#balance").val());
@@ -638,32 +494,6 @@ $invoiceNumber = getInvoiceId();
         </div>
 
     </section>
-
-
-    <!-- ENDING   INVOICE  FORM  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
-        $(function() {
-            $("select").selectize();
-
-            $('#companySelect').change(() => {
-                var selectedCompany = $('#companySelect').val();
-                var companyData = JSON.parse($('#company_data').val());
-                console.log(companyData);
-                companyData.forEach(element => {
-                    if (element.Id == selectedCompany) {
-                        console.log(element);
-                        $('#company_name').html(element.Company_name);
-                        $('#name').html(element.Name);
-                        $('#email').html(element.Email);
-                        $('#phone').html(element.Phone);
-                        $('#gst').html(element.Gst_no);
-                    }
-                });
-            });
-        });
-    </script>
 
 </body>
 

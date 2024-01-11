@@ -108,11 +108,19 @@ $result = $conn->query($sql);
                             <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                     <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                 </svg></a>
-                                <div class="dropdown-content">
-                                 <a class="nav-link text-dark" href="quotation.php"><h6>Create Quotation</h6></a>
-                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
-                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
-                                <a class="nav-link text-dark" href="viewquotes.php"><h6>View Quotes</h6></a>
+                            <div class="dropdown-content">
+                                <a class="nav-link text-dark" href="quotation.php">
+                                    <h6>Create Quotation</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="index.php">
+                                    <h6>Create Invoice</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="viewinvoices.php">
+                                    <h6>View Invoices</h6>
+                                </a>
+                                <a class="nav-link text-dark" href="viewquotes.php">
+                                    <h6>View Quotes</h6>
+                                </a>
                             </div>
                         </li>
 
@@ -186,7 +194,39 @@ $result = $conn->query($sql);
     <div class="container text-center mt-4">
     <input type="text" id="search-input" placeholder="Search...">
     </div> -->
-
+    
+<div class="container  ">
+    <!-- <div class="modal" tabindex="-1" id="update_frm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Update Advance</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="updatemodal.php" method="post">
+              <input type="text" name="Id" required hidden class="form-control" value="<?php echo $Cid; ?>">
+              <div class="form-group">
+                <label for="update_company_name">Previous Advance</label>
+                <input type="text" name="company_name" id="update_company_name" class="form-control" value="<?php echo $Company_name; ?>">
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="update_cname">New Advance</label>
+                <input type="text" name="cname" id="update_cname" class="form-control" value="<?php echo $Name; ?>">
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="update_caddress">Total Advance</label>
+                <input type="text" name="caddress" id="update_caddress" required class="form-control" value="<?php echo $Address; ?>">
+              </div>
+              <input type="submit" value="Update Advance" name="Update" id="update_customer" class="btn btn-success mt-5">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
 
     <div class="container " style="margin-top: 70px;">
         <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
@@ -194,11 +234,11 @@ $result = $conn->query($sql);
                 <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
                     <tr>
                         <th class="text-center" style="width: 10%;">Invoice No</th>
-                        <th style="width: 30%;">Customer Name</th>
+                        <th style="width: 20%;">Customer Name</th>
                         <th style="width: 20%;">Issued Date</th>
                         <th style="width: 10%;">Invoice Amount</th>
                         <th style="width: 10%;" class="status">Status</th>
-                        <th style="width: 20%;">Actions</th>
+                        <th style="width: 30%;">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="product_tbody viewinvoicetable">
@@ -213,6 +253,10 @@ $result = $conn->query($sql);
                         echo "<td class='status' data-invoice-no='" . $row['Invoice_no'] . "'>" . $row['status'] .  "</td>";
                         echo "<td> 
                             <div class='btn-group'>
+                            <button type='submit' class='view-button'>
+                                    <a class='view-button' href='edit.php?Sid={$row['Sid']}'>Edit</a>
+                                </button>
+                                <span style='margin-left: 10px;'></span>
                                 <button type='submit' class='view-button'>
                                     <a class='view-button' href='print.php?Sid={$row['Sid']}'>View</a>
                                 </button>
@@ -227,8 +271,9 @@ $result = $conn->query($sql);
                               <option value='paid'>Paid</option>
                               <option value='pending'>Pending</option>
                            </select>
+                           
                             </div>
-                        </td>"; 
+                        </td>";
 
                         echo "</tr>";
                     }
@@ -268,7 +313,6 @@ $result = $conn->query($sql);
                 });
             });
         });
-
     </script>
 
 
