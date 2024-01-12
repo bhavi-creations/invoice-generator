@@ -212,6 +212,10 @@ $result = $conn->query($sql);
                         echo "<td>" . $row['Grandtotal'] . "</td>";
                         echo "<td> 
                             <div class='btn-group'>
+                            <button type='submit' class='view-button'>
+                                    <a class='view-button' href='convert.php?Sid={$row['Sid']}'>Convert</a>
+                                </button>
+                                <span style='margin-left: 10px;'></span>
                                 <button type='submit' class='view-button'>
                                     <a class='view-button' href='quprint.php?Sid={$row['Sid']}'>View</a>
                                 </button>

@@ -7,6 +7,7 @@ if (isset($_POST["submit"])) {
     $totaladvance = mysqli_real_escape_string($conn, $_POST["totaladvance"]);
     $balance = mysqli_real_escape_string($conn, $_POST["balance"]);
     $balancewords = mysqli_real_escape_string($conn, $_POST["balancewords"]);
+    $Sid = mysqli_real_escape_string($conn,$_POST["Sid"]);
 
 
     // Use a prepared statement to prevent SQL injection
@@ -20,7 +21,7 @@ if (isset($_POST["submit"])) {
     if ($result) {
         echo "<SCRIPT>
         window.alert('invoice added')
-        window.location.href='print.php?Sid=$invoice_no';</SCRIPT>";
+        window.location.href='print.php?Sid=$Sid';</SCRIPT>";
     } else {
         echo "No changes made. Please make sure to modify some fields before updating.";
     }

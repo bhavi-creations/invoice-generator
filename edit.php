@@ -321,6 +321,7 @@ if ($result->num_rows > 0) {
                                 <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
                                 <td colspan="" class="text-center"><input type='text' name='balance' id='balance' class='form-control balance' value="<?php echo $balance; ?>" readonly></td>
                                 <input type='text' name='totaladvance' id='totaladvance' class='form-control totaladvance' hidden>
+                                <input type='text' name='Sid' id='Sid' class='form-control Sid' value="<?php echo $invoice_id; ?>" hidden>
                             </tr>
 
                         </tfoot>
