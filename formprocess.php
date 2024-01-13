@@ -40,6 +40,11 @@ if (isset($_POST["submit"])) {
     $sql = "INSERT INTO invoice (Invoice_no, Invoice_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note , advance, balance, balancewords , status) 
             VALUES ('$invoice_no', '$invoice_date', '$company_name', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total', '$Gst' , '$Gst_total' ,'$Grand_total' , '$Totalin_word','$terms' , '$note' ,'$advance' , '$balance' ,'$balancewords' , '$status')";
 
+
+
+    $sql3 = "INSERT INTO advancehistory( `Invoice_no`, `Date`, `advance`) VALUES('$invoice_no', '$invoice_date','$advance')";
+    $result = mysqli_query($conn,$sql3);
+
     if ($conn->query($sql)) {
         $Sid = $conn->insert_id; // Get the inserted Sid
 

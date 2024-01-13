@@ -46,6 +46,7 @@ $result = $conn->query($sql);
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
 
     <!-- ADDING STYLE SHEET  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="img/style.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -189,45 +190,7 @@ $result = $conn->query($sql);
 
 <body>
 
-    <!-- Include your header content here -->
-    <!-- 
-    <div class="container text-center mt-4">
-    <input type="text" id="search-input" placeholder="Search...">
-    </div> -->
-    
-<div class="container  ">
-    <!-- <div class="modal" tabindex="-1" id="update_frm">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Update Advance</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="updatemodal.php" method="post">
-              <input type="text" name="Id" required hidden class="form-control" value="<?php echo $Cid; ?>">
-              <div class="form-group">
-                <label for="update_company_name">Previous Advance</label>
-                <input type="text" name="company_name" id="update_company_name" class="form-control" value="<?php echo $Company_name; ?>">
-              </div>
-              <br>
-              <div class="form-group">
-                <label for="update_cname">New Advance</label>
-                <input type="text" name="cname" id="update_cname" class="form-control" value="<?php echo $Name; ?>">
-              </div>
-              <br>
-              <div class="form-group">
-                <label for="update_caddress">Total Advance</label>
-                <input type="text" name="caddress" id="update_caddress" required class="form-control" value="<?php echo $Address; ?>">
-              </div>
-              <input type="submit" value="Update Advance" name="Update" id="update_customer" class="btn btn-success mt-5">
-            </form>
-          </div>
-        </div>
-      </div>
-    </div> -->
-  </div>
-
+   
     <div class="container " style="margin-top: 70px;">
         <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
             <table class="table table-bordered viewinvoicetable">
@@ -238,6 +201,7 @@ $result = $conn->query($sql);
                         <th style="width: 20%;">Issued Date</th>
                         <th style="width: 10%;">Invoice Amount</th>
                         <th style="width: 10%;" class="status">Status</th>
+                        <th style="width: 20%;">Advance Actions</th>
                         <th style="width: 30%;">Actions</th>
                     </tr>
                 </thead>
@@ -257,6 +221,16 @@ $result = $conn->query($sql);
                                     <a class='view-button' href='edit.php?Sid={$row['Sid']}'>Edit</a>
                                 </button>
                                 <span style='margin-left: 10px;'></span>
+                                <button type='button' class='history-button' data-bs-toggle='modal' data-bs-target='#advance_frm' data-id='{$row['Invoice_no']}'>
+                                History
+                                </button>
+                               
+                           
+                            </div>
+                        </td>";
+                        echo "<td> 
+                            <div class='btn-group'>
+                            
                                 <button type='submit' class='view-button'>
                                     <a class='view-button' href='print.php?Sid={$row['Sid']}'>View</a>
                                 </button>
@@ -284,6 +258,75 @@ $result = $conn->query($sql);
         </div>
     </div>
 
+
+    <div class="container  ">
+        <div class="modal" tabindex="-1" id="advance_frm">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Advance History</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered viewinvoicetable">
+                            <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
+                                <tr>
+                                    <th class="text-center" style="width: 20%;">Invoice No</th>
+                                    <th style="width: 40%;">Date</th>
+                                    <th style="width: 40%;">Amount</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="product_tbody viewinvoicetable">
+                                <?php
+
+                                if (isset($_GET['Invoice_no'])) {
+                                    $invoiceNo = mysqli_real_escape_string($conn, $_GET['Invoice_no']);
+
+                                    $sql = "SELECT * FROM advancehistory WHERE `Invoice_no` = '$invoiceNo'";
+                                    $result = $conn->query($sql);
+
+                                    // Loop through the fetched data and display it in the table
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row['Invoice_no'] . "</td>";
+                                        echo "<td>" . $row['Date'] . "</td>";
+                                        echo "<td>" . $row['advance'] . "</td>";
+                                        echo "</tr>";
+                                    }
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php
+    // require_once('bhavidb.php');
+
+    // if (isset($_GET['invoice_no'])) {
+    //     $invoiceNo = mysqli_real_escape_string($conn, $_GET['Invoice_no']);
+
+    //     $sql = "SELECT * FROM advancehistory WHERE `Invoice_no` = '$invoiceNo'";
+    //     $result = $conn->query($sql);
+
+    //     if ($result) {
+    //         $data = array();
+    //         while ($row = $result->fetch_assoc()) {
+    //             $data[] = $row;
+    //         }
+    //         echo json_encode($data);
+    //     } else {
+    //         echo "Error fetching data: " . $conn->error;
+    //     }
+    // } else {
+    //     echo "Invalid request";
+    // }
+    ?>
 
 
     <!-- Include your footer content here -->
@@ -313,7 +356,15 @@ $result = $conn->query($sql);
                 });
             });
         });
+
+
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var historyModal = new bootstrap.Modal(document.getElementById('advance_frm'));
+        // })
     </script>
+
+
 
 
 </body>

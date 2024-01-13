@@ -205,6 +205,13 @@ th {
     text-decoration: none;
 }
 
+.history-button{
+    background-color: rgb(28, 213, 99);
+    color: white;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
 .edit-button{
     background-color: rgb(10, 213, 24);
     color: white;

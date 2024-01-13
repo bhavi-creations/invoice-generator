@@ -8,12 +8,18 @@ if (isset($_POST["submit"])) {
     $balance = mysqli_real_escape_string($conn, $_POST["balance"]);
     $balancewords = mysqli_real_escape_string($conn, $_POST["balancewords"]);
     $Sid = mysqli_real_escape_string($conn,$_POST["Sid"]);
+    $newadvance = mysqli_real_escape_string($conn,$_POST['newadvance']);
 
 
     // Use a prepared statement to prevent SQL injection
     $stmt = $conn->prepare("UPDATE `invoice` SET `advance`=?, `balance`=?, `balancewords`=? WHERE `invoice_no`=?");
     $stmt->bind_param("ddsd", $totaladvance, $balance, $balancewords, $invoice_no);
     
+    $currentDate = date("Y-m-d"); // Returns the current date in the format "YYYY-MM-DD"
+    $sql = "INSERT INTO `advancehistory`(`Invoice_no`, `Date`, `advance`) VALUES('$invoice_no','$currentDate','$newadvance')";
+
+    $result1 = mysqli_query($conn,$sql);
+
     // Execute the statement
     $result = $stmt->execute();
 
