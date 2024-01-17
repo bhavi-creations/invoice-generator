@@ -268,37 +268,7 @@ $result = $conn->query($sql);
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <table class="table table-bordered viewinvoicetable">
-                            <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
-                                <tr>
-                                    <th class="text-center" style="width: 20%;">Invoice No</th>
-                                    <th style="width: 40%;">Date</th>
-                                    <th style="width: 40%;">Amount</th>
-
-                                </tr>
-                            </thead>
-                            <tbody id="product_tbody viewinvoicetable">
-                                <?php
-
-                                if (isset($_GET['Invoice_no'])) {
-                                    $invoiceNo = mysqli_real_escape_string($conn, $_GET['Invoice_no']);
-
-                                    $sql = "SELECT * FROM advancehistory WHERE `Invoice_no` = '$invoiceNo'";
-                                    $result = $conn->query($sql);
-
-                                    // Loop through the fetched data and display it in the table
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<tr>";
-                                        echo "<td>" . $row['Invoice_no'] . "</td>";
-                                        echo "<td>" . $row['Date'] . "</td>";
-                                        echo "<td>" . $row['advance'] . "</td>";
-                                        echo "</tr>";
-                                    }
-                                }
-                                ?>
-
-                            </tbody>
-                        </table>
+                       
                     </div>
                 </div>
             </div>
@@ -358,6 +328,28 @@ $result = $conn->query($sql);
         });
 
 
+
+        $(document).ready(function() {
+        $('.history-button').click(function() {
+            var invoiceNo = $(this).data('id');
+
+            // Make an AJAX request to fetch the advance history for the selected invoice
+            $.ajax({
+                type: 'GET',
+                url: 'get_advance_history.php', // Create a separate PHP file to handle this request
+                data: {
+                    invoiceNo: invoiceNo
+                },
+                success: function(response) {
+                    // Update the modal content with the fetched data
+                    $('#advance_frm .modal-body').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
 
         // document.addEventListener('DOMContentLoaded', function() {
         //     var historyModal = new bootstrap.Modal(document.getElementById('advance_frm'));

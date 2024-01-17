@@ -222,7 +222,7 @@ $result = $conn->query($sql);
                                 <div class='btn-group'>
                                     <form method='POST' action='convert.php'>
                                         <input type='hidden' name='convert_id' value='" . $row['Sid'] . "'>
-                                        <button type='submit' class='view-button'>
+                                        <button type='submit' class='history-button'>
                                             Convert
                                         </button>
                                     </form>
