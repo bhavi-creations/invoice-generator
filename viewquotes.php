@@ -80,6 +80,29 @@ $result = $conn->query($sql);
         .navbar-nav li:hover .dropdown-content {
             display: block;
         }
+
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 58px 0 0;
+            /* Height of navbar */
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+            width: 240px;
+            z-index: 600;
+        }
+
+        .nav-links {
+            background-color: aliceblue;
+            border-radius: 20px;
+        }
+
+        .active-link {
+            background-color: blue;
+            color: white;
+        }
     </style>
 
 
@@ -89,136 +112,140 @@ $result = $conn->query($sql);
 
     <!--  LARGE SCREEN NAVBAR  -->
 
-    <header>
+    <div class="container-fluid">
+        <div class="row">
+            <section class="col-lg-2">
+                <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="88px" width="191px"></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class=" navbar-collapse  " id="navbarNav">
+                            <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
+                                <li class="nav-item nav-links">
+                                    <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
+                                </li>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
-                    <ul class="navbar-nav " style="margin-left: 10%;">
-                        <li class="nav-item pe-4">
-                            <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
-                        </li>
 
-                        <!-- Invoice dropdown -->
-                        <li class="dropdown nav-item pe-4">
-                            <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                </svg></a>
-                            <div class="dropdown-content">
-                                <a class="nav-link text-dark" href="quotation.php">
-                                    <h6>Create Quotation</h6>
-                                </a>
-                                <a class="nav-link text-dark" href="index.php">
-                                    <h6>Create Invoice</h6>
-                                </a>
-                                <a class="nav-link text-dark" href="viewinvoices.php">
-                                    <h6>View Invoices</h6>
-                                </a>
-                                <a class="nav-link text-dark" href="viewquotes.php">
-                                    <h6>View Quotes</h6>
-                                </a>
-                            </div>
-                        </li>
 
-                        <!-- <li class="nav-item pe-5">
+                                <li class="dropdown nav-item pt-4">
+                                    <a class="nav-link nav-links active-link" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg></a>
+                                    <div class="dropdown-content">
+                                        <a class="nav-link text-dark" href="quotation.php">
+                                            <h6>Create Quotation</h6>
+                                        </a>
+
+                                        <a class="nav-link text-dark" href="viewquotes.php">
+                                            <h6>View Quotations</h6>
+                                        </a>
+                                    </div>
+                                </li>
+
+                                <!-- Invoice dropdown -->
+                                <li class="dropdown nav-item pt-4">
+                                    <a class="nav-link  nav-links " href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg></a>
+                                    <div class="dropdown-content">
+
+                                        <a class="nav-link text-dark" href="index.php">
+                                            <h6>Create Invoice</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="viewinvoices.php">
+                                            <h6>View Invoices</h6>
+                                        </a>
+
+                                    </div>
+                                </li>
+
+                                <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="report.php">Reports</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
+                                </li>
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links" href="report.php">Reports</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-        <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-                    <a class="navbar-brand" href="#">Navbar</a>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.php">CREATE INVOICE</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="customized_edits.php">CUSTOMIZED EDITS</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-    </header>
-
-
-
-</body>
-
-</html>
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <!-- Include your head content here -->
-
-</head>
-
-<body>
-
-    <!-- Include your header content here -->
-    <!-- 
-    <div class="container text-center mt-4">
-    <input type="text" id="search-input" placeholder="Search...">
-    </div> -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
+                            <a class="navbar-brand" href="#">Navbar</a>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="customized_edits.php">Customized Edits</a>
+                                </li>
+                                <li class="dropdown nav-item pe-4">
+                                    <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg></a>
+                                    <div class="dropdown-content">
+                                        <a class="nav-link text-dark" href="quotation.php">
+                                            <h6>Create Quotation</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="index.php">
+                                            <h6>Create Invoice</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="viewinvoices.php">
+                                            <h6>View Invoices</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="viewquotes.php">
+                                            <h6>View Quotes</h6>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </section>
 
 
-    <div class="container " style="margin-top: 70px;">
-        <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
-            <table class="table table-bordered viewinvoicetable">
-                <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
-                    <tr>
-                        <th class="text-center" style="width: 10%;">Quotation No</th>
-                        <th style="width: 30%;">Customer Name</th>
-                        <th style="width: 20%;">Issued Date</th>
-                        <th style="width: 10%;">Quotation Amount</th>
-                        <!-- <th style="width: 10%;" class="status">Status</th> -->
-                        <th style="width: 20%;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="product_tbody" class="viewinvoicetable">
-                    <?php
-                    // Loop through the fetched data and display it in the table
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row['quotation_no'] . "</td>";
-                        echo "<td>" . $row['Cname'] . "</td>";
-                        echo "<td>" . $row['quotation_date'] . "</td>";
-                        echo "<td>" . $row['Grandtotal'] . "</td>";
-                        echo "<td> 
+            <section class="col-lg-10">
+                <div class="container " style="margin-top: 70px;">
+                    <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
+                        <table class="table table-bordered viewinvoicetable">
+                            <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
+                                <tr>
+                                    <th class="text-center" style="width: 10%;">Quotation No</th>
+                                    <th style="width: 30%;">Customer Name</th>
+                                    <th style="width: 20%;">Issued Date</th>
+                                    <th style="width: 10%;">Quotation Amount</th>
+                                    <!-- <th style="width: 10%;" class="status">Status</th> -->
+                                    <th style="width: 20%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product_tbody" class="viewinvoicetable">
+                                <?php
+                                // Loop through the fetched data and display it in the table
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['quotation_no'] . "</td>";
+                                    echo "<td>" . $row['Cname'] . "</td>";
+                                    echo "<td>" . $row['quotation_date'] . "</td>";
+                                    echo "<td>" . $row['Grandtotal'] . "</td>";
+                                    echo "<td> 
                                 <div class='btn-group'>
                                     <form method='POST' action='convert.php'>
                                         <input type='hidden' name='convert_id' value='" . $row['Sid'] . "'>
@@ -238,16 +265,17 @@ $result = $conn->query($sql);
                                 </div>
                             </td>";
 
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
 
-            </table>
+                        </table>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-
-
 
     <!-- Include your footer content here -->
 

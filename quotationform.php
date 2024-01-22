@@ -67,16 +67,16 @@ if (isset($_POST["submit"])) {
             // Insert into service table
             if ($conn->query($sql2)) {
                 echo "<SCRIPT>
-                    window.alert('invoice added')
+                    window.alert('Quotation added successfully')
                     window.location.href='quprint.php?Sid=$Sid';</SCRIPT>";
             } else {
-                echo "Invoice Added Failed: " . $conn->error;
+                echo "Quotation Added Failed: " . $conn->error;
             }
         } else {
-            echo "Invoice Added Failed:" . $conn->error;
+            echo "Quotation Added Failed:" . $conn->error;
         }
     } else {
-        echo "Invoice Added Failed: " . $conn->error;
+        echo "Quotation Added Failed: " . $conn->error;
     }
 }
 

@@ -70,6 +70,29 @@
             background-color: #fff;
             z-index: 1;
         }
+
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 58px 0 0;
+            /* Height of navbar */
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+            width: 240px;
+            z-index: 600;
+        }
+
+        .nav-links {
+            background-color: aliceblue;
+            border-radius: 20px;
+        }
+
+        .active-link {
+            background-color: blue;
+            color: white;
+        }
     </style>
 
 
@@ -78,214 +101,250 @@
 <body>
 
     <!--  LARGE SCREEN NAVBAR  -->
-    <header>
+    <div class="container-fluid">
+        <div class="row">
+            <section class="col-lg-2">
+                <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="88px" width="191px"></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class=" navbar-collapse  " id="navbarNav">
+                            <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
+                                <li class="nav-item nav-links active-link">
+                                    <a class="nav-link nav-links active-link " href="customized_edits.php">Customized Edits</a>
+                                </li>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse ms-auto " id="navbarNav">
-                    <ul class="navbar-nav " style="margin-left: 10%;">
-                        <li class="nav-item pe-4">
-                            <a class="nav-link text-dark" href="viewcustomers.php">Customers</a>
-                        </li>
 
-                        <!-- Invoice dropdown -->
-                        <li class="dropdown nav-item pe-4">
-                            <a class="nav-link active text-dark" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                </svg></a>
-                                <div class="dropdown-content">
-                                 <a class="nav-link text-dark" href="quotation.php"><h6>Create Quotation</h6></a>
-                                <a class="nav-link text-dark" href="index.php"><h6>Create Invoice</h6></a>
-                                <a class="nav-link text-dark" href="viewinvoices.php"><h6>View Invoices</h6></a>
-                                <a class="nav-link text-dark" href="viewquotes.php"><h6>View Quotes</h6></a>
-                            </div>
-                        </li>
 
-                        <!-- <li class="nav-item pe-5">
+                                <li class="dropdown nav-item pt-4">
+                                    <a class="nav-link nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg></a>
+                                    <div class="dropdown-content">
+                                        <a class="nav-link text-dark" href="quotation.php">
+                                            <h6>Create Quotation</h6>
+                                        </a>
+
+                                        <a class="nav-link text-dark" href="viewquotes.php">
+                                            <h6>View Quotations</h6>
+                                        </a>
+                                    </div>
+                                </li>
+
+                                <!-- Invoice dropdown -->
+                                <li class="dropdown nav-item pt-4">
+                                    <a class="nav-link  nav-links " href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg></a>
+                                    <div class="dropdown-content">
+
+                                        <a class="nav-link text-dark" href="index.php">
+                                            <h6>Create Invoice</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="viewinvoices.php">
+                                            <h6>View Invoices</h6>
+                                        </a>
+
+                                    </div>
+                                </li>
+
+                                <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-primary" href="customized_edits.php">Customized Edits</a>
-                        </li>
-                        <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="report.php">Reports</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
+                                </li>
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links" href="report.php">Reports</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-
-        <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-                    <a class="navbar-brand" href="#">Navbar</a>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.php">CREATE INVOICE</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="customized_edits.php">CUSTOMIZED EDITS</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-    </header>
-
-
-    <!-- Modal for Add Service-->
-
-    <div class="container">
-        <div class="row   ">
-            <div class="col-6  mt-3">
-
-                <div class="text-center ">
-                    <div class="container  ">
-                        <div class="modal" tabindex="-1" id="modal_service">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Service Details</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
+                            <a class="navbar-brand" href="#">Navbar</a>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="customized_edits.php">Customized Edits</a>
+                                </li>
+                                <li class="dropdown nav-item pe-4">
+                                    <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg></a>
+                                    <div class="dropdown-content">
+                                        <a class="nav-link text-dark" href="quotation.php">
+                                            <h6>Create Quotation</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="index.php">
+                                            <h6>Create Invoice</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="viewinvoices.php">
+                                            <h6>View Invoices</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="viewquotes.php">
+                                            <h6>View Quotes</h6>
+                                        </a>
                                     </div>
-                                    <div class="modal-body">
-                                        <form action="servicesmodal.php" method="post">
-                                            <div class="form-group">
-                                                <label for="">Service Name</label>
-                                                <input type="text" name="service_name" class="form-control">
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </section>
+
+
+            <!-- Modal for Add Service-->
+            <section class="col-lg-10">
+            <div class="container">
+                <div class="row   ">
+                    <div class="col-6  mt-3">
+
+                        <div class="text-center ">
+                            <div class="container  ">
+                                <div class="modal" tabindex="-1" id="modal_service">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Service Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <input type="submit" name="submit" id="submit" class="btn btn-success  ">
-                                        </form>
+                                            <div class="modal-body">
+                                                <form action="servicesmodal.php" method="post">
+                                                    <div class="form-group">
+                                                        <label for="">Service Name</label>
+                                                        <input type="text" name="service_name" class="form-control">
+                                                    </div>
+                                                    <input type="submit" name="submit" id="submit" class="btn btn-success  ">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class=""><a href="#" class="btn btn-success" id="add_service">ADD SERVICES</a></p>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class=" ">
+                            <div class="container ">
+                                <div class="table-container" style="height: 450px; overflow-y: auto;">
+                                    <table class="table table-striped viewinvoicetable" style="width: 100%;">
+                                        <thead style="  background-color: #f2f2f2;" class="table-head">
+                                            <th style="width: 60px;">SI No</th>
+                                            <th class="service_name">Service Name</th>
+                                            <!-- Add your other columns here -->
+                                            <!-- Example: <th>Column 2</th> ... <th>Column 10</th> -->
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            require_once('bhavidb.php');
+
+                                            $sql = "SELECT * FROM service_names";
+                                            $res = $conn->query($sql);
+                                            while ($row = mysqli_fetch_assoc($res)) {
+                                                echo "<tr>";
+                                                echo "<td>" . $row['si_No'] . "</td>";
+                                                echo "<td>" . $row['service_Name'] . "</td>";
+                                                // Add data for other columns here
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Table For GST-->
+
+                    <div class="col-6 mt-3">
+
+                        <div class="container  text-center ">
+                            <div class="modal" tabindex="-1" id="modal_gst">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">GST Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="gstmodal.php" method="post">
+                                                <div class="form-group">
+                                                    <label for="">GST %</label>
+                                                    <input type="text" name="gst" class="form-control">
+                                                </div>
+                                                <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <p class=""><a href="#" class="btn btn-success" id="add_gst">ADD GST</a></p>
                         </div>
-                        <p class=""><a href="#" class="btn btn-success" id="add_service">ADD SERVICES</a></p>
-                    </div>
-                </div>
 
 
 
+                        <div class="container add_gst " style="margin-left:120px;">
+                            <div class="table-responsive">
+                                <table class="table table-stripped viewinvoicetable" style="width: 300px; ">
+                                    <thead>
+                                        <th style=" width: 60px;">SI No</th>
+                                        <th>GST%</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        require_once('bhavidb.php');
 
-                <div class=" ">
-                    <div class="container ">
-                        <div class="table-container" style="height: 450px; overflow-y: auto;">
-                            <table class="table table-striped viewinvoicetable" style="width: 100%;">
-                                <thead style="  background-color: #f2f2f2;" class="table-head">
-                                    <th style="width: 60px;">SI No</th>
-                                    <th class="service_name">Service Name</th>
-                                    <!-- Add your other columns here -->
-                                    <!-- Example: <th>Column 2</th> ... <th>Column 10</th> -->
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    require_once('bhavidb.php');
+                                        $sql = "SELECT * FROM gst_no";
+                                        $res = $conn->query($sql);
 
-                                    $sql = "SELECT * FROM service_names";
-                                    $res = $conn->query($sql);
-                                    while ($row = mysqli_fetch_assoc($res)) {
-                                        echo "<tr>";
-                                        echo "<td>" . $row['si_No'] . "</td>";
-                                        echo "<td>" . $row['service_Name'] . "</td>";
-                                        // Add data for other columns here
-                                        echo "</tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                        if ($res === false) {
+                                        } else {
+                                            while ($row = mysqli_fetch_assoc($res)) {
+                                                echo "<tr>";
+                                                echo "<td>" . $row['si_No'] . "</td>";
+                                                echo "<td>" . $row['gst'] . "</td>";
+                                                echo "</tr>";
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
 
-
-            <!-- Table For GST-->
-
-            <div class="col-6 mt-3">
-
-                <div class="container  text-center ">
-                    <div class="modal" tabindex="-1" id="modal_gst">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">GST Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="gstmodal.php" method="post">
-                                        <div class="form-group">
-                                            <label for="">GST %</label>
-                                            <input type="text" name="gst" class="form-control">
-                                        </div>
-                                        <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-                                    </form>
-                                </div>
+                                </table>
                             </div>
                         </div>
+
+
+
                     </div>
-                    <p class=""><a href="#" class="btn btn-success" id="add_gst">ADD GST</a></p>
+
                 </div>
-
-
-
-                <div class="container add_gst " style="margin-left:120px;">
-                    <div class="table-responsive">
-                        <table class="table table-stripped viewinvoicetable" style="width: 300px; ">
-                            <thead>
-                                <th style=" width: 60px;">SI No</th>
-                                <th>GST%</th>
-                            </thead>
-                            <tbody>
-                                <?php
-                                require_once('bhavidb.php');
-
-                                $sql = "SELECT * FROM gst_no";
-                                $res = $conn->query($sql);
-
-                                if ($res === false) {
-                                } else {
-                                    while ($row = mysqli_fetch_assoc($res)) {
-                                        echo "<tr>";
-                                        echo "<td>" . $row['si_No'] . "</td>";
-                                        echo "<td>" . $row['gst'] . "</td>";
-                                        echo "</tr>";
-                                    }
-                                }
-                                ?>
-                            </tbody>
-
-                        </table>
-                    </div>
-                </div>
-
-
-
             </div>
-
+            </section>
         </div>
     </div>
-
     <script defer>
         document.addEventListener('DOMContentLoaded', function() {
             var addServiceModal = new bootstrap.Modal(document.getElementById('modal_service'));
