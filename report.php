@@ -69,26 +69,26 @@ $result2 = $conn->query($sql2);
         }
 
         .sidebar {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      padding: 58px 0 0;
-      /* Height of navbar */
-      box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-      width: 240px;
-      z-index: 600;
-    }
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 55px 0 0;
+            /* Height of navbar */
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+            width: 240px;
+            z-index: 600;
+        }
 
-    .nav-links {
-      background-color: aliceblue;
-      border-radius: 20px;
-    }
+        .nav-links {
+            background-color: aliceblue;
+            border-radius: 20px;
+        }
 
-    .active-link {
-      background-color: blue;
-      color: white;
-    }
+        .active-link {
+            background-color: blue;
+            color: white;
+        }
     </style>
 
 </head>
@@ -106,14 +106,15 @@ $result2 = $conn->query($sql2);
                         </button>
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                                <li class="nav-item nav-links">
-                                    <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
+                            <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links " href="viewcustomers.php">Customers</a>
                                 </li>
+                               
 
 
 
                                 <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -129,12 +130,12 @@ $result2 = $conn->query($sql2);
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link  nav-links " href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark  nav-links " href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
 
-                                        <a class="nav-link text-dark " href="index.php">
+                                        <a class="nav-link text-dark " href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="viewinvoices.php">
@@ -147,11 +148,16 @@ $result2 = $conn->query($sql2);
                                 <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
-                                <li class="nav-item pt-4">
-                                    <a class="nav-link  nav-links " href="viewcustomers.php">Customers</a>
+                        <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links" href="customized_edits.php">Customized Edits</a>
                                 </li>
+                               
                                 <li class="nav-item pt-4">
                                     <a class="nav-link nav-links active-link" href="report.php">Reports</a>
+                                </li>
+
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links btn-danger" href="index.php">Sign Out</a>
                                 </li>
                             </ul>
                         </div>
@@ -181,7 +187,7 @@ $result2 = $conn->query($sql2);
                                         <a class="nav-link text-dark" href="quotation.php">
                                             <h6>Create Quotation</h6>
                                         </a>
-                                        <a class="nav-link text-dark" href="index.php">
+                                        <a class="nav-link text-dark" href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="viewinvoices.php">
@@ -288,78 +294,79 @@ $result2 = $conn->query($sql2);
                         </table>
                     </div>
                 </div>
-            </section>
-        </div>
-    </div>
-            <?php
+
+                <?php
 
 
 
 
-            require_once('bhavidb.php');
+                require_once('bhavidb.php');
 
-            // Fetch paid invoices
-            $sql = "SELECT MONTH(Invoice_date) AS month, SUM(Grandtotal) AS totalAmount
+                // Fetch paid invoices
+                $sql = "SELECT MONTH(Invoice_date) AS month, SUM(Grandtotal) AS totalAmount
         FROM invoice
         WHERE `status` = 'paid'
         GROUP BY MONTH(Invoice_date);";
 
-            $result = $conn->query($sql);
+                $result = $conn->query($sql);
 
-            $dataPoints = array();
+                $dataPoints = array();
 
-            // Loop through the fetched data and organize it for the chart
-            while ($row = $result->fetch_assoc()) {
-                $dataPoints[] = array("label" => getMonthName($row['month']), "y" => $row['totalAmount']);
-            }
-
-            function getMonthName($monthNumber)
-            {
-                $dateObj = DateTime::createFromFormat('!m', $monthNumber);
-                return $dateObj->format('F');
-            }
-
-            ?>
-
-            <script>
-                window.onload = function() {
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                        animationEnabled: true,
-                        exportEnabled: true,
-                        theme: "light1",
-                        title: {
-                            text: "Monthly Income Status"
-                        },
-                        axisX: {
-                            title: "Months"
-                        },
-                        axisY: {
-                            title: "Income",
-                            includeZero: true
-                        },
-                        data: [{
-                            type: "column",
-                            indexLabel: "{y}",
-                            indexLabelFontColor: "#5A5757",
-                            indexLabelPlacement: "outside",
-                            dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                        }]
-                    });
-                    chart.render();
+                // Loop through the fetched data and organize it for the chart
+                while ($row = $result->fetch_assoc()) {
+                    $dataPoints[] = array("label" => getMonthName($row['month']), "y" => $row['totalAmount']);
                 }
-            </script>
+
+                function getMonthName($monthNumber)
+                {
+                    $dateObj = DateTime::createFromFormat('!m', $monthNumber);
+                    return $dateObj->format('F');
+                }
+
+                ?>
+
+                <script>
+                    window.onload = function() {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            exportEnabled: true,
+                            theme: "light1",
+                            title: {
+                                text: "Monthly Income Status"
+                            },
+                            axisX: {
+                                title: "Months"
+                            },
+                            axisY: {
+                                title: "Income",
+                                includeZero: true
+                            },
+                            data: [{
+                                type: "column",
+                                indexLabel: "{y}",
+                                indexLabelFontColor: "#5A5757",
+                                indexLabelPlacement: "outside",
+                                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                            }]
+                        });
+                        chart.render();
+                    }
+                </script>
 
 
-            <!-- Monthly Invoice Amount Chart -->
-            <div class="container  mt-5">
-                <h5 style="text-align: center;" class="mb-4"><strong>Monthly Invoice Amount (Paid) Chart</strong></h5>
-                <div id="chartContainer" style="height: 300px; width: 90%;"></div>
-            </div>
+                <!-- Monthly Invoice Amount Chart -->
+                <div class="container  mt-5">
+                    <h5 style="text-align: center;" class="mb-4"><strong>Monthly Invoice Amount (Paid) Chart</strong></h5>
+                    <div id="chartContainer" style="height: 300px; width: 90%;"></div>
+                </div>
 
 
 
 
-            <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+                <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+            </section>
+        </div>
+    </div>
 </body>
 
 </html>

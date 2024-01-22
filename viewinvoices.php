@@ -103,7 +103,6 @@ $result = $conn->query($sql);
             background-color: blue;
             color: white;
         }
-      
     </style>
 
 
@@ -123,14 +122,11 @@ $result = $conn->query($sql);
                         </button>
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                                <li class="nav-item nav-links">
-                                    <a class="nav-link text-dark" href="customized_edits.php">Customized Edits</a>
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
                                 </li>
-
-
-
                                 <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -151,7 +147,7 @@ $result = $conn->query($sql);
                                         </svg></a>
                                     <div class="dropdown-content">
 
-                                        <a class="nav-link text-dark" href="index.php">
+                                        <a class="nav-link text-dark" href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="viewinvoices.php">
@@ -164,11 +160,15 @@ $result = $conn->query($sql);
                                 <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
+
                                 <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
+                                    <a class="nav-link text-dark nav-links" href="customized_edits.php">Customized Edits</a>
                                 </li>
                                 <li class="nav-item pt-4">
                                     <a class="nav-link text-dark nav-links" href="report.php">Reports</a>
+                                </li>
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links btn-danger" href="index.php">Sign Out</a>
                                 </li>
                             </ul>
                         </div>
@@ -198,7 +198,7 @@ $result = $conn->query($sql);
                                         <a class="nav-link text-dark" href="quotation.php">
                                             <h6>Create Quotation</h6>
                                         </a>
-                                        <a class="nav-link text-dark" href="index.php">
+                                        <a class="nav-link text-dark" href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="viewinvoices.php">
@@ -226,31 +226,31 @@ $result = $conn->query($sql);
 
 
             <section class="col-lg-10">
-            <div class="container " style="margin-top: 70px;">
-                <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
-                    <table class="table table-bordered viewinvoicetable">
-                        <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
-                            <tr>
-                                <th class="text-center" style="width: 10%;">Invoice No</th>
-                                <th style="width: 20%;">Customer Name</th>
-                                <th style="width: 20%;">Issued Date</th>
-                                <th style="width: 10%;">Invoice Amount</th>
-                                <th style="width: 10%;" class="status">Status</th>
-                                <th style="width: 20%;">Advance Actions</th>
-                                <th style="width: 30%;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="product_tbody viewinvoicetable">
-                            <?php
-                            // Loop through the fetched data and display it in the table
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . $row['Invoice_no'] . "</td>";
-                                echo "<td>" . $row['Cname'] . "</td>";
-                                echo "<td>" . $row['Invoice_date'] . "</td>";
-                                echo "<td>" . $row['Grandtotal'] . "</td>";
-                                echo "<td class='status' data-invoice-no='" . $row['Invoice_no'] . "'>" . $row['status'] .  "</td>";
-                                echo "<td> 
+                <div class="container " style="margin-top: 70px;">
+                    <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
+                        <table class="table table-bordered viewinvoicetable">
+                            <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
+                                <tr>
+                                    <th class="text-center" style="width: 10%;">Invoice No</th>
+                                    <th style="width: 20%;">Customer Name</th>
+                                    <th style="width: 20%;">Issued Date</th>
+                                    <th style="width: 10%;">Invoice Amount</th>
+                                    <th style="width: 10%;" class="status">Status</th>
+                                    <th style="width: 20%;">Advance Actions</th>
+                                    <th style="width: 30%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product_tbody viewinvoicetable">
+                                <?php
+                                // Loop through the fetched data and display it in the table
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['Invoice_no'] . "</td>";
+                                    echo "<td>" . $row['Cname'] . "</td>";
+                                    echo "<td>" . $row['Invoice_date'] . "</td>";
+                                    echo "<td>" . $row['Grandtotal'] . "</td>";
+                                    echo "<td class='status' data-invoice-no='" . $row['Invoice_no'] . "'>" . $row['status'] .  "</td>";
+                                    echo "<td> 
                             <div class='btn-group'>
                             <button type='submit' class='view-button'>
                                     <a class='view-button' href='edit.php?Sid={$row['Sid']}'>Edit</a>
@@ -263,7 +263,7 @@ $result = $conn->query($sql);
                            
                             </div>
                         </td>";
-                                echo "<td> 
+                                    echo "<td> 
                             <div class='btn-group'>
                             
                                 <button type='submit' class='view-button'>
@@ -284,115 +284,115 @@ $result = $conn->query($sql);
                             </div>
                         </td>";
 
-                                echo "</tr>";
-                            }
-                            ?>
+                                    echo "</tr>";
+                                }
+                                ?>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="container  ">
-                <div class="modal" tabindex="-1" id="advance_frm">
-                    <div class="modal-dialog ">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Advance History</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
+                <div class="container  ">
+                    <div class="modal" tabindex="-1" id="advance_frm">
+                        <div class="modal-dialog ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Advance History</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
 
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </section>
-            </div>
+        </div>
     </div>
 
-            <?php
-            // require_once('bhavidb.php');
+    <?php
+    // require_once('bhavidb.php');
 
-            // if (isset($_GET['invoice_no'])) {
-            //     $invoiceNo = mysqli_real_escape_string($conn, $_GET['Invoice_no']);
+    // if (isset($_GET['invoice_no'])) {
+    //     $invoiceNo = mysqli_real_escape_string($conn, $_GET['Invoice_no']);
 
-            //     $sql = "SELECT * FROM advancehistory WHERE `Invoice_no` = '$invoiceNo'";
-            //     $result = $conn->query($sql);
+    //     $sql = "SELECT * FROM advancehistory WHERE `Invoice_no` = '$invoiceNo'";
+    //     $result = $conn->query($sql);
 
-            //     if ($result) {
-            //         $data = array();
-            //         while ($row = $result->fetch_assoc()) {
-            //             $data[] = $row;
-            //         }
-            //         echo json_encode($data);
-            //     } else {
-            //         echo "Error fetching data: " . $conn->error;
-            //     }
-            // } else {
-            //     echo "Invalid request";
-            // }
-            ?>
+    //     if ($result) {
+    //         $data = array();
+    //         while ($row = $result->fetch_assoc()) {
+    //             $data[] = $row;
+    //         }
+    //         echo json_encode($data);
+    //     } else {
+    //         echo "Error fetching data: " . $conn->error;
+    //     }
+    // } else {
+    //     echo "Invalid request";
+    // }
+    ?>
 
 
-            <!-- Include your footer content here -->
+    <!-- Include your footer content here -->
 
-            <script>
-                $(document).ready(function() {
-                    $('.status-dropdown').change(function() {
-                        var selectedStatus = $(this).val();
-                        var invoiceNo = $(this).data('invoice-no');
+    <script>
+        $(document).ready(function() {
+            $('.status-dropdown').change(function() {
+                var selectedStatus = $(this).val();
+                var invoiceNo = $(this).data('invoice-no');
 
-                        // Make an AJAX request to update the status
-                        $.ajax({
-                            type: 'POST',
-                            url: 'update_status.php',
-                            data: {
-                                invoiceNo: invoiceNo,
-                                selectedStatus: selectedStatus
-                            },
-                            success: function(response) {
-                                console.log(response);
-                                $('td[data-invoice-no="' + invoiceNo + '"].status').text(selectedStatus);
-                                location.reload(true);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(error);
-                            }
-                        });
-                    });
+                // Make an AJAX request to update the status
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_status.php',
+                    data: {
+                        invoiceNo: invoiceNo,
+                        selectedStatus: selectedStatus
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('td[data-invoice-no="' + invoiceNo + '"].status').text(selectedStatus);
+                        location.reload(true);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
                 });
+            });
+        });
 
 
 
-                $(document).ready(function() {
-                    $('.history-button').click(function() {
-                        var invoiceNo = $(this).data('id');
+        $(document).ready(function() {
+            $('.history-button').click(function() {
+                var invoiceNo = $(this).data('id');
 
-                        // Make an AJAX request to fetch the advance history for the selected invoice
-                        $.ajax({
-                            type: 'GET',
-                            url: 'get_advance_history.php', // Create a separate PHP file to handle this request
-                            data: {
-                                invoiceNo: invoiceNo
-                            },
-                            success: function(response) {
-                                // Update the modal content with the fetched data
-                                $('#advance_frm .modal-body').html(response);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(error);
-                            }
-                        });
-                    });
+                // Make an AJAX request to fetch the advance history for the selected invoice
+                $.ajax({
+                    type: 'GET',
+                    url: 'get_advance_history.php', // Create a separate PHP file to handle this request
+                    data: {
+                        invoiceNo: invoiceNo
+                    },
+                    success: function(response) {
+                        // Update the modal content with the fetched data
+                        $('#advance_frm .modal-body').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
                 });
+            });
+        });
 
-                // document.addEventListener('DOMContentLoaded', function() {
-                //     var historyModal = new bootstrap.Modal(document.getElementById('advance_frm'));
-                // })
-            </script>
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var historyModal = new bootstrap.Modal(document.getElementById('advance_frm'));
+        // })
+    </script>
 
 
 

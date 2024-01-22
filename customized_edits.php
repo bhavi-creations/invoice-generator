@@ -104,7 +104,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-2">
-                <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
+            <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="88px" width="191px"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,14 +112,13 @@
                         </button>
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                                <li class="nav-item nav-links active-link">
-                                    <a class="nav-link nav-links active-link " href="customized_edits.php">Customized Edits</a>
+
+                            <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
                                 </li>
 
-
-
                                 <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -135,12 +134,12 @@
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link  nav-links " href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links text-dark" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
 
-                                        <a class="nav-link text-dark" href="index.php">
+                                        <a class="nav-link text-dark" href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="viewinvoices.php">
@@ -153,11 +152,16 @@
                                 <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
-                                <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
+                                 <li class="nav-item pt-4">
+                                    <a class="nav-link nav-links active-link" href="customized_edits.php">Customized Edits</a>
                                 </li>
+                               
                                 <li class="nav-item pt-4">
                                     <a class="nav-link text-dark nav-links" href="report.php">Reports</a>
+                                </li>
+
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links btn-danger" href="index.php">Sign Out</a>
                                 </li>
                             </ul>
                         </div>
@@ -187,7 +191,7 @@
                                         <a class="nav-link text-dark" href="quotation.php">
                                             <h6>Create Quotation</h6>
                                         </a>
-                                        <a class="nav-link text-dark" href="index.php">
+                                        <a class="nav-link text-dark" href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="viewinvoices.php">
