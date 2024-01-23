@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+if(!isset($_SESSION['email'])){
+    header('Location:index.php');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,76 +34,10 @@
 
     <!-- ADDING STYLE SHEET  -->
     <link rel="stylesheet" href="img/style.css">
+    <link rel="stylesheet" href="img/stylemi.css">
 
 
 
-    <style>
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 182px;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-            z-index: 3;
-            /* margin-top: 8px; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12 px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        .navbar-nav li:hover .dropdown-content {
-            display: block;
-
-        }
-
-        .table-container {
-            position: relative;
-        }
-
-        .table-head {
-            position: sticky;
-            top: 0;
-            background-color: #fff;
-            z-index: 1;
-        }
-
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            padding: 58px 0 0;
-            /* Height of navbar */
-            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-            width: 240px;
-            z-index: 600;
-        }
-
-        .nav-links {
-            background-color: aliceblue;
-            border-radius: 20px;
-        }
-
-        .active-link {
-            background-color: blue;
-            color: white;
-        }
-    </style>
 
 
 </head>

@@ -1,6 +1,17 @@
 <?php
 require_once('bhavidb.php');
 
+
+
+session_start();
+if(!isset($_SESSION['email'])){
+    header('Location:index.php');
+    exit();
+}
+
+
+
+
 // Handle delete request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     $deleteId = $_POST['delete_id'];
@@ -49,8 +60,10 @@ $result = $conn->query($sql);
 
     <link rel="stylesheet" href="img/style.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="img/stylemi.css">
 
-    <style>
+
+    <!-- <style>
         .dropdown {
             position: relative;
             display: inline-block;
@@ -103,7 +116,7 @@ $result = $conn->query($sql);
             background-color: blue;
             color: white;
         }
-    </style>
+    </style> -->
 
 
 </head>

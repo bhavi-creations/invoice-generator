@@ -1,5 +1,14 @@
 <?php
 
+
+session_start();
+if(!isset($_SESSION['email'])){
+    header('Location:index.php');
+    exit();
+}
+
+
+
 define('INVOICE_INITIAL_VALUE', '1');
 
 
@@ -81,10 +90,12 @@ $invoiceNumber = getInvoiceId();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet"> -->
 
 
     <link rel="stylesheet" href="img/style.css">
+
+    <link rel="stylesheet" href="img/stylemi.css">
 
 
 
@@ -140,7 +151,55 @@ $invoiceNumber = getInvoiceId();
             background-color: blue;
             color: white;
         }
-      
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 50px;
+        }
+
+        .form-input {
+            border-radius: 20px;
+            border: none;
+            background-color: aliceblue;
+            padding: 5px;
+        }
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .thead {
+            /* background-color: aliceblue; */
+            border: 1px solid black;
+        }
+
+        th {
+            border: none;
+            padding: 4px;
+            /* Adjust padding as needed */
+            text-align: center;
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+
+        /* 
+        .navbar-nav {
+            color: black;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 17px;
+        }
+         */
     </style>
 
 </head>
@@ -158,9 +217,19 @@ $invoiceNumber = getInvoiceId();
                         </button>
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-
-                            <li class="nav-item">
-                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
+                                <li class="nav-item ">
+                                    <a href="#" class="nav-link  nav-links active-link" id="add_customer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 5V19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M5 12H19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Add Customer</a>
+                                </li>
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.84199 9.77C5.41999 9.77 3.45599 7.807 3.45599 5.385C3.45599 2.963 5.41999 1 7.84199 1C10.263 1 12.227 2.963 12.227 5.385C12.236 7.798 10.286 9.761 7.87299 9.77H7.84199Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14.7336 8.6318C16.3346 8.4068 17.5676 7.0328 17.5706 5.3698C17.5706 3.7308 16.3756 2.3708 14.8086 2.1138" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16.8459 12.4824C18.3969 12.7134 19.4799 13.2574 19.4799 14.3774C19.4799 15.1484 18.9699 15.6484 18.1459 15.9614" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Customers</a>
                                 </li>
 
                                 <li class="dropdown nav-item pt-4">
@@ -180,7 +249,9 @@ $invoiceNumber = getInvoiceId();
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link  nav-links active-link" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links active-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M20.169 14.482C20.169 18.06 18.06 20.169 14.482 20.169H6.7C3.113 20.169 1 18.06 1 14.482V6.682C1 3.109 2.314 1 5.893 1H7.893C8.611 1.001 9.287 1.338 9.717 1.913L10.63 3.127C11.062 3.701 11.738 4.039 12.456 4.04H15.286C18.873 4.04 20.197 5.866 20.197 9.517L20.169 14.482Z" stroke="#5570F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -198,16 +269,19 @@ $invoiceNumber = getInvoiceId();
                                 <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
-                                 <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links" href="customized_edits.php">Customized Edits</a>
-                                </li>
-                               
                                 <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links" href="report.php">Reports</a>
+                                    <a class="nav-link text-dark nav-links" href="customized_edits.php">Customized Edits</a>
                                 </li>
 
                                 <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links btn-danger" href="index.php">Sign Out</a>
+                                    <a class="nav-link text-dark nav-links" href="report.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M21.21 15.89C20.5738 17.3945 19.5788 18.7202 18.3119 19.7513C17.0449 20.7824 15.5447 21.4874 13.9424 21.8048C12.3401 22.1221 10.6844 22.0421 9.12012 21.5718C7.55585 21.1015 6.1306 20.2551 4.969 19.1067C3.80739 17.9582 2.94479 16.5428 2.45661 14.984C1.96843 13.4251 1.86954 11.7705 2.16857 10.1646C2.46761 8.55878 3.15547 7.05063 4.17202 5.77203C5.18857 4.49343 6.50286 3.48332 7.99998 2.83" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2V12H22Z" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Reports</a>
+                                </li>
+
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links btn-danger" href="logout.php">Sign Out</a>
                                 </li>
                             </ul>
                         </div>
@@ -256,7 +330,7 @@ $invoiceNumber = getInvoiceId();
                                 </li>
                             </ul>
                         </div>
-                        
+
                     </div>
                 </nav>
             </section>
@@ -265,11 +339,11 @@ $invoiceNumber = getInvoiceId();
             <!--  INVOICE  FORM  -->
 
             <section class="col-lg-10">
-                <div class="container pt-5 ">
+                <div class="container pt- ">
 
                     <!-- FORM -->
 
-                    <form class=" formborder rounded p-4 pb-4 mb-5" action="formprocess.php" method="post">
+                    <form class=" p-4 pb-4 mb-5" action="formprocess.php" method="post">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
 
                         <!-- FORM INVOICENUMBER -->
@@ -277,11 +351,11 @@ $invoiceNumber = getInvoiceId();
                         <div class="row container pt-5 ps-5 mb-5">
                             <div class="col-lg-8 col-sm-12 col-md-12">
                                 <h5><strong>Invoice</strong></h5>
-                                <h5>Date : <input type="date" name="invoice_date" id="" class="" style="border-radius:3px;"></h5>
+                                <h5><strong>Date :</strong> <input type="date" name="invoice_date" id="" class="form-input"></h5>
                             </div>
                             <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                                 <h5><strong>Invoice Number </strong></h5>
-                                <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
+                                <h5><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h5>
                             </div>
                         </div>
 
@@ -328,31 +402,37 @@ $invoiceNumber = getInvoiceId();
                         <!-- ENDING COMPANY DETAILS -->
 
                         <!-- BILLING SECTION  -->
-                        <h3 class="text-center mb-5"><B>BILLING</B></h3>
-
-                        <div class="col-1 ms-2 mb-3">
-                            <select name="status" id="">
-                                <option value="paid">Paid</option>
-                                <option value="pending">Not paid</option>
-                            </select>
+                        <div class="container">
+                            <div class="row   mb-3">
+                                <div class="text-end mb-5 col-6 ">
+                                    <h3><B>BILLING</B></h3>
+                                </div>
+                                <div class="col-1">
+                                    <select name="status" id="">
+                                        <option value="paid">Paid</option>
+                                        <option value="pending">Not paid</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-
                         <div class="container-fluid billing">
                             <div class="table-responsive">
                                 <div style="overflow-x:auto;">
-                                    <table border="1">
-                                        <thead>
+                                    <table border="0">
+
+                                        <thead class="thead">
                                             <tr>
                                                 <th></th>
                                                 <th class="text-center">S.no</th>
-                                                <th style="width: 253px;" class="text-center"> Services</th>
-                                                <th style="width: 364px;" class="text-center">Description</th>
-                                                <th class="text-center">Qty </th>
+                                                <th style="width: 253px;" class="text-center">Services</th>
+                                                <th style="width: 310px;" class="text-center">Description</th>
+                                                <th class="text-center">Qty</th>
                                                 <th class="text-center">Price/Unit</th>
-                                                <th class="text-center">Sub Total </th>
-                                                <th class="text-center">Disc</th>
+                                                <th class="text-center">Sub Total</th>
+                                                <th class="text-center">Disc %</th>
                                                 <th class="text-center">Disc Total</th>
                                                 <th></th>
+
                                             </tr>
                                         </thead>
                                         <tbody id="product_tbody">
@@ -426,19 +506,19 @@ $invoiceNumber = getInvoiceId();
                                 <div class="row   ">
 
                                     <div class="  mt-3 col-5     ">
-                                        <textarea name="terms" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
+                                        <textarea name="terms" style="border-radius: 10px;" cols="50" rows="5" placeholder="terms&conditions"></textarea>
                                     </div>
+
+
+                                    <div class="  mt-3 col-5">
+                                        <textarea name=" note" style="border-radius: 10px;" cols="50" rows="5" placeholder="Note:"></textarea>
+                                    </div>
+
                                     <div class=" col-2   pt-5 ps-5" style="margin-right:-5px;">
 
                                         <input type="submit" name="submit" value="Save & Print" class="btn btn-primary ">
 
                                     </div>
-
-
-                                    <div class="  mt-3 col-5  " style="padding-left: 111px;">
-                                        <textarea name=" note" id="" cols="50" rows="5" placeholder="Note:"></textarea>
-                                    </div>
-
                                 </div>
                             </div>
                             <!--  ENDING BILLING SECTION  -->
@@ -680,7 +760,60 @@ $invoiceNumber = getInvoiceId();
 
                     <!-- ENDING  FORM -->
                 </div>
+                <div class="container text-center mt-4 ">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="modal" tabindex="-1" id="modal_frm">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Customer Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="modalform.php" method="post">
+                                                <div class="form-group">
 
+                                                    <label for="">Company Name</label>
+                                                    <input type="text" name="company_name" class="form-control">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="">Name</label>
+                                                    <input type="text" name="cname" class="form-control">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="">Address</label>
+                                                    <input type="text" name="caddress" required class="form-control">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="">Phone</label>
+                                                    <input type="tel" name="cphone" required class="form-control">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="">Email</label>
+                                                    <input type="email" name="cemail" class="form-control">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="">GST_No</label>
+                                                    <input type="text" name="cgst" id="gstInput" class="form-control">
+                                                </div>
+                                                <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div>
+                                <p class="float-end d-flex flex-row justify-content-center"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
 
             </section>
         </div>
@@ -709,9 +842,27 @@ $invoiceNumber = getInvoiceId();
                 });
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
+            var addCustomerButton = document.getElementById('add_customer');
+            addCustomerButton.addEventListener('click', function() {
+                addCustomerModal.show();
+            });
+
+            document.getElementById('gstInput').addEventListener('input', function() {
+                this.value = this.value.toUpperCase();
+            });
+        });
+
+    
     </script>
 
 </body>
 
 
 </html>
+
+exit();
+
+?>

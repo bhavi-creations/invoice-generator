@@ -15,8 +15,8 @@ if (mysqli_num_rows($result) == 1){
     window.alert('Login succesfully');
     window.location.href='javascript:history.go(-1)';
     </SCRIPT>");
-
-    
+    session_start();
+    $_SESSION['email']=$email;      
     header("Location:createinvoice.php");
 }
 

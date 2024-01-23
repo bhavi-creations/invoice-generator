@@ -2,6 +2,13 @@
 
 
 
+session_start();
+if(!isset($_SESSION['email'])){
+    header('Location:index.php');
+    exit();
+}
+
+
 require_once('bhavidb.php');
 
 $invoice_id = (isset($_GET['Sid']) ? $_GET['Sid'] : '');
@@ -65,7 +72,7 @@ if ($result->num_rows > 0) {
 
 
     <link rel="stylesheet" href="img/style.css">
-
+    <link rel="stylesheet" href="img/stylemi.css">
 
 
     <style>
@@ -98,6 +105,7 @@ if ($result->num_rows > 0) {
         .navbar-nav li:hover .dropdown-content {
             display: block;
         }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -119,7 +127,58 @@ if ($result->num_rows > 0) {
             background-color: blue;
             color: white;
         }
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 50px;
+        }
+
+        .form-input {
+            border-radius: 20px;
+            border: none;
+            background-color: aliceblue;
+            padding: 5px;
+        }
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .thead {
+            /* background-color: aliceblue; */
+            border: 1px solid black;
+        }
+
+        th {
+            border: none;
+            padding: 4px;
+            /* Adjust padding as needed */
+            text-align: center;
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+
+        /* 
+        .navbar-nav {
+            color: black;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 17px;
+        }
+         */
     </style>
+
+
 
 </head>
 
@@ -136,8 +195,14 @@ if ($result->num_rows > 0) {
                         </button>
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
+                                <li class="nav-item ">
+                                    <a href="#" class="nav-link  nav-links active-link" id="add_customer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 5V19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M5 12H19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Add Customer</a>
+                                </li>
 
-                                <li class="nav-item">
+                                <li class="nav-item pt-4">
                                     <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
                                 </li>
 
@@ -242,11 +307,11 @@ if ($result->num_rows > 0) {
             <!--  INVOICE  FORM  -->
 
             <section class="col-lg-10">
-                <div class="container pt-5">
+                <div class="container ">
 
                     <!-- FORM -->
 
-                    <form class=" formborder rounded p-4 pb-4 mb-5" action="editform.php" method="post">
+                    <form class="  p-4 pb-4 mb-5" action="editform.php" method="post">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
 
                         <!-- FORM INVOICENUMBER -->
@@ -293,78 +358,81 @@ if ($result->num_rows > 0) {
                         <!-- BILLING SECTION  -->
                         <h3 class="text-center mb-5"><B>BILLING</B></h3>
                         <div class="container-fluid billing">
-                            <table border="1">
-                                <thead>
-                                    <tr>
+                            <div class="table-responsive">
+                                <div style="overflow-x:auto;">
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
 
-                                        <th class="text-center">S.no</th>
-                                        <th style="width: 324px;" class="text-center"> Services</th>
-                                        <th style="width: 420px;" class="text-center">Description</th>
-                                        <th class="text-center">Qty </th>
-                                        <th class="text-center">Price/Unit</th>
-                                        <th class="text-center">Sub Total </th>
-                                        <th class="text-center">Disc</th>
-                                        <th class="text-center">Disc Total</th>
-                                        <!-- <th></th> -->
-                                    </tr>
-                                </thead>
-                                <tbody id="product_tbody">
-                                    <tr>
-                                        <?php
-                                        $counter = 1;
-                                        while ($data = mysqli_fetch_assoc($result2)) {
+                                                <th class="text-center">S.no</th>
+                                                <th style="width: 324px;" class="text-center"> Services</th>
+                                                <th style="width: 350px;" class="text-center">Description</th>
+                                                <th class="text-center">Qty </th>
+                                                <th class="text-center">Price/Unit</th>
+                                                <th class="text-center">Sub Total </th>
+                                                <th class="text-center">Disc</th>
+                                                <th class="text-center">Disc Total</th>
+                                                <!-- <th></th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody id="product_tbody">
+                                            <tr>
+                                                <?php
+                                                $counter = 1;
+                                                while ($data = mysqli_fetch_assoc($result2)) {
 
-                                            echo  "<tr >";
-                                            echo "<td class='serial-number'>" . sprintf('%02d', $counter) . "</td>";
-                                            echo "<td class= 'text-center'>" . $data['Sname'] . " </td>";
-                                            echo "<td class= 'text-center'>" . $data['Description'] . "</td>";
-                                            echo "<td class= 'text-center'>" . $data['Qty'] . "</td>";
-                                            echo "<td class= 'text-center'>" . $data['Price'] . "</td>";
-                                            echo "<td class= 'text-center'>" . $data['Totalprice'] . "</td>";
-                                            echo "<td class= 'text-center'>" . $data['Discount'] . "</td>";
-                                            echo "<td class= 'text-center'>" . $data['Finaltotal'] . "</td>";
-                                            echo "</tr>";
-                                            $counter++;
-                                        }
-                                        ?>
-                                    </tr>
+                                                    echo  "<tr >";
+                                                    echo "<td class='serial-number'>" . sprintf('%02d', $counter) . "</td>";
+                                                    echo "<td class= 'text-center'>" . $data['Sname'] . " </td>";
+                                                    echo "<td class= 'text-center'>" . $data['Description'] . "</td>";
+                                                    echo "<td class= 'text-center'>" . $data['Qty'] . "</td>";
+                                                    echo "<td class= 'text-center'>" . $data['Price'] . "</td>";
+                                                    echo "<td class= 'text-center'>" . $data['Totalprice'] . "</td>";
+                                                    echo "<td class= 'text-center'>" . $data['Discount'] . "</td>";
+                                                    echo "<td class= 'text-center'>" . $data['Finaltotal'] . "</td>";
+                                                    echo "</tr>";
+                                                    $counter++;
+                                                }
+                                                ?>
+                                            </tr>
 
-                                    <!-- Add more rows as needed -->
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan='7' class='text-right' style="text-align: right;">Total Before Tax</td>
-                                        <td colspan="1" class="text-center"><?php echo $final_total; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan='6' class='text-right' style="text-align: right;">GST%</td>
-                                        <td class="text-center"><?php echo $gst; ?></td>
-                                        <td colspan="1" class="text-center"><?php echo $Gst_total; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="text-center"><?php echo $Totalin_word; ?></td>
-                                        <td class="text-center" class='text-right' style="text-align: right;">Total</td>
-                                        <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' value="<?php echo $Grand_total; ?>" readonly></td>
-                                    <tr>
-                                        <td colspan="7" class="text-right" class='text-right' style="text-align: right;">Pre Advance</td>
-                                        <td colspan="" class="text-center"><input type='text' name='advance' id='advance' class='form-control advance' value="<?php echo $advance; ?>" readonly></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="7" class="text-right" class='text-right' style="text-align: right;">New Advance</td>
-                                        <td colspan="" class="text-center"><input type='text' name='newadvance' id='newadvance' class='form-control newadvance'></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords" value="<?php echo $balancewords; ?>"></td>
-                                        <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
-                                        <td colspan="" class="text-center"><input type='text' name='balance' id='balance' class='form-control balance' value="<?php echo $balance; ?>" readonly></td>
-                                        <input type='text' name='totaladvance' id='totaladvance' class='form-control totaladvance' hidden>
-                                        <input type='text' name='Sid' id='Sid' class='form-control Sid' value="<?php echo $invoice_id; ?>" hidden>
-                                    </tr>
+                                            <!-- Add more rows as needed -->
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan='7' class='text-right' style="text-align: right;">Total Before Tax</td>
+                                                <td colspan="1" class="text-center"><?php echo $final_total; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan='6' class='text-right' style="text-align: right;">GST%</td>
+                                                <td class="text-center"><?php echo $gst; ?></td>
+                                                <td colspan="1" class="text-center"><?php echo $Gst_total; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6" class="text-center"><?php echo $Totalin_word; ?></td>
+                                                <td class="text-center" class='text-right' style="text-align: right;">Total</td>
+                                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' value="<?php echo $Grand_total; ?>" readonly></td>
+                                            <tr>
+                                                <td colspan="7" class="text-right" class='text-right' style="text-align: right;">Pre Advance</td>
+                                                <td colspan="" class="text-center"><input type='text' name='advance' id='advance' class='form-control advance' value="<?php echo $advance; ?>" readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" class="text-right" class='text-right' style="text-align: right;">New Advance</td>
+                                                <td colspan="" class="text-center"><input type='text' name='newadvance' id='newadvance' class='form-control newadvance'></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords" value="<?php echo $balancewords; ?>"></td>
+                                                <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
+                                                <td colspan="" class="text-center"><input type='text' name='balance' id='balance' class='form-control balance' value="<?php echo $balance; ?>" readonly></td>
+                                                <input type='text' name='totaladvance' id='totaladvance' class='form-control totaladvance' hidden>
+                                                <input type='text' name='Sid' id='Sid' class='form-control Sid' value="<?php echo $invoice_id; ?>" hidden>
+                                            </tr>
 
-                                </tfoot>
-                            </table>
-
-                            <div class="container mt-5">
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- <div class="container mt-5">
                                 <div class="row   ">
 
                                     <div class="  mt-3 col-5     ">
@@ -382,7 +450,7 @@ if ($result->num_rows > 0) {
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> -->
                             <!--  ENDING BILLING SECTION  -->
 
                             <!--   Functions of invoice -->
@@ -532,7 +600,7 @@ if ($result->num_rows > 0) {
                 </div>
 
             </section>
-            </div>
+        </div>
     </div>
 </body>
 

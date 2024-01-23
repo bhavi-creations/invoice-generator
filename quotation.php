@@ -1,5 +1,14 @@
 <?php
 
+
+session_start();
+if(!isset($_SESSION['email'])){
+    header('Location:index.php');
+    exit();
+}
+
+
+
 define('INVOICE_INITIAL_VALUE', '1');
 
 
@@ -85,6 +94,7 @@ $invoiceNumber = getInvoiceId();
 
 
     <link rel="stylesheet" href="img/style.css">
+    <link rel="stylesheet" href="img/stylemi.css">
 
     <style>
         .dropdown {
@@ -138,7 +148,58 @@ $invoiceNumber = getInvoiceId();
             background-color: blue;
             color: white;
         }
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 50px;
+        }
+
+        .form-input {
+            border-radius: 20px;
+            border: none;
+            background-color: aliceblue;
+            padding: 5px;
+        }
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .thead {
+            /* background-color: aliceblue; */
+            border: 1px solid black;
+        }
+
+        th {
+            border: none;
+            padding: 4px;
+            /* Adjust padding as needed */
+            text-align: center;
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+
+        /* 
+        .navbar-nav {
+            color: black;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 17px;
+        }
+         */
     </style>
+
+
 
 </head>
 
@@ -155,9 +216,19 @@ $invoiceNumber = getInvoiceId();
                         </button>
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-
                                 <li class="nav-item ">
-                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
+                                    <a href="#" class="nav-link  nav-links active-link" id="add_customer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 5V19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M5 12H19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Add Customer</a>
+                                </li>
+                                <li class="nav-item pt-4">
+                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.84199 9.77C5.41999 9.77 3.45599 7.807 3.45599 5.385C3.45599 2.963 5.41999 1 7.84199 1C10.263 1 12.227 2.963 12.227 5.385C12.236 7.798 10.286 9.761 7.87299 9.77H7.84199Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14.7336 8.6318C16.3346 8.4068 17.5676 7.0328 17.5706 5.3698C17.5706 3.7308 16.3756 2.3708 14.8086 2.1138" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16.8459 12.4824C18.3969 12.7134 19.4799 13.2574 19.4799 14.3774C19.4799 15.1484 18.9699 15.6484 18.1459 15.9614" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>Customers</a>
                                 </li>
 
                                 <li class="dropdown nav-item pt-4">
@@ -260,11 +331,11 @@ $invoiceNumber = getInvoiceId();
             <!--  INVOICE  FORM  -->
 
             <section class="col-lg-10">
-                <div class="container pt-5">
+                <div class="container ">
 
                     <!-- FORM -->
 
-                    <form class=" formborder rounded p-4 pb-4 mb-5" action="quotationform.php" method="post">
+                    <form class="p-4 pb-4 mb-5" action="quotationform.php" method="post">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
 
                         <!-- FORM INVOICENUMBER -->
@@ -272,7 +343,7 @@ $invoiceNumber = getInvoiceId();
                         <div class="row container pt-5 ps-5 mb-5">
                             <div class="col-lg-8 col-sm-12 col-md-12">
                                 <h5><strong>Quotation</strong></h5>
-                                <h5>Date : <input type="date" name="invoice_date" id="" class="" style="border-radius:3px;"></h5>
+                                <h5><strong> Date :</strong> <input type="date" name="invoice_date" class="form-input"></h5>
                             </div>
                             <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                                 <h5><strong>Quotation Number </strong></h5>
@@ -333,103 +404,109 @@ $invoiceNumber = getInvoiceId();
             </div> -->
 
                         <div class="container-fluid billing">
-                            <table border="1">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th class="text-center">S.no</th>
-                                        <th style="width: 253px;" class="text-center"> Services</th>
-                                        <th style="width: 364px;" class="text-center">Description</th>
-                                        <th class="text-center">Qty </th>
-                                        <th class="text-center">Price/Unit</th>
-                                        <th class="text-center">Sub Total </th>
-                                        <th class="text-center">Disc</th>
-                                        <th class="text-center">Disc Total</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="product_tbody">
-                                    <tr>
-                                        <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
-                                        <td class="serial-number">01</td>
-                                        <td> <select name="Sname[]" class="form-control">
-                                                <?php
-                                                $sql = "SELECT `service_name` FROM `service_names`";
-                                                $res = $conn->query($sql);
+                            <div class="table-responsive">
+                                <div style="overflow-x:auto;">
+                                    <table border="0">
 
-                                                while ($row = mysqli_fetch_assoc($res)) {
-                                                    echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select></td>
-                                        <td><textarea class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
-                                        <td><input type='text' required name='Qty[]' class='form-control qty'></td>
-                                        <td><input type='text' required name='Price[]' class='form-control price'></td>
-                                        <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
-                                        <td><input type='text' required name='discount[]' class='form-control discount'></td>
-                                        <td><input type='text' required name='total[]' class='form-control total'></td>
-                                        <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
-                                    </tr>
+                                        <thead class="thead">
+                                            <tr>
+                                                <th></th>
+                                                <th class="text-center">S.no</th>
+                                                <th style="width: 253px;" class="text-center">Services</th>
+                                                <th style="width: 310px;" class="text-center">Description</th>
+                                                <th class="text-center">Qty</th>
+                                                <th class="text-center">Price/Unit</th>
+                                                <th class="text-center">Sub Total</th>
+                                                <th class="text-center">Disc %</th>
+                                                <th class="text-center">Disc Total</th>
+                                                <th></th>
 
-                                    <!-- Add more rows as needed -->
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan='8' class='text-right' style="text-align: right;">Total Before Tax</td>
-                                        <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan='7' class='text-right' style="text-align: right;">GST%</td>
-                                        <td>
-                                            <select name="gst" id="gst" class="form-control gst">
-                                                <?php
-                                                require_once('bhavidb.php');
-                                                $sql2 = "SELECT `gst` FROM `gst_no`";
-                                                $result = $conn->query($sql2);
+                                            </tr>
+                                        </thead>
+                                        <tbody id="product_tbody">
+                                            <tr>
+                                                <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
+                                                <td class="serial-number">01</td>
+                                                <td> <select name="Sname[]" class="form-control">
+                                                        <?php
+                                                        $sql = "SELECT `service_name` FROM `service_names`";
+                                                        $res = $conn->query($sql);
 
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    echo "<option value='" . $row['gst'] . "'>" . $row['gst'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </td>
-                                        <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total'></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
-                                        <td class="text-center" class='text-right' style="text-align: right;">Total</td>
-                                        <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="8" class="text-right" class='text-right' style="text-align: right;">Advance</td>
-                                        <td colspan="2"><input type='text' name='advance' id='advance' class='form-control advance'></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="7"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords"></td>
-                                        <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
-                                        <td colspan="2"><input type='text' name='balance' id='balance' class='form-control balance' readonly></td>
-                                    </tr>
+                                                        while ($row = mysqli_fetch_assoc($res)) {
+                                                            echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
+                                                        }
+                                                        ?>
+                                                    </select></td>
+                                                <td><textarea class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td><input type='text' required name='Qty[]' class='form-control qty'></td>
+                                                <td><input type='text' required name='Price[]' class='form-control price'></td>
+                                                <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
+                                                <td><input type='text' required name='discount[]' class='form-control discount'></td>
+                                                <td><input type='text' required name='total[]' class='form-control total'></td>
+                                                <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
+                                            </tr>
 
-                                </tfoot>
-                            </table>
+                                            <!-- Add more rows as needed -->
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan='8' class='text-right' style="text-align: right;">Total Before Tax</td>
+                                                <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan='7' class='text-right' style="text-align: right;">GST%</td>
+                                                <td>
+                                                    <select name="gst" id="gst" class="form-control gst">
+                                                        <?php
+                                                        require_once('bhavidb.php');
+                                                        $sql2 = "SELECT `gst` FROM `gst_no`";
+                                                        $result = $conn->query($sql2);
+
+                                                        while ($row = mysqli_fetch_assoc($result)) {
+                                                            echo "<option value='" . $row['gst'] . "'>" . $row['gst'] . "</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </td>
+                                                <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total'></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
+                                                <td class="text-center" class='text-right' style="text-align: right;">Total</td>
+                                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="8" class="text-right" class='text-right' style="text-align: right;">Advance</td>
+                                                <td colspan="2"><input type='text' name='advance' id='advance' class='form-control advance'></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords"></td>
+                                                <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
+                                                <td colspan="2"><input type='text' name='balance' id='balance' class='form-control balance' readonly></td>
+                                            </tr>
+
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
 
                             <div class="container mt-5">
                                 <div class="row   ">
 
                                     <div class="  mt-3 col-5     ">
-                                        <textarea name="terms" id="" cols="50" rows="5" placeholder="terms&conditions"></textarea>
+                                        <textarea name="terms" style="border-radius: 10px;" cols="50" rows="5" placeholder="terms&conditions"></textarea>
                                     </div>
+
+
+                                    <div class="  mt-3 col-5">
+                                        <textarea name=" note" style="border-radius: 10px;" cols="50" rows="5" placeholder="Note:"></textarea>
+                                    </div>
+
                                     <div class=" col-2   pt-5 ps-5" style="margin-right:-5px;">
 
                                         <input type="submit" name="submit" value="Save & Print" class="btn btn-primary ">
 
                                     </div>
-
-
-                                    <div class="  mt-3 col-5  " style="padding-left: 111px;">
-                                        <textarea name=" note" id="" cols="50" rows="5" placeholder="Note:"></textarea>
-                                    </div>
-
                                 </div>
                             </div>
                             <!--  ENDING BILLING SECTION  -->
