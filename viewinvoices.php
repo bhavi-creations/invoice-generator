@@ -116,7 +116,24 @@ $result = $conn->query($sql);
             color: white;
         }
     </style> -->
+    <style>
+        .table.viewinvoicetable thead {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: #f2f2f2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Add shadow to the bottom */
+        }
 
+        table{
+            background-color: white;
+            border-radius: 20px;
+        }
+        .nav-item{
+            padding-top: 35px;
+        }
+    </style>
 
 </head>
 
@@ -126,19 +143,39 @@ $result = $conn->query($sql);
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-2">
-                <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
+            <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="88px" width="191px"></a>
+                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                                <li class="nav-item ">
-                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php">Customers</a>
+                                <li class=" ">
+                                    <a href="#" class="nav-link  nav-links active-link" id="add_customer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 5V19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M5 12H19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Add Customer</a>
                                 </li>
-                                <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links" href="#">Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <li class="nav-item ">
+                                    <a class="nav-link  nav-links text-dark" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.84199 9.77C5.41999 9.77 3.45599 7.807 3.45599 5.385C3.45599 2.963 5.41999 1 7.84199 1C10.263 1 12.227 2.963 12.227 5.385C12.236 7.798 10.286 9.761 7.87299 9.77H7.84199Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14.7336 8.6318C16.3346 8.4068 17.5676 7.0328 17.5706 5.3698C17.5706 3.7308 16.3756 2.3708 14.8086 2.1138" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16.8459 12.4824C18.3969 12.7134 19.4799 13.2574 19.4799 14.3774C19.4799 15.1484 18.9699 15.6484 18.1459 15.9614" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        Customers</a>
+                                </li>
+
+                                <li class="dropdown nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 17H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10 9H9H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -153,8 +190,11 @@ $result = $conn->query($sql);
                                 </li>
 
                                 <!-- Invoice dropdown -->
-                                <li class="dropdown nav-item pt-4">
-                                    <a class="nav-link  nav-links active-link" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <li class="dropdown nav-item ">
+                                    <a class="nav-link active-link  nav-links " href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                            <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
+                                            <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
+                                        </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill " viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -172,15 +212,26 @@ $result = $conn->query($sql);
                                 <!-- <li class="nav-item pe-5">
                             <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
                         </li> -->
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="customized_edits.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                        </svg> Customized Edits</a>
+                                </li>
 
-                                <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links" href="customized_edits.php">Customized Edits</a>
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="report.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M21.21 15.89C20.5738 17.3945 19.5788 18.7202 18.3119 19.7513C17.0449 20.7824 15.5447 21.4874 13.9424 21.8048C12.3401 22.1221 10.6844 22.0421 9.12012 21.5718C7.55585 21.1015 6.1306 20.2551 4.969 19.1067C3.80739 17.9582 2.94479 16.5428 2.45661 14.984C1.96843 13.4251 1.86954 11.7705 2.16857 10.1646C2.46761 8.55878 3.15547 7.05063 4.17202 5.77203C5.18857 4.49343 6.50286 3.48332 7.99998 2.83" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2V12H22Z" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Reports</a>
                                 </li>
-                                <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links" href="report.php">Reports</a>
-                                </li>
-                                <li class="nav-item pt-4">
-                                    <a class="nav-link text-dark nav-links btn-danger" href="index.php">Sign Out</a>
+
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
+                                            <path d="M19.7789 9.4548L16.9331 6.5458C16.639 6.2458 16.1657 6.2458 15.8725 6.5478C15.5803 6.8498 15.5813 7.3368 15.8745 7.6368L17.4337 9.2298H15.9387H7.54844C7.13452 9.2298 6.79852 9.5748 6.79852 9.9998C6.79852 10.4258 7.13452 10.7698 7.54844 10.7698H17.4337L15.8745 12.3628C15.5813 12.6628 15.5803 13.1498 15.8725 13.4518C16.0196 13.6028 16.2114 13.6788 16.4043 13.6788C16.5952 13.6788 16.787 13.6028 16.9331 13.4538L19.7789 10.5458C19.9201 10.4008 20 10.2048 20 9.9998C20 9.7958 19.9201 9.5998 19.7789 9.4548Z" fill="black" />
+                                        </svg>
+                                        logout</a>
                                 </li>
                             </ul>
                         </div>
@@ -234,14 +285,14 @@ $result = $conn->query($sql);
             </section>
 
 
+            
 
-
-
+                        <!--  Table-->
             <section class="col-lg-10">
                 <div class="container " style="margin-top: 70px;">
                     <div class="table-responsive ms-5" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
                         <table class="table table-bordered viewinvoicetable">
-                            <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2;">
+                            <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                 <tr>
                                     <th class="text-center" style="width: 10%;">Invoice No</th>
                                     <th style="width: 20%;">Customer Name</th>
@@ -256,20 +307,31 @@ $result = $conn->query($sql);
                                 <?php
                                 // Loop through the fetched data and display it in the table
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row['Invoice_no'] . "</td>";
-                                    echo "<td>" . $row['Cname'] . "</td>";
-                                    echo "<td>" . $row['Invoice_date'] . "</td>";
-                                    echo "<td>" . $row['Grandtotal'] . "</td>";
-                                    echo "<td class='status' data-invoice-no='" . $row['Invoice_no'] . "'>" . $row['status'] .  "</td>";
-                                    echo "<td> 
+                                    echo "<tr style='border: hidden;'>";
+                                    echo "<td style='border: hidden;'>" . $row['Invoice_no'] . "</td>";
+                                    echo "<td style='border: hidden;'>" . $row['Cname'] . "</td>";
+                                    echo "<td style='border: hidden;'>" . $row['Invoice_date'] . "</td>";
+                                    echo "<td style='border: hidden;'>" . $row['Grandtotal'] . "</td>";
+                                    echo "<td style='border: hidden;' class='status' data-invoice-no='" . $row['Invoice_no'] . "'>" . $row['status'] .  "</td>";
+                                    echo "<td style='border: hidden;'> 
                             <div class='btn-group'>
-                            <button type='submit' class='view-button'>
-                                    <a class='view-button' href='edit.php?Sid={$row['Sid']}'>Edit</a>
+                            <button type='submit' class='view-button' style='border:none;'>
+                                    <a class='' href='edit.php?Sid={$row['Sid']}'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-pencil-square' viewBox='0 0 16 16'>
+                                    <path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
+                                    <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z'/>
+                                  </svg>
+                                  
+                                  </a>
                                 </button>
                                 <span style='margin-left: 10px;'></span>
-                                <button type='button' class='history-button' data-bs-toggle='modal' data-bs-target='#advance_frm' data-id='{$row['Invoice_no']}'>
-                                History
+                                <button style='border:none;' type='button' class='history-button' data-bs-toggle='modal' data-bs-target='#advance_frm' data-id='{$row['Invoice_no']}'>
+                                <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-clock-history' viewBox='0 0 16 16'>
+                                <path d='M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z' stroke-width='2'/>
+                                <path d='M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z' stroke-width='2'/>
+                                <path d='M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5' stroke-width='2'/>
+                            </svg>
+                            
+                              
                                 </button>
                                
                            
@@ -278,13 +340,21 @@ $result = $conn->query($sql);
                                     echo "<td> 
                             <div class='btn-group'>
                             
-                                <button type='submit' class='view-button'>
-                                    <a class='view-button' href='print.php?Sid={$row['Sid']}'>View</a>
+                                <button type='submit' class='view-button' style='border:none;'>
+                                    <a class='view-button' href='print.php?Sid={$row['Sid']}'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-eye-fill' viewBox='0 0 16 16'>
+                                    <path d='M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0'/>
+                                    <path d='M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7'/>
+                                  </svg></a>
                                 </button>
                                 <span style='margin-left: 10px;'></span>
                                 <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
                                     <input type='hidden' name='delete_id' value='" . $row['Invoice_no'] . "'>
-                                    <button type='submit' class='delete-button'>Delete</button>
+                                    <button type='submit' class='delete-button' style='border:none;'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'>
+                                    <path d='M3 6H5H21' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                    <path d='M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                    <path d='M10 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                    <path d='M14 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                  </svg></button>
                                 </form> 
                               <span style='margin-left: 10px;'></span>
                               <select name='status' class='status-dropdown' data-invoice-no=' " . $row['Invoice_no'] . " '>
@@ -322,6 +392,10 @@ $result = $conn->query($sql);
                     </div>
                 </div>
             </section>
+
+            <?php include('addcus-model.php'); ?>
+
+
         </div>
     </div>
 
