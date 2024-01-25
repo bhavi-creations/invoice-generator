@@ -62,6 +62,24 @@ include('addcus-model.php');
         .nav-item {
             padding-top: 35px;
         }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 20px;
+            /* text-align: center; */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12 px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -74,7 +92,7 @@ include('addcus-model.php');
             <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
+                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -293,9 +311,8 @@ include('addcus-model.php');
             </section>
         </div>
     </div>
-    <script>
+    <?php include('changepass-modal.php'); ?>
 
-    </script>
 
 </body>
 

@@ -27,7 +27,6 @@ if ($result && $result2) {
 
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -69,9 +68,11 @@ if ($result && $result2) {
       display: none;
       position: absolute;
       background-color: #f9f9f9;
-      min-width: 182px;
+      min-width: 200px;
       box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-      z-index: 3;
+      z-index: 1;
+      border-radius: 20px;
+      /* text-align: center; */
     }
 
     .dropdown-content a {
@@ -79,7 +80,7 @@ if ($result && $result2) {
       padding: 12 px 16px;
       text-decoration: none;
       display: block;
-      text-align: left;
+      text-align: center;
     }
 
     .dropdown-content a:hover {
@@ -140,10 +141,10 @@ if ($result && $result2) {
       text-align: center;
       font-size: 24px;
     }
-    .nav-item {
-            padding-top: 35px;
-        }
 
+    .nav-item {
+      padding-top: 35px;
+    }
   </style>
 
 </head>
@@ -156,7 +157,7 @@ if ($result && $result2) {
       <section class="col-lg-2">
         <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
+            <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -505,7 +506,7 @@ if ($result && $result2) {
             <table class="table viewinvoicetable pb-5" style="border-collapse: collapse; border: none; border-radius: 40px;">
               <thead style="position: sticky; top: 0; z-index: 1; background-color: #f2f2f2; ">
                 <tr style=" background-color: #ffffff; " class="pb-2">
-                  <!-- <th> Id </th> -->
+                  <th> Id </th>
                   <th> Company Name </th>
                   <th> Customer Name </th>
                   <th> Customer Phone </th>
@@ -522,7 +523,7 @@ if ($result && $result2) {
                 $res = $conn->query($sql);
                 while ($row = mysqli_fetch_assoc($res)) {
                   echo "<tr style='border: hidden;'>";
-                  // echo "<td style='border: hidden;'>" . $row['Id'] . "</td>";
+                  echo "<td style='border: hidden;'>" . $row['Id'] . "</td>";
                   echo "<td style='border: hidden;'>" . $row['Company_name'] . "</td>";
                   echo "<td style='border: hidden;'>" . $row['Name'] . "</td>";
                   echo "<td style='border: hidden;'>" . $row['Phone'] . "</td>";
@@ -610,6 +611,7 @@ if ($result && $result2) {
       });
     });
   </script>
+include('changepass-modal.php');
 
 
 </body>

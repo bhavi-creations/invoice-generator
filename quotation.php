@@ -106,9 +106,11 @@ $invoiceNumber = getInvoiceId();
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            min-width: 182px;
+            min-width: 200px;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 1;
+            border-radius: 20px;
+            /* text-align: center; */
         }
 
         .dropdown-content a {
@@ -116,7 +118,7 @@ $invoiceNumber = getInvoiceId();
             padding: 12 px 16px;
             text-decoration: none;
             display: block;
-            text-align: left;
+            text-align: center;
         }
 
         .dropdown-content a:hover {
@@ -198,10 +200,9 @@ $invoiceNumber = getInvoiceId();
         }
          */
 
-         .nav-item{
+        .nav-item {
             padding-top: 35px;
-         }
-
+        }
     </style>
 
 
@@ -215,7 +216,7 @@ $invoiceNumber = getInvoiceId();
             <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
+                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -482,7 +483,7 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td colspan='7' class='text-right' style="text-align: right;">GST%</td>
                                                 <td>
-                                                    <select name="gst" id="gst" class="form-control gst">
+                                                    <select name="gst" id="gst" class="gst">
                                                         <?php
                                                         require_once('bhavidb.php');
                                                         $sql2 = "SELECT `gst` FROM `gst_no`";
@@ -876,6 +877,9 @@ $invoiceNumber = getInvoiceId();
             });
         });
     </script>
+
+<?php include('changepass-modal.php');
+ ?>
 </body>
 
 
