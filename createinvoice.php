@@ -216,7 +216,7 @@ $invoiceNumber = getInvoiceId();
             <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#" id="change_password" ><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
+                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -307,12 +307,9 @@ $invoiceNumber = getInvoiceId();
                 </nav>
                 <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-                <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none">
                     <div class="container-fluid">
-                        <div class="navbar-header">
-                            <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-                            <a class="navbar-brand" href="#">Navbar</a>
-                        </div>
+                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -321,21 +318,30 @@ $invoiceNumber = getInvoiceId();
                                 <li class="nav-item">
                                     <a class="nav-link" href="customized_edits.php">Customized Edits</a>
                                 </li>
-                                <li class="dropdown nav-item pe-4">
-                                    <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                        </svg></a>
-                                    <div class="dropdown-content">
-                                        <a class="nav-link text-dark" href="quotation.php">
-                                            <h6>Create Quotation</h6>
-                                        </a>
-                                        <a class="nav-link text-dark" href="createinvoice.php">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link active text-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Invoice
+                                     
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item text-dark" href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
-                                        <a class="nav-link text-dark" href="viewinvoices.php">
+                                        <a class="dropdown-item text-dark" href="viewinvoices.php">
                                             <h6>View Invoices</h6>
                                         </a>
-                                        <a class="nav-link text-dark" href="viewquotes.php">
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Quotation
+                                       
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item text-dark" href="quotation.php">
+                                            <h6>Create Quotation</h6>
+                                        </a>
+                                        <a class="dropdown-item text-dark" href="viewquotes.php">
                                             <h6>View Quotes</h6>
                                         </a>
                                     </div>
@@ -348,7 +354,6 @@ $invoiceNumber = getInvoiceId();
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </nav>
             </section>
@@ -356,13 +361,14 @@ $invoiceNumber = getInvoiceId();
 
             <!--  INVOICE  FORM  -->
 
-            <section class="col-lg-10">
-                <div class="container pt- ">
+            <section class="col-lg-10 col-md-12">
+                <div class="container col-md-12 ">
 
                     <!-- FORM -->
 
                     <form class=" p-4 pb-4 mb-5" action="formprocess.php" method="post">
-                        <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
+                        <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block img-fluid" style="max-height: 20%; max-width: 20%;">
+
 
                         <!-- FORM INVOICENUMBER -->
 
@@ -381,46 +387,55 @@ $invoiceNumber = getInvoiceId();
 
                         <!--  COMPANY DETAILS  -->
 
-                        <div class="row container ps-5 mb-5">
-                            <div class="col-lg-8 col-sm-12 col-md-12">
-                                <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd </strong></h4>
-                                <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New </h6>
-                                <h6>RTO Office, behind J.N.T.U Engineering College Play Ground,</h6>
-                                <h6> RangaRaoNagar,Kakinada,</h6>
-                                <h6>AndhraPradesh533003</h6>
-                                <h6>Phone no.: 9642343434</h6>
-                                <h6>Email: admin@bhavicreations.com</h6>
-                                <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
-                            </div>
-                            <div class="col-lg-4 col-sm-12 col-md-12">
-                                <h4>
-                                    <select name="company" id="companySelect">
-                                        <?php
-                                        $sql = "SELECT * FROM `customer`";
-                                        $res = $conn->query($sql);
-                                        $fetched_data = [];
-                                        echo "<option value=''>Select Customer/Company</option>";
-                                        while ($row = mysqli_fetch_assoc($res)) {
-                                            $fetched_data[] = $row;
-                                            echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                        }
-                                        // this hidden input is used to store the data & get the data in javascript
-                                        echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
-                                        ?>
-                                    </select>
-                                </h4>
-                                <p class="mb-1" id="company_name"></p>
-                                <p class="mb-1" id="name"></p>
-                                <p class="mb-1" id="email"></p>
-                                <p class="mb-1" id="phone"></p>
-                                <p class="mb-1" id="gst"></p>
+                        <div class="container ps-5 mb-5">
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-12 mb-3">
+                                    <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd</strong></h4>
+                                    <address class="">
+                                        <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New</h6>
+                                        <h6>RTO Office, behind J.N.T.U Engineering College Play Ground,</h6>
+                                        <h6>RangaRaoNagar, Kakinada,</h6>
+                                        <h6>AndhraPradesh533003</h6>
+                                        <h6>Phone no.: 9642343434</h6>
+                                        <h6>Email: <p style="font-size: 16px;"><b>admin@bhavicreations.com</b></p>
+                                        </h6>
+                                        <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
+                                    </address>
+
+
+
+                                </div>
+                                <div class="col-lg-4 col-sm-12 mb-3">
+                                    <h4 class="mb-3">
+                                        <select class="" name="company" id="companySelect">
+                                            <?php
+                                            $sql = "SELECT * FROM `customer`";
+                                            $res = $conn->query($sql);
+                                            $fetched_data = [];
+                                            echo "<option value=''>Select Customer/Company</option>";
+                                            while ($row = mysqli_fetch_assoc($res)) {
+                                                $fetched_data[] = $row;
+                                                echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
+                                            }
+                                            // this hidden input is used to store the data & get the data in javascript
+                                            echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
+                                            ?>
+                                        </select>
+                                    </h4>
+                                    <p class="mb-1" id="company_name"></p>
+                                    <p class="mb-1" id="name"></p>
+                                    <p class="mb-1" id="email"></p>
+                                    <p class="mb-1" id="phone"></p>
+                                    <p class="mb-1" id="gst"></p>
+                                </div>
                             </div>
                         </div>
+
 
                         <!-- ENDING COMPANY DETAILS -->
 
                         <!-- BILLING SECTION  -->
-                        <div class="container">
+                        <!-- <div class="container">
                             <div class="row   mb-3">
                                 <div class="text-end mb-5 col-6 ">
                                     <h3><B>BILLING</B></h3>
@@ -432,18 +447,33 @@ $invoiceNumber = getInvoiceId();
                                     </select>
                                 </div>
                             </div>
+                        </div> -->
+                        <div class="container">
+                            <div class="row mb-3">
+                                <div class="col-md-6 text-md-end text-sm-center text-center mb-3 col-12 ">
+                                    <h3><b>BILLING</b></h3>
+                                </div>
+                                <div class="col-lg-1 col-md-3 col-sm-12">
+                                    <select class="" name="status" id="status">
+                                        <option value="paid">Paid</option>
+                                        <option value="pending">Not paid</option>
+                                    </select>
+
+                                </div>
+                            </div>
                         </div>
+
                         <div class="container-fluid billing">
                             <div class="table-responsive">
                                 <div style="overflow-x:auto;">
-                                    <table border="0">
+                                    <table border="0" class="table table-bordered">
 
-                                        <thead class="thead">
+                                        <thead class="thead" style="background-color: #e9ecef;">
                                             <tr>
                                                 <th></th>
                                                 <th class="text-center">S.no</th>
-                                                <th style="width: 253px;" class="text-center">Services</th>
-                                                <th style="width: 310px;" class="text-center">Description</th>
+                                                <th style="width: 253px;" class="text-center d-none d-md-table-cell d-lg-table-cell">Services</th>
+                                                <th style="width: 310px;" class="text-center d-none d-md-table-cell d-lg-table-cell">Description</th>
                                                 <th class="text-center">Qty</th>
                                                 <th class="text-center">Price/Unit</th>
                                                 <th class="text-center">Sub Total</th>
@@ -457,7 +487,7 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td> <select name="Sname[]" class="form-control">
+                                                <td> <select name="Sname[]" class="">
                                                         <?php
                                                         $sql = "SELECT `service_name` FROM `service_names`";
                                                         $res = $conn->query($sql);
@@ -480,7 +510,7 @@ $invoiceNumber = getInvoiceId();
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan='8' class='text-right' style="text-align: right;">Total Before Tax</td>
+                                                <td colspan='8' class="text-right " style="text-align: right;">Total Before Tax</td>
                                                 <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
                                             </tr>
                                             <tr>
@@ -502,7 +532,7 @@ $invoiceNumber = getInvoiceId();
                                             </tr>
                                             <tr>
                                                 <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
-                                                <td class="text-center" class='text-right' style="text-align: right;">Total</td>
+                                                <td class="text-center" style="text-align: right;">Total</td>
                                                 <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
                                             </tr>
                                             <tr>
@@ -511,7 +541,7 @@ $invoiceNumber = getInvoiceId();
                                             </tr>
                                             <tr>
                                                 <td colspan="7"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords"></td>
-                                                <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
+                                                <td class="text-right" class='text-right ' style="text-align: right;">Balance</td>
                                                 <td colspan="2"><input type='text' name='balance' id='balance' class='form-control balance' readonly></td>
                                             </tr>
 
@@ -521,21 +551,17 @@ $invoiceNumber = getInvoiceId();
                             </div>
 
                             <div class="container mt-5">
-                                <div class="row   ">
-
-                                    <div class="  mt-3 col-5     ">
-                                        <textarea name="terms" style="border-radius: 10px;" cols="50" rows="5" placeholder="terms&conditions"></textarea>
+                                <div class="row">
+                                    <div class="col-lg-5  mb-3">
+                                        <textarea name="terms" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Terms & Conditions"></textarea>
                                     </div>
 
-
-                                    <div class="  mt-3 col-5">
-                                        <textarea name=" note" style="border-radius: 10px;" cols="50" rows="5" placeholder="Note:"></textarea>
+                                    <div class="col-lg-5 mb-3">
+                                        <textarea name="note" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Note"></textarea>
                                     </div>
 
-                                    <div class=" col-2   pt-5 ps-5" style="margin-right:-5px;">
-
-                                        <input type="submit" name="submit" value="Save & Print" class="btn btn-primary ">
-
+                                    <div class="col-12 col-lg-2 mt-lg-3">
+                                        <input type="submit" name="submit" value="Save & Print" class="btn btn-primary w-100">
                                     </div>
                                 </div>
                             </div>
@@ -744,100 +770,106 @@ $invoiceNumber = getInvoiceId();
 
                             <!--     SCANNER SECTION  -->
 
-                            <div class="row container pt-5 ms-5 mb-5">
-                                <span class="verticalline mb-5"></span>
-                                <div class="col-lg-6  col-sm-12 col-md-12 ps-5">
-                                    <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
-                                    <h4><img src="img/qrcode.jpg" alt="" height="20%" width="20%"></h4>
+                            <div class="container pt-5 ms-5 mb-5">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12">
+                                        <span class="verticalline mb-5 d-block d-lg-none"></span>
+                                        <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                                        <h4><img src="img/qrcode.jpg" alt="" class="img-fluid" width="20%" height="20%"></h4>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 invoicenumber">
+                                        <span class="verticalline mt-5 d-block d-lg-none"></span>
+                                        <h5 class="mb-2"><strong>Payment details</strong></h5>
+                                        <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
+                                        <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
+                                        <h6 class="mb-2">Account No. : 59213749999999</h6>
+                                        <h6 class="mb-2">IFSC : HDFC000042</h6>
+                                    </div>
                                 </div>
-                                <div class="col-lg-6  col-sm-12 col-md-12 invoicenumber">
-                                    <h5 class="mb-2"><strong>Payment details</strong></h5>
-                                    <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
-                                    <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
-                                    <h6 class="mb-2">Account No. : 59213749999999</h6>
-                                    <h6 class="mb-2">IFSC : HDFC000042</h6>
-                                </div>
-                                <span class="verticalline mt-5"></span>
                             </div>
+
                             <!--   ENDING  SCANNER SECTION  -->
 
                             <!--    GOOGLEPAY SECTION   -->
 
-                            <div class="googlepay">
-                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                    <h6 class="text-center">Google pay , Phone pay. Paytm 8686394079</h6>
+                          
+                            <div class="googlepay container">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <h6 class="text-center">Google Pay, Phone Pay, Paytm: 8686394079</h6>
+                                    </div>
                                 </div>
                             </div>
+
                             <!--  ENDING  GOOGLEPAY SECTION  -->
 
 
 
 
 
-                    </form>
 
-                    <!-- ENDING  FORM -->
-                </div>
-                <div class="container text-center mt-4 ">
-                    <div class="row">
-                        <div class="col-7">
-                            <div class="modal" tabindex="-1" id="modal_frm">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Customer Details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="modalform.php" method="post">
-                                                <div class="form-group">
-
-                                                    <label for="">Company Name</label>
-                                                    <input type="text" name="company_name" class="form-control">
+                            
+                        </form> 
+                            <!-- ENDING  FORM -->
+                        </div>
+                        <div class="container text-center mt-4 ">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="modal" tabindex="-1" id="modal_frm">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Customer Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
+                                                <div class="modal-body">
+                                                    <form action="modalform.php" method="post">
+                                                        <div class="form-group">
 
-                                                <div class="form-group">
-                                                    <label for="">Name</label>
-                                                    <input type="text" name="cname" class="form-control">
-                                                </div>
+                                                            <label for="">Company Name</label>
+                                                            <input type="text" name="company_name" class="form-control">
+                                                        </div>
 
-                                                <div class="form-group">
-                                                    <label for="">Address</label>
-                                                    <input type="text" name="caddress" required class="form-control">
-                                                </div>
+                                                        <div class="form-group">
+                                                            <label for="">Name</label>
+                                                            <input type="text" name="cname" class="form-control">
+                                                        </div>
 
-                                                <div class="form-group">
-                                                    <label for="">Phone</label>
-                                                    <input type="tel" name="cphone" required class="form-control">
-                                                </div>
+                                                        <div class="form-group">
+                                                            <label for="">Address</label>
+                                                            <input type="text" name="caddress" required class="form-control">
+                                                        </div>
 
-                                                <div class="form-group">
-                                                    <label for="">Email</label>
-                                                    <input type="email" name="cemail" class="form-control">
-                                                </div>
+                                                        <div class="form-group">
+                                                            <label for="">Phone</label>
+                                                            <input type="tel" name="cphone" required class="form-control">
+                                                        </div>
 
-                                                <div class="form-group">
-                                                    <label for="">GST_No</label>
-                                                    <input type="text" name="cgst" id="gstInput" class="form-control">
+                                                        <div class="form-group">
+                                                            <label for="">Email</label>
+                                                            <input type="email" name="cemail" class="form-control">
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="">GST_No</label>
+                                                            <input type="text" name="cgst" id="gstInput" class="form-control">
+                                                        </div>
+                                                        <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                                    </form>
                                                 </div>
-                                                <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- <div>
+                                    <!-- <div>
                                 <p class="float-end d-flex flex-row justify-content-center"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
                             </div> -->
                         </div>
-                    </div>
-                </div>
-
-            <?php include('changepass-modal.php'); ?>
+                            </div>
+                        </div>
+                    <?php include('changepass-modal.php'); ?>
             </section>
         </div>
     </div>
-
     <!-- ENDING   INVOICE  FORM  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
