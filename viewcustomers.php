@@ -251,13 +251,10 @@ if ($result && $result2) {
         </nav>
         <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-lg-none">
           <div class="container-fluid">
-            <div class="navbar-header">
-              <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-              <a class="navbar-brand" href="#">Navbar</a>
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px" class="img-fluid"></a>
+            <button class="navbar-toggler d-block d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -265,27 +262,31 @@ if ($result && $result2) {
                 <li class="nav-item">
                   <a class="nav-link" href="customized_edits.php">Customized Edits</a>
                 </li>
-                <li class="dropdown nav-item pe-4">
-                  <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                      <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                    </svg></a>
-                  <div class="dropdown-content">
-                    <a class="nav-link text-dark" href="quotation.php">
-                      <h6>Create Quotation</h6>
-                    </a>
-                    <a class="nav-link text-dark" href="createinvoice.php">
+                <li class="nav-item dropdown">
+                  <a class="nav-link active text-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Invoice
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item text-dark" href="createinvoice.php">
                       <h6>Create Invoice</h6>
                     </a>
-                    <a class="nav-link text-dark" href="viewinvoices.php">
+                    <a class="dropdown-item text-dark" href="viewinvoices.php">
                       <h6>View Invoices</h6>
-                    </a>
-                    <a class="nav-link text-dark" href="viewquotes.php">
-                      <h6>View Quotes</h6>
                     </a>
                   </div>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Quotation
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item text-dark" href="quotation.php">
+                      <h6>Create Quotation</h6>
+                    </a>
+                    <a class="dropdown-item text-dark" href="viewquotes.php">
+                      <h6>View Quotes</h6>
+                    </a>
+                  </div>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
@@ -294,6 +295,7 @@ if ($result && $result2) {
             </div>
           </div>
         </nav>
+
       </section>
 
 
@@ -341,7 +343,7 @@ if ($result && $result2) {
                           <label for="">GST_No</label>
                           <input type="text" name="cgst" id="gstInput" class="form-control">
                         </div>
-                        <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                        <input type="submit" name="submit" id="" class="btn btn-success mt-5">
                       </form>
                     </div>
                   </div>
@@ -401,7 +403,7 @@ if ($result && $result2) {
 
         <div class="container">
           <div class="row">
-            <div class="col-8 pb-4">
+            <div class="col-lg-8 col-sd-12 pb-4">
               <?php
 
 
@@ -611,7 +613,7 @@ if ($result && $result2) {
       });
     });
   </script>
-include('changepass-modal.php');
+  <?php include('changepass-modal.php'); ?>
 
 
 </body>
