@@ -417,7 +417,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 
                             <div class="container mt-5 d-flex flex-row justify-content-center">
                                 <div class="col-12 col-lg-2 mt-lg-3" ">
-                                        <input type=" submit" name="submit" value="Save" class="btn btn-primary w-100">
+                                        <input type="submit" name="submit" value="Save" class="btn btn-primary w-100">
                                 </div>
                             </div>
                             <!--  ENDING BILLING SECTION  -->
