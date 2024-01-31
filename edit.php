@@ -85,9 +85,11 @@ if ($result->num_rows > 0) {
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            min-width: 182px;
+            min-width: 200px;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 1;
+            border-radius: 20px;
+            /* text-align: center; */
         }
 
         .dropdown-content a {
@@ -95,7 +97,7 @@ if ($result->num_rows > 0) {
             padding: 12 px 16px;
             text-decoration: none;
             display: block;
-            text-align: left;
+            text-align: center;
         }
 
         .dropdown-content a:hover {
@@ -168,8 +170,8 @@ if ($result->num_rows > 0) {
             border: 1px solid black;
         }
 
-        .nav-item{
-            padding-top:35px;
+        .nav-item {
+            padding-top: 20px;
         }
 
         /* 
@@ -255,9 +257,32 @@ if ($result->num_rows > 0) {
                                     </div>
                                 </li>
 
-                                <!-- <li class="nav-item pe-5">
-                            <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
-                        </li> -->
+                                <li class="dropdown nav-item ">
+                                    <a class="nav-link  nav-links text-dark" href="expenditures.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
+                                            <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
+                                            <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
+                                            <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
+                                        </svg>  Expenses <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg></a>
+                                    <div class="dropdown-content">
+
+                                        <a class="nav-link text-dark" href="view_expenditure.php">
+                                            <h6>View Expenses</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="exp_customized_edits.php">
+                                            <h6>Customized edits</h6>
+                                        </a>
+                                        <a class="nav-link text-dark" href="exp_reports.php">
+                                            <h6>Reports</h6>
+                                        </a>
+
+                                        <a class="nav-link text-dark" href="stocks.php">
+                                            <h6>Stock</h6>
+                                        </a>
+                                    </div>
+                                </li>
                                 <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links" href="customized_edits.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -456,6 +481,7 @@ if ($result->num_rows > 0) {
 
                                         </tfoot>
                                     </table>
+
                                 </div>
                             </div>
                             <!-- <div class="container mt-5">
@@ -480,6 +506,11 @@ if ($result->num_rows > 0) {
                             <!--  ENDING BILLING SECTION  -->
 
                             <!--   Functions of invoice -->
+                            <div class="container mt-5 d-flex flex-row justify-content-center">
+                                <div class="col-12 col-lg-2 mt-lg-3" ">
+                                        <input type="submit" name="submit" value="Save" class="btn btn-primary w-100">
+                                </div>
+                            </div>
                             <script>
                                 $(document).ready(function() {
                                     $("body").on("input", " #final_total,#advance, #newadvance", function() {

@@ -8,8 +8,7 @@ if (!isset($_SESSION['email'])) {
 }
 
 
-
-define('INVOICE_INITIAL_VALUE', '1');
+// define('INVOICE_INITIAL_VALUE', '1');
 
 
 require_once('bhavidb.php');
@@ -36,7 +35,7 @@ function getInvoiceId()
         die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
     }
 
-    $query = "SELECT quotation_no FROM quotation ORDER BY quotation_no DESC LIMIT 1";
+    $query = "SELECT Invoice_no FROM invoice ORDER BY Invoice_no DESC LIMIT 1";
 
     if ($result = $conn->query($query)) {
         $row_cnt = $result->num_rows;
@@ -46,7 +45,7 @@ function getInvoiceId()
         if ($row_cnt == 0) {
             $nextInvoiceNumber = INVOICE_INITIAL_VALUE;
         } else {
-            $nextInvoiceNumber = $row['quotation_no'] + 1;
+            $nextInvoiceNumber = $row['Invoice_no'] + 1;
         }
 
 
@@ -90,11 +89,14 @@ $invoiceNumber = getInvoiceId();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet"> -->
 
 
     <link rel="stylesheet" href="img/style.css">
+
     <link rel="stylesheet" href="img/stylemi.css">
+
+
 
     <style>
         .dropdown {
@@ -191,6 +193,10 @@ $invoiceNumber = getInvoiceId();
             border: 1px solid black;
         }
 
+        .nav-item {
+            padding-top: 20px;
+        }
+
         /* 
         .navbar-nav {
             color: black;
@@ -199,13 +205,7 @@ $invoiceNumber = getInvoiceId();
             font-size: 17px;
         }
          */
-
-        .nav-item {
-            padding-top: 20px;
-        }
     </style>
-
-
 
 </head>
 
@@ -229,24 +229,22 @@ $invoiceNumber = getInvoiceId();
                                         </svg> Add Customer</a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link  nav-links text-dark" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.84199 9.77C5.41999 9.77 3.45599 7.807 3.45599 5.385C3.45599 2.963 5.41999 1 7.84199 1C10.263 1 12.227 2.963 12.227 5.385C12.236 7.798 10.286 9.761 7.87299 9.77H7.84199Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M14.7336 8.6318C16.3346 8.4068 17.5676 7.0328 17.5706 5.3698C17.5706 3.7308 16.3756 2.3708 14.8086 2.1138" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16.8459 12.4824C18.3969 12.7134 19.4799 13.2574 19.4799 14.3774C19.4799 15.1484 18.9699 15.6484 18.1459 15.9614" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        Customers</a>
+                                    <a class="nav-link text-dark nav-links" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.84199 9.77C5.41999 9.77 3.45599 7.807 3.45599 5.385C3.45599 2.963 5.41999 1 7.84199 1C10.263 1 12.227 2.963 12.227 5.385C12.236 7.798 10.286 9.761 7.87299 9.77H7.84199Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14.7336 8.6318C16.3346 8.4068 17.5676 7.0328 17.5706 5.3698C17.5706 3.7308 16.3756 2.3708 14.8086 2.1138" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16.8459 12.4824C18.3969 12.7134 19.4799 13.2574 19.4799 14.3774C19.4799 15.1484 18.9699 15.6484 18.1459 15.9614" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Customers</a>
                                 </li>
 
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link active-link nav-links" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M14 2V8H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16 13H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16 17H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M10 9H9H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark nav-links" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 17H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10 9H9H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -262,10 +260,10 @@ $invoiceNumber = getInvoiceId();
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark  nav-links " href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
                                             <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
                                             <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
-                                        </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill " viewBox="0 0 16 16">
+                                        </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -280,12 +278,12 @@ $invoiceNumber = getInvoiceId();
                                     </div>
                                 </li>
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark" href="expenditures.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links active-link" href="expenditures.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
                                             <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
                                             <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
                                             <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
-                                        </svg> Expenses <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                        </svg>  Expenses <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
@@ -305,6 +303,10 @@ $invoiceNumber = getInvoiceId();
                                         </a>
                                     </div>
                                 </li>
+
+                                <!-- <li class="nav-item pe-5">
+                            <a class="nav-link text-dark" href="viewinvoices.php">View Invoices</a>
+                        </li> -->
                                 <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links" href="customized_edits.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -323,8 +325,7 @@ $invoiceNumber = getInvoiceId();
                                     <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
                                             <path d="M19.7789 9.4548L16.9331 6.5458C16.639 6.2458 16.1657 6.2458 15.8725 6.5478C15.5803 6.8498 15.5813 7.3368 15.8745 7.6368L17.4337 9.2298H15.9387H7.54844C7.13452 9.2298 6.79852 9.5748 6.79852 9.9998C6.79852 10.4258 7.13452 10.7698 7.54844 10.7698H17.4337L15.8745 12.3628C15.5813 12.6628 15.5803 13.1498 15.8725 13.4518C16.0196 13.6028 16.2114 13.6788 16.4043 13.6788C16.5952 13.6788 16.787 13.6028 16.9331 13.4538L19.7789 10.5458C19.9201 10.4008 20 10.2048 20 9.9998C20 9.7958 19.9201 9.5998 19.7789 9.4548Z" fill="black" />
-                                        </svg>
-                                        logout</a>
+                                        </svg> logout</a>
                                 </li>
                             </ul>
                         </div>
@@ -332,12 +333,9 @@ $invoiceNumber = getInvoiceId();
                 </nav>
                 <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
 
-                <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none">
                     <div class="container-fluid">
-                        <div class="navbar-header">
-                            <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-                            <a class="navbar-brand" href="#">Navbar</a>
-                        </div>
+                        <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -346,27 +344,33 @@ $invoiceNumber = getInvoiceId();
                                 <li class="nav-item">
                                     <a class="nav-link" href="customized_edits.php">Customized Edits</a>
                                 </li>
-                                <li class="dropdown nav-item pe-4">
-                                    <a class="nav-link active text-primary" href="#">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                        </svg></a>
-                                    <div class="dropdown-content">
-                                        <a class="nav-link text-dark" href="quotation.php">
-                                            <h6>Create Quotation</h6>
-                                        </a>
-                                        <a class="nav-link text-dark" href="createinvoice.php">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link active text-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Invoice
+
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item text-dark" href="createinvoice.php">
                                             <h6>Create Invoice</h6>
                                         </a>
-                                        <a class="nav-link text-dark" href="viewinvoices.php">
+                                        <a class="dropdown-item text-dark" href="viewinvoices.php">
                                             <h6>View Invoices</h6>
-                                        </a>
-                                        <a class="nav-link text-dark" href="viewquotes.php">
-                                            <h6>View Quotes</h6>
                                         </a>
                                     </div>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="viewinvoices.php">VIEW INVOICES</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Quotation
+
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item text-dark" href="quotation.php">
+                                            <h6>Create Quotation</h6>
+                                        </a>
+                                        <a class="dropdown-item text-dark" href="viewquotes.php">
+                                            <h6>View Quotes</h6>
+                                        </a>
+                                    </div>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="viewcustomers.php">VIEW CUSTOMERS</a>
@@ -377,97 +381,57 @@ $invoiceNumber = getInvoiceId();
                 </nav>
             </section>
 
+
             <!--  INVOICE  FORM  -->
 
-            <section class="col-lg-10 md-">
-                <div class="container ">
+            <section class="col-lg-10 col-md-12">
+                <div class="container col-md-12 ">
 
                     <!-- FORM -->
 
-                    <form class="p-4 pb-4 mb-5" action="quotationform.php" method="post">
-                        <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block" height="20%" width="20%">
+                    <form class=" p-4 pb-4 mb-5" action="exp_formprocess.php" method="post">
+                        <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block img-fluid" style="max-height: 20%; max-width: 20%;">
+
 
                         <!-- FORM INVOICENUMBER -->
 
                         <div class="row container pt-5 ps-5 mb-5">
                             <div class="col-lg-8 col-sm-12 col-md-12">
-                                <h5><strong>Quotation</strong></h5>
-                                <h5><strong> Date :</strong> <input type="date" name="invoice_date" class="form-input"></h5>
+                                <h5><strong>Expenditure</strong></h5>
+                                <h5><strong>Date :</strong> <input type="date" name="exp_date" id="" class="form-input" required></h5>
                             </div>
-                            <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
-                                <h5><strong>Quotation Number </strong></h5>
-                                <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-3" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
-                            </div>
+
                         </div>
 
                         <!-- ENDING  FORM INVOICENUMBER -->
 
                         <!--  COMPANY DETAILS  -->
 
-                        <div class="row container ps-5 mb-5">
-                            <div class="col-lg-8 col-sm-12 col-md-12">
-                                <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd </strong></h4>
-                                <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New </h6>
-                                <h6>RTO Office, behind J.N.T.U Engineering College Play Ground,</h6>
-                                <h6> RangaRaoNagar,Kakinada,</h6>
-                                <h6>AndhraPradesh533003</h6>
-                                <h6>Phone no.: 9642343434</h6>
-                                <h6>Email: admin@bhavicreations.com</h6>
-                                <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
+
+
+
+                        <div class="container">
+
+                            <div class="col-md-12 text-md-center text-sm-center text-center mb-3 col-12 ">
+                                <h3><b>Expenditure</b></h3>
                             </div>
-                            <div class="col-lg-4 col-sm-12 col-md-12">
-                                <h4>
-                                    <select name="company" id="companySelect">
-                                        <?php
-                                        $sql = "SELECT * FROM `customer`";
-                                        $res = $conn->query($sql);
-                                        $fetched_data = [];
-                                        echo "<option value=''>Select Customer/Company</option>";
-                                        while ($row = mysqli_fetch_assoc($res)) {
-                                            $fetched_data[] = $row;
-                                            echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                        }
-                                        // this hidden input is used to store the data & get the data in javascript
-                                        echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
-                                        ?>
-                                    </select>
-                                </h4>
-                                <p class="mb-1" id="company_name"></p>
-                                <p class="mb-1" id="name"></p>
-                                <p class="mb-1" id="email"></p>
-                                <p class="mb-1" id="phone"></p>
-                                <p class="mb-1" id="gst"></p>
-                            </div>
+
+
                         </div>
-
-                        <!-- ENDING COMPANY DETAILS -->
-
-                        <!-- BILLING SECTION  -->
-                        <h3 class="text-center mb-5"><B>Price Quotation</B></h3>
-
-                        <!-- <div class="col-1 ms-2 mb-3">
-                <select name="status" id="">
-                    <option value="paid">Paid</option>
-                    <option value="pending">Not paid</option>
-                </select>
-            </div> -->
 
                         <div class="container-fluid billing">
                             <div class="table-responsive">
                                 <div style="overflow-x:auto;">
-                                    <table border="0">
+                                    <table border="0" class="table table-bordered">
 
-                                        <thead class="thead">
+                                        <thead class="thead" style="background-color: #e9ecef;">
                                             <tr>
                                                 <th></th>
                                                 <th class="text-center">S.no</th>
-                                                <th style="width: 253px;" class="text-center">Services</th>
-                                                <th style="width: 310px;" class="text-center">Description</th>
-                                                <th class="text-center">Qty</th>
-                                                <th class="text-center">Price/Unit</th>
-                                                <th class="text-center">Sub Total</th>
-                                                <th class="text-center">Disc %</th>
-                                                <th class="text-center">Disc Total</th>
+                                                <th style="width: 253px;" class="text-center d-none d-md-table-cell d-lg-table-cell">Name</th>
+                                                <th style="width: 310px;" class="text-center d-none d-md-table-cell d-lg-table-cell">Description</th>
+                                                <th class="text-center">Mode of payment</th>
+                                                <th class="text-center">Amount paid</th>
                                                 <th></th>
 
                                             </tr>
@@ -476,63 +440,45 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td> <select name="Sname[]" class="form-control">
+                                                <td> <select name="exp_name[]" class="">
                                                         <?php
-                                                        $sql = "SELECT `service_name` FROM `service_names`";
+                                                        $sql = "SELECT `name` FROM `exp_name`";
                                                         $res = $conn->query($sql);
 
                                                         while ($row = mysqli_fetch_assoc($res)) {
-                                                            echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
+                                                            echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td><textarea class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
-                                                <td><input type='text' required name='Qty[]' class='form-control qty'></td>
-                                                <td><input type='text' required name='Price[]' class='form-control price'></td>
-                                                <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
-                                                <td><input type='text' required name='discount[]' class='form-control discount'></td>
-                                                <td><input type='text' required name='total[]' class='form-control total'></td>
+                                                <td><textarea class="form-control" name="exp_description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td><select name="mode_payment[]" id="" class="">
+                                                        <option value="select">Select</option>
+                                                        <option value="Google-pay">Google-Pay</option>
+                                                        <option value="Phone-pay">Phone-Pay</option>
+                                                        <option value="Paytm">Paytm</option>
+                                                        <option value="Bank-personal">Bank (personal)</option>
+                                                        <option value="Bank-professional">Bank (professional)</option>
+                                                        <option value="cheque">Cheque</option>
+                                                        <option value="cash">Cash</option>
+                                                        <option value="Other">Other</option>
+                                                    </select></td>
+                                                <td><input type='text' required name='amount[]' class='form-control total'></td>
                                                 <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
                                             </tr>
+
 
                                             <!-- Add more rows as needed -->
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan='8' class='text-right' style="text-align: right;">Total Before Tax</td>
-                                                <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan='7' class='text-right' style="text-align: right;">GST%</td>
-                                                <td>
-                                                    <select name="gst" id="gst" class="gst">
-                                                        <?php
-                                                        require_once('bhavidb.php');
-                                                        $sql2 = "SELECT `gst` FROM `gst_no`";
-                                                        $result = $conn->query($sql2);
+                                                <td colspan='5' class="text-right " style="text-align: right;">Total amount</td>
+                                                <td colspan="1"><input type='text' name='total_amount_exp' id='grand_total' class='form-control grand_total' required></td>
 
-                                                        while ($row = mysqli_fetch_assoc($result)) {
-                                                            echo "<option value='" . $row['gst'] . "'>" . $row['gst'] . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </td>
-                                                <td colspan="2"><input type='text' name='gst_total' id='gst_total' class='form-control gst_total'></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
-                                                <td class="text-center" class='text-right' style="text-align: right;">Total</td>
-                                                <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
+                                                <td colspan="9"><input name='exp_words' type='text' class="form-control words" readonly id="balancewords"></td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="8" class="text-right" class='text-right' style="text-align: right;">Advance</td>
-                                                <td colspan="2"><input type='text' name='advance' id='advance' class='form-control advance'></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="7"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords"></td>
-                                                <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
-                                                <td colspan="2"><input type='text' name='balance' id='balance' class='form-control balance' readonly></td>
-                                            </tr>
+
 
                                         </tfoot>
                                     </table>
@@ -540,21 +486,15 @@ $invoiceNumber = getInvoiceId();
                             </div>
 
                             <div class="container mt-5">
-                                <div class="row   ">
+                                <div class="row">
 
-                                    <div class="  mt-3 col-5     ">
-                                        <textarea name="terms" style="border-radius: 10px;" cols="50" rows="5" placeholder="terms&conditions"></textarea>
+
+                                    <div class="col-lg-5 mb-3">
+                                        <textarea name="note" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Note"></textarea>
                                     </div>
 
-
-                                    <div class="  mt-3 col-5">
-                                        <textarea name=" note" style="border-radius: 10px;" cols="50" rows="5" placeholder="Note:"></textarea>
-                                    </div>
-
-                                    <div class=" col-2   pt-5 ps-5" style="margin-right:-5px;">
-
-                                        <input type="submit" name="submit" value="Save & Print" class="btn btn-primary ">
-
+                                    <div class="col-12 col-lg-2 mt-lg-3">
+                                        <input type="submit" name="submit" value="Save" class="btn btn-primary w-100">
                                     </div>
                                 </div>
                             </div>
@@ -568,11 +508,12 @@ $invoiceNumber = getInvoiceId();
                                     });
 
                                     $("#btn-add-row").click(function() {
-                                        var row = "<tr><td></td> <td class='serial-number'></td><td><select name='Sname[]' class='form-control'><?php $sql = 'SELECT `service_name` FROM `service_names`';
-                                                                                                                                                $res = $conn->query($sql);
-                                                                                                                                                while ($row = mysqli_fetch_assoc($res)) {
-                                                                                                                                                    echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
-                                                                                                                                                } ?></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+                                        var row = "<tr><td></td> <td class='serial-number'></td><td><select name='exp_name[]' class='form-control'><?php $sql = 'SELECT `name` FROM `exp_name`';
+                                                                                                                                                    $res = $conn->query($sql);
+                                                                                                                                                    while ($row = mysqli_fetch_assoc($res)) {
+                                                                                                                                                        echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+                                                                                                                                                    } ?></select></td><td><textarea class='form-control' name='exp_description[]' placeholder='DESCRIPITION.' style='width: 100%;'></textarea></td>  <td><select name='mode_payment[]' id='' class=''>                                            <option value='select'>Select</option><option value='Google-pay'>Google-Pay</option><option value='Phone-pay'>Phone-Pay</option><option value='Paytm'>Paytm</option><option value='Bank-personal'>Bank (personal)</option><option value='Bank-professional'>Bank (professional)</option><option value='cheque'>Cheque</option><option value='cash'>Cash</option><option value='Other'>Other</option></select></td><td><input type='text' required name='amount[]' class='form-control qty'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+
 
                                         $("#product_tbody").append(row);
 
@@ -598,107 +539,37 @@ $invoiceNumber = getInvoiceId();
 
 
 
-
                                     /*----Ending balnce--*/
 
 
-                                    // $("#advance").val(0);
+                                    // Calculate total on input change
 
-                                    $("body").on("input", ".price, .qty, .subtotal, .discount, .final_total, #advance, .gst", function() {
-                                        var $row = $(this).closest("tr");
-
-                                        var price = Number($row.find(".price").val());
-                                        var qty = Number($row.find(".qty").val());
-                                        $row.find(".subtotal").val(price * qty);
-
-                                        var subtotal = Number($row.find(".subtotal").val());
-                                        var discount = Number($row.find(".discount").val());
-                                        $row.find(".total").val(subtotal - (subtotal * (discount / 100)));
-
-
-                                        // Update final_total and advance fields
-                                        var finalTotal = Number($("#final_total").val());
-
-
-                                        grand_total();
-                                        gst_total();
-                                        final_total();
-                                        updateBalanceWords();
-                                        updateBalance();
-
-
+                                    $(document).on('input', 'input[name="amount[]"]', function() {
+                                        calculateTotal();
+                                        updateBalanceWords(); // Add this line to update words when the amount changes
                                     });
-                                    grand_total();
-                                    gst_total();
-                                    final_total();
+
+                                    // Function to calculate total
+                                    function calculateTotal() {
+                                        var totalAmount = 0;
+                                        $('input[name="amount[]"]').each(function() {
+                                            var amount = parseFloat($(this).val()) || 0;
+                                            totalAmount += amount;
+                                        });
+
+                                        $('#grand_total').val(totalAmount.toFixed(2));
+                                    }
+
+                                    function updateBalanceWords() {
+                                        var grandTotal = Number($("#grand_total").val());
+                                        var grandTotalWords = amountToWords(grandTotal);
+                                        $("#balancewords").val(grandTotalWords);
+                                    }
+
+                                    // Trigger total calculation on page load
+                                    calculateTotal();
                                     updateBalanceWords();
-
-                                    $("body").on("change", ".gst", function() {
-                                        calculateTotals();
-                                    });
-
-                                    $("body").on("keyup", "#balance", function() {
-                                        updateBalanceWords();
-                                    });
                                 });
-
-                                function updateBalance() {
-                                    var finalTotal = Number($("#final_total").val());
-                                    var advance = Number($("#advance").val());
-                                    var balance = finalTotal - advance;
-
-                                    $("#balance").val(balance);
-                                    updateBalanceWords();
-                                }
-
-                                function grand_total() {
-                                    var tot = 0;
-                                    $(".total").each(function() {
-                                        tot += Number($(this).val());
-                                    });
-
-                                    var formatted_total = tot.toFixed(2);
-                                    $("#grand_total").val(formatted_total.toString());
-                                }
-
-                                function gst_total() {
-                                    var grand_total = Number($("#grand_total").val());
-                                    var gst = Number($(".gst").val());
-                                    var gst_amount = (grand_total * gst) / 100;
-
-                                    var formatted_gst_amount = gst_amount.toFixed(2);
-
-                                    $("#gst_total").val(formatted_gst_amount);
-                                }
-
-                                function final_total() {
-                                    var grand_total = Number($("#grand_total").val());
-                                    var gst_amount = Number($("#gst_total").val());
-                                    var final_total = grand_total + gst_amount;
-
-                                    var formatted_final_total = final_total.toFixed(2);
-
-                                    $("#final_total").val(formatted_final_total);
-
-                                    var words = amountToWords(final_total);
-                                    $("#words").val(words);
-                                }
-
-                                function updateBalanceWords() {
-                                    var balance = Number($("#balance").val());
-                                    var balanceWords = amountToWords(balance);
-                                    $("#balancewords").val(balanceWords);
-                                }
-
-                                function calculateTotals() {
-                                    grand_total();
-                                    gst_total();
-                                    final_total();
-                                    updateBalanceWords();
-                                }
-
-
-
 
 
                                 function amountToWords(num) {
@@ -761,99 +632,67 @@ $invoiceNumber = getInvoiceId();
                                 }
                             </script>
 
-                            <!--     SCANNER SECTION  -->
-
-                            <div class="row container pt-5 ms-5 mb-5">
-                                <span class="verticalline mb-5"></span>
-                                <div class="col-lg-6  col-sm-12 col-md-12 ps-5">
-                                    <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
-                                    <h4><img src="img/qrcode.jpg" alt="" height="20%" width="20%"></h4>
-                                </div>
-                                <div class="col-lg-6  col-sm-12 col-md-12 invoicenumber">
-                                    <h5 class="mb-2"><strong>Payment details</strong></h5>
-                                    <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
-                                    <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
-                                    <h6 class="mb-2">Account No. : 59213749999999</h6>
-                                    <h6 class="mb-2">IFSC : HDFC000042</h6>
-                                </div>
-                                <span class="verticalline mt-5"></span>
-                            </div>
-                            <!--   ENDING  SCANNER SECTION  -->
-
-                            <!--    GOOGLEPAY SECTION   -->
-
-                            <div class="googlepay">
-                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                    <h6 class="text-center">Google pay , Phone pay. Paytm 8686394079</h6>
-                                </div>
-                            </div>
-                            <!--  ENDING  GOOGLEPAY SECTION  -->
-
-
-
 
 
                     </form>
-
                     <!-- ENDING  FORM -->
                 </div>
+                <div class="container text-center mt-4 ">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="modal" tabindex="-1" id="modal_frm">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Customer Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="modalform.php" method="post">
+                                                <div class="form-group">
 
+                                                    <label for="">Company Name</label>
+                                                    <input type="text" name="company_name" class="form-control">
+                                                </div>
 
+                                                <div class="form-group">
+                                                    <label for="">Name</label>
+                                                    <input type="text" name="cname" class="form-control">
+                                                </div>
 
-            </section>
+                                                <div class="form-group">
+                                                    <label for="">Address</label>
+                                                    <input type="text" name="caddress" required class="form-control">
+                                                </div>
 
-            <!-- add customer model -->
-            <div class="container text-center mt-4 ">
-                <div class="row">
-                    <div class="col-7">
-                        <div class="modal" tabindex="-1" id="modal_frm">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Customer Details</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="modalform.php" method="post">
-                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label for="">Phone</label>
+                                                    <input type="tel" name="cphone" required class="form-control">
+                                                </div>
 
-                                                <label for="">Company Name</label>
-                                                <input type="text" name="company_name" class="form-control">
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="">Email</label>
+                                                    <input type="email" name="cemail" class="form-control">
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label for="">Name</label>
-                                                <input type="text" name="cname" class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">Address</label>
-                                                <input type="text" name="caddress" required class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">Phone</label>
-                                                <input type="tel" name="cphone" required class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">Email</label>
-                                                <input type="email" name="cemail" class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">GST_No</label>
-                                                <input type="text" name="cgst" id="gstInput" class="form-control">
-                                            </div>
-                                            <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-                                        </form>
+                                                <div class="form-group">
+                                                    <label for="">GST_No</label>
+                                                    <input type="text" name="cgst" id="gstInput" class="form-control">
+                                                </div>
+                                                <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- <div>
+                                <p class="float-end d-flex flex-row justify-content-center"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
+                            </div> -->
                         </div>
                     </div>
                 </div>
-            </div>
+                <?php include('changepass-modal.php'); ?>
+            </section>
         </div>
     </div>
     <!-- ENDING   INVOICE  FORM  -->
@@ -879,8 +718,7 @@ $invoiceNumber = getInvoiceId();
                 });
             });
         });
-    </script>
-    <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
             var addCustomerButton = document.getElementById('add_customer');
@@ -892,16 +730,8 @@ $invoiceNumber = getInvoiceId();
                 this.value = this.value.toUpperCase();
             });
         });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('update_gstInput').addEventListener('input', function() {
-                this.value = this.value.toUpperCase();
-            });
-        });
     </script>
 
-    <?php include('changepass-modal.php');
-    ?>
 </body>
 
 
