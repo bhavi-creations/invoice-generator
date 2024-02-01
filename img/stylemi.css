@@ -137,7 +137,7 @@ th {
   font-size: 20px;
   font-style: normal;
   font-weight: 800;
-  line-height: 14px; 
+  /* line-height: 14px;  */
 }
 
 
@@ -167,7 +167,7 @@ th {
 /* FORM */
 
 .viewinvoicetable{
-  justify-content: center;
+  justify-content: end;
 }
 
 .viewinvoicetable th {
@@ -186,7 +186,7 @@ th {
 
 .add_gst{
 
-  justify-content: end;
+  justify-content: center;
 }
 
 .update-button{
@@ -245,23 +245,23 @@ th {
 }
 
 @media (max-width: 767px) {
-  table {
+  /* table {
       overflow-x: auto;
       display: block;
-  }
+  } */
 
-  th, td {
+  /* th, td {
       display: block;
       width: 100%;
       box-sizing: border-box;
-  }
+  } */
 
-  th, td::before {
+  /* th, td::before {
       content: attr(data-label);
       float: left;
       font-weight: bold;
       text-transform: uppercase;
-  }
+  } */
 
   th, td:last-child::before {
       content: none;
@@ -374,3 +374,15 @@ th {
 } */
 
 
+@media (min-width:992px) and (max-width:1300px){
+  
+
+.mango{
+margin-left: 50px;
+}
+}
+
+.active-link {
+  background-color: blue;
+  color: white !important;
+}

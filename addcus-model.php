@@ -55,20 +55,25 @@
 
 
 
-
 <script>
-     document.addEventListener('DOMContentLoaded', function() {
-               var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
-               var addCustomerButton = document.getElementById('add_customer');
-               addCustomerButton.addEventListener('click', function() {
-                   addCustomerModal.show();
-               });
+    document.addEventListener('DOMContentLoaded', function() {
+        var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
+        var addCustomerButton = document.getElementById('add_customer');
+        var addCustomerButtonMin = document.getElementById('add_customer_min');
+        
+        addCustomerButton.addEventListener('click', function() {
+            addCustomerModal.show();
+        });
 
-               document.getElementById('gstInput').addEventListener('input', function() {
-                   this.value = this.value.toUpperCase();
-               });
-           });
+        if (addCustomerButtonMin) {
+            addCustomerButtonMin.addEventListener('click', function() {
+                addCustomerModal.show();
+            });
+        }
 
-              
+        document.getElementById('gstInput').addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+    });
 </script>
 
