@@ -45,6 +45,18 @@
         document.addEventListener('DOMContentLoaded', function() {
             var addCustomerModal = new bootstrap.Modal(document.getElementById('pass_frm'));
             var addCustomerButton = document.getElementById('change_password');
+             addCustomerButton.addEventListener('click', function() {
+                addCustomerModal.show();
+            });
+
+            
+        });
+    </script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addCustomerModal = new bootstrap.Modal(document.getElementById('pass_frm'));
+             var addCustomerButton = document.getElementById('change_password_sm');
             addCustomerButton.addEventListener('click', function() {
                 addCustomerModal.show();
             });

@@ -8,7 +8,6 @@ if (!isset($_SESSION['email'])) {
 }
 
 
-
 define('INVOICE_INITIAL_VALUE', '1');
 
 
@@ -36,7 +35,7 @@ function getInvoiceId()
         die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
     }
 
-    $query = "SELECT quotation_no FROM quotation ORDER BY quotation_no DESC LIMIT 1";
+    $query = "SELECT Invoice_no FROM invoice ORDER BY Invoice_no DESC LIMIT 1";
 
     if ($result = $conn->query($query)) {
         $row_cnt = $result->num_rows;
@@ -46,7 +45,7 @@ function getInvoiceId()
         if ($row_cnt == 0) {
             $nextInvoiceNumber = INVOICE_INITIAL_VALUE;
         } else {
-            $nextInvoiceNumber = $row['quotation_no'] + 1;
+            $nextInvoiceNumber = $row['Invoice_no'] + 1;
         }
 
 
@@ -75,11 +74,9 @@ $invoiceNumber = getInvoiceId();
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHAVIINVOICE</title>
 
-
- 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
@@ -92,11 +89,14 @@ $invoiceNumber = getInvoiceId();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet"> -->
 
 
     <link rel="stylesheet" href="img/style.css">
+
     <link rel="stylesheet" href="img/stylemi.css">
+
+
 
     <style>
         .dropdown {
@@ -150,7 +150,7 @@ $invoiceNumber = getInvoiceId();
 
         .active-link {
             background-color: blue;
-            color: white ;
+            color: white;
         }
 
         body {
@@ -193,6 +193,10 @@ $invoiceNumber = getInvoiceId();
             border: 1px solid black;
         }
 
+        .nav-item {
+            padding-top: 20px;
+        }
+
         /* 
         .navbar-nav {
             color: black;
@@ -201,20 +205,7 @@ $invoiceNumber = getInvoiceId();
             font-size: 17px;
         }
          */
-
-        .nav-item {
-            padding-top: 20px;
-        }
-
-
-        @media (min-widt:768px) {
-  .only_sm{
-    margin-top:175px;
-  }
-}
     </style>
-
-
 
 </head>
 
@@ -222,7 +213,7 @@ $invoiceNumber = getInvoiceId();
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
-            <section class="col-lg-2">
+        <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
@@ -248,12 +239,12 @@ $invoiceNumber = getInvoiceId();
                                 </li>
 
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link active-link nav-links" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M14 2V8H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16 13H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16 17H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M10 9H9H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 17H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10 9H9H8" stroke="black " stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                         Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
@@ -271,7 +262,7 @@ $invoiceNumber = getInvoiceId();
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                    <a class="nav-link active-link nav-links"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
                                             <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
                                             <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
                                         </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill " viewBox="0 0 16 16">
@@ -382,13 +373,14 @@ $invoiceNumber = getInvoiceId();
                                         Customers</a>
                                 </li>
 
-                                <li class="dropdown  nav-item ">
-                                    <a class="nav-link active-link nav-links" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M14 2V8H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16 13H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16 17H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M10 9H9H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                              
+                                <li class="dropdown nav-item ">
+                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16 17H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10 9H9H8" stroke="black " stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                         Quotation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
@@ -406,7 +398,7 @@ $invoiceNumber = getInvoiceId();
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                    <a class="nav-link active-link nav-links"    href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
                                             <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
                                             <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
                                         </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill " viewBox="0 0 16 16">
@@ -479,99 +471,122 @@ $invoiceNumber = getInvoiceId();
                 </nav>
             </section>
 
+
             <!--  INVOICE  FORM  -->
 
-            <section class=" col-lg-10 md-">
-                <div class="container ">
+            <section class="col-lg-10 col-md-12">
+                <div class="container col-md-12 ">
 
                     <!-- FORM -->
 
-                    <form class="mango  pb-4 mb-5" action="quotationform.php" method="post">
-                        <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block pt-5" height="20%" width="20%">
+                    <form class=" mango  pb-4 mb-5" action="formprocess.php" method="post">
+                        <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block img-fluid pt-5" style="max-height: 20%; max-width: 20%;">
+
 
                         <!-- FORM INVOICENUMBER -->
 
-                        <div class="row container pt-5  mb-5">
-                            <div class="row">   
-                                <div class="col-lg-8 col-sm-12 col-md-12">
-                                    <h5><strong>Quotation</strong></h5>
-                                    <h5><strong> Date :</strong> <input type="date" name="invoice_date" class="form-input"></h5>
-                                </div>
-                                <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
-                                    <h5><strong>Quotation Number </strong></h5>
-                                    <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-4" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
-                                </div>
+                        <div class="row container pt-5 ps-5 mb-5">
+                            <div class="col-lg-8 col-sm-12 col-md-12">
+                                <h5><strong>Invoice</strong></h5>
+                                <h5><strong>Date :</strong> <input type="date" name="invoice_date" id="" class="form-input"></h5>
                             </div>
-
+                            <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
+                                <h5><strong>Invoice Number </strong></h5>
+                                <h5><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-4" value="<?php echo $invoiceNumber; ?>" readonly></strong></h5>
+                            </div>
                         </div>
 
                         <!-- ENDING  FORM INVOICENUMBER -->
 
                         <!--  COMPANY DETAILS  -->
 
-                        <div class="  container   mb-5">
-                            <div class="row">   
-                                <div class="col-lg-8 col-sm-12 col-md-12">
-                                    <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd </strong></h4>
-                                    <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New </h6>
-                                    <h6>RTO Office, behind J.N.T.U Engineering College Play Ground,</h6>
-                                    <h6> RangaRaoNagar,Kakinada,</h6>
-                                    <h6>AndhraPradesh533003</h6>
-                                    <h6>Phone no.: 9642343434</h6>
-                                    <h6>Email: admin@bhavicreations.com</h6>
-                                    <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
-                                </div>
-                                
-                            <div class="col-lg-4 col-sm-12 col-md-12">
-                                <h4>
-                                    <select name="company" id="companySelect">
-                                        <?php
-                                        $sql = "SELECT * FROM `customer`";
-                                        $res = $conn->query($sql);
-                                        $fetched_data = [];
-                                        echo "<option value=''>Select Customer/Company</option>";
-                                        while ($row = mysqli_fetch_assoc($res)) {
-                                            $fetched_data[] = $row;
-                                            echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                        }
-                                        // this hidden input is used to store the data & get the data in javascript
-                                        echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
-                                        ?>
-                                    </select>
-                                </h4>
-                                <p class="mb-1" id="company_name"></p>
-                                <p class="mb-1" id="name"></p>
-                                <p class="mb-1" id="email"></p>
-                                <p class="mb-1" id="phone"></p>
-                                <p class="mb-1" id="gst"></p>
-                            </div>
+                        <div class="container ps-5 mb-5">
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-12 mb-3">
+                                    <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd</strong></h4>
+                                    <address class="">
+                                        <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New</h6>
+                                        <h6>RTO Office, behind J.N.T.U Engineering College Play Ground,</h6>
+                                        <h6>RangaRaoNagar, Kakinada,</h6>
+                                        <h6>AndhraPradesh533003</h6>
+                                        <h6>Phone no.: 9642343434</h6>
+                                        <h6>Email: <p style="font-size: 16px;"><b>admin@bhavicreations.com</b></p>
+                                        </h6>
+                                        <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
+                                    </address>
 
+
+
+                                </div>
+                                <div class="col-lg-4 col-sm-12 mb-3">
+                                    <h4 class="mb-3">
+                                        <select class="" name="company" id="companySelect">
+                                            <?php
+                                            $sql = "SELECT * FROM `customer`";
+                                            $res = $conn->query($sql);
+                                            $fetched_data = [];
+                                            echo "<option value=''>Select Customer/Company</option>";
+                                            while ($row = mysqli_fetch_assoc($res)) {
+                                                $fetched_data[] = $row;
+                                                echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
+                                            }
+                                            // this hidden input is used to store the data & get the data in javascript
+                                            echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
+                                            ?>
+                                        </select>
+                                    </h4>
+                                    <p class="mb-1" id="company_name"></p>
+                                    <p class="mb-1" id="name"></p>
+                                    <p class="mb-1" id="email"></p>
+                                    <p class="mb-1" id="phone"></p>
+                                    <p class="mb-1" id="gst"></p>
+                                </div>
                             </div>
                         </div>
+
 
                         <!-- ENDING COMPANY DETAILS -->
 
                         <!-- BILLING SECTION  -->
-                        <h3 class="text-center mb-5"><B>Price Quotation</B></h3>
+                        <!-- <div class="container">
+                            <div class="row   mb-3">
+                                <div class="text-end mb-5 col-6 ">
+                                    <h3><B>BILLING</B></h3>
+                                </div>
+                                <div class="col-1">
+                                    <select name="status" id="">
+                                        <option value="paid">Paid</option>
+                                        <option value="pending">Not paid</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="container">
+                            <div class="row mb-3">
+                                <div class="col-md-6 text-md-end text-sm-center text-center mb-3 col-12 ">
+                                    <h3><b>BILLING</b></h3>
+                                </div>
+                                <div class="col-lg-1 col-md-3 col-sm-12">
+                                    <select class="" name="status" id="status">
+                                        <option value="paid">Paid</option>
+                                        <option value="pending">Not paid</option>
+                                    </select>
 
-                        <!-- <div class="col-1 ms-2 mb-3">
-                <select name="status" id="">
-                    <option value="paid">Paid</option>
-                    <option value="pending">Not paid</option>
-                </select>
-            </div> -->
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="  billing">
                             <div class="table-responsive">
                                 <div style="overflow-x:auto;">
-                                    <table border="0">
+                                    <table border="0" class="table table-bordered">
 
-                                        <thead class="thead">
+                                        <thead class="thead" style="background-color: #e9ecef;">
                                             <tr>
                                                 <th></th>
                                                 <th class="text-center">S.no</th>
-                                                <th class="text-center"   >Services</th>
-                                                <th class="text-center"  >Description</th>
+                                                <th  class="text-center   d-md-table-cell d-lg-table-cell">Services</th>
+                                                <th  class="text-center  d-md-table-cell d-lg-table-cell">Description</th>
                                                 <th class="text-center">Qty</th>
                                                 <th class="text-center">Price/Unit</th>
                                                 <th class="text-center">Sub Total</th>
@@ -585,7 +600,7 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td > <select style="width:200px;" name="Sname[]" class="form-control">
+                                                <td> <select style="width:200px;" name="Sname[]" class="">
                                                         <?php
                                                         $sql = "SELECT `service_name` FROM `service_names`";
                                                         $res = $conn->query($sql);
@@ -595,7 +610,7 @@ $invoiceNumber = getInvoiceId();
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td><textarea   style="width:250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td><textarea style="width: 250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
                                                 <td><input type='text' required name='Price[]' class='form-control price'></td>
                                                 <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
@@ -608,7 +623,7 @@ $invoiceNumber = getInvoiceId();
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan='8' class='text-right' style="text-align: right;">Total Before Tax</td>
+                                                <td colspan='8' class="text-right " style="text-align: right;">Total Before Tax</td>
                                                 <td colspan="2"><input type='text' name='grand_total' id='grand_total' class='form-control grand_total' required></td>
                                             </tr>
                                             <tr>
@@ -630,7 +645,7 @@ $invoiceNumber = getInvoiceId();
                                             </tr>
                                             <tr>
                                                 <td colspan="7"><input name='words' type='text' class="form-control words" readonly id="words"></td>
-                                                <td class="text-center" class='text-right' style="text-align: right;">Total</td>
+                                                <td class="text-center" style="text-align: right;">Total</td>
                                                 <td colspan="2"><input type='text' name='Final_total' id='final_total' class='form-control final_total' readonly></td>
                                             </tr>
                                             <tr>
@@ -639,7 +654,7 @@ $invoiceNumber = getInvoiceId();
                                             </tr>
                                             <tr>
                                                 <td colspan="7"><input name='balancewords' type='text' class="form-control balancewords" readonly id="balancewords"></td>
-                                                <td class="text-right" class='text-right' style="text-align: right;">Balance</td>
+                                                <td class="text-right" class='text-right ' style="text-align: right;">Balance</td>
                                                 <td colspan="2"><input type='text' name='balance' id='balance' class='form-control balance' readonly></td>
                                             </tr>
 
@@ -647,9 +662,6 @@ $invoiceNumber = getInvoiceId();
                                     </table>
                                 </div>
                             </div>
-
-                     
-
 
 
                             <div class="container mt-5">
@@ -669,7 +681,6 @@ $invoiceNumber = getInvoiceId();
 
                                 </div>
                             </div>
-
                             <!--  ENDING BILLING SECTION  -->
 
                             <!--   Functions of invoice -->
@@ -882,7 +893,7 @@ $invoiceNumber = getInvoiceId();
                                     <div class="col-lg-6  col-sm-12 col-md-6   ">
                                         <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
                                         <h4><img src="img/qrcode.jpg" alt="" height="120px" width="120px"></h4>
-                                         <br> 
+                                        <br> 
                                     </div>
                                     <div class="col-lg-6  col-sm-12 col-md-6 invoicenumber only_sm  " >
                                         <h5 class="mb-2"><strong>Payment details</strong></h5>
@@ -894,83 +905,92 @@ $invoiceNumber = getInvoiceId();
                                     </div>
                                     <span class="verticalline  "></span>
                                 </div>    
-                            </div>
+                                </div>
+
+
+
+                         
+
                             <!--   ENDING  SCANNER SECTION  -->
 
                             <!--    GOOGLEPAY SECTION   -->
 
-                            <div class="googlepay">
-                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                    <h6 class="text-center">Google pay , Phone pay. Paytm 8686394079</h6>
+
+                            <div class="googlepay container">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <h6 class="text-center">Google Pay, Phone Pay, Paytm: 8686394079</h6>
+                                    </div>
                                 </div>
                             </div>
+
                             <!--  ENDING  GOOGLEPAY SECTION  -->
 
 
 
 
 
-                    </form>
 
+
+                    </form>
                     <!-- ENDING  FORM -->
                 </div>
+                <div class="container text-center mt-4 ">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="modal" tabindex="-1" id="modal_frm">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Customer Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="modalform.php" method="post">
+                                                <div class="form-group">
 
+                                                    <label for="">Company Name</label>
+                                                    <input type="text" name="company_name" class="form-control">
+                                                </div>
 
+                                                <div class="form-group">
+                                                    <label for="">Name</label>
+                                                    <input type="text" name="cname" class="form-control">
+                                                </div>
 
-            </section>
+                                                <div class="form-group">
+                                                    <label for="">Address</label>
+                                                    <input type="text" name="caddress" required class="form-control">
+                                                </div>
 
-            <!-- add customer model -->
-            <div class="container text-center mt-4 ">
-                <div class="row">
-                    <div class="col-7">
-                        <div class="modal" tabindex="-1" id="modal_frm">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Customer Details</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="modalform.php" method="post">
-                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label for="">Phone</label>
+                                                    <input type="tel" name="cphone" required class="form-control">
+                                                </div>
 
-                                                <label for="">Company Name</label>
-                                                <input type="text" name="company_name" class="form-control">
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="">Email</label>
+                                                    <input type="email" name="cemail" class="form-control">
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label for="">Name</label>
-                                                <input type="text" name="cname" class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">Address</label>
-                                                <input type="text" name="caddress" required class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">Phone</label>
-                                                <input type="tel" name="cphone" required class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">Email</label>
-                                                <input type="email" name="cemail" class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="">GST_No</label>
-                                                <input type="text" name="cgst" id="gstInput" class="form-control">
-                                            </div>
-                                            <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
-                                        </form>
+                                                <div class="form-group">
+                                                    <label for="">GST_No</label>
+                                                    <input type="text" name="cgst" id="gstInput" class="form-control">
+                                                </div>
+                                                <input type="submit" name="submit" id="submit" class="btn btn-success mt-5">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- <div>
+                                <p class="float-end d-flex flex-row justify-content-center"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
+                            </div> -->
                         </div>
                     </div>
                 </div>
-            </div>
+                <?php include('changepass-modal.php'); ?>
+            </section>
         </div>
     </div>
     <!-- ENDING   INVOICE  FORM  -->
@@ -996,8 +1016,7 @@ $invoiceNumber = getInvoiceId();
                 });
             });
         });
-    </script>
-    <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
             var addCustomerButton = document.getElementById('add_customer');
@@ -1009,16 +1028,8 @@ $invoiceNumber = getInvoiceId();
                 this.value = this.value.toUpperCase();
             });
         });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('update_gstInput').addEventListener('input', function() {
-                this.value = this.value.toUpperCase();
-            });
-        });
     </script>
 
-    <?php include('changepass-modal.php');
-    ?>
 </body>
 
 
