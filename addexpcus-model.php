@@ -27,7 +27,7 @@ if (isset($_POST["submit"])) {
 <div class="container text-center mt-4">
     <div class="row">
         <div class="col-7">
-            <div class="modal" tabindex="-1" id="modal_frm">
+            <div class="modal" tabindex="-1" id="modal_frm_exp">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -62,7 +62,7 @@ if (isset($_POST["submit"])) {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
+        var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm_exp'));
         var addCustomerButton = document.getElementById('add_exp_customer');
         addCustomerButton.addEventListener('click', function() {
             addCustomerModal.show();
