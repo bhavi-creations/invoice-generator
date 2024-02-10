@@ -526,7 +526,7 @@ include('addcus-model.php');
                         <table class="table table-bordered viewinvoicetable">
                             <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                 <tr>
-                                    <th class="text-center" style=" ">ID</th>
+                                    <th class="text-center" >ID</th>
                                     <th style="  padding-right: 30px; padding-left: 30px;  ">Expenditure Date</th>
                                     <th style="  padding-right: 30px; padding-left: 30px;  ">Total Amount paid</th>
                                     <th style="  padding-right: 50px; padding-left: 50px;  ">Amount in words</th>

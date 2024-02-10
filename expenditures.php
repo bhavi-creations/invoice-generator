@@ -15,22 +15,8 @@ require_once('bhavidb.php');
 
 function getInvoiceId()
 {
-    $server = 'localhost';
-    // Condition to check if the script is running locally or on a server
-    if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1') {
-        // Local environment details
-        $username = 'root';
-        $pass = '';
-        $database = 'bhavi_invoice_db';
-    } else {
-        // Server environment details
-        $username = 'cnpthbbs_invoice_user';
-        $pass = '%tNc6peV4-}w';
-        $database = 'cnpthbbs_invoice';
-    }
 
-    $conn = mysqli_connect($server, $username, $pass, $database);
-
+    include('bhavidb.php');
     if ($conn->connect_error) {
         die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
     }
@@ -213,7 +199,7 @@ $invoiceNumber = getInvoiceId();
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
-        <section class="col-lg-2">
+            <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
@@ -238,9 +224,9 @@ $invoiceNumber = getInvoiceId();
                                         Customers</a>
                                 </li>
 
-                                
+
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -282,7 +268,7 @@ $invoiceNumber = getInvoiceId();
                                     </div>
                                 </li>
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links active-link"  ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links active-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
                                             <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
                                             <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
@@ -291,7 +277,7 @@ $invoiceNumber = getInvoiceId();
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -348,9 +334,9 @@ $invoiceNumber = getInvoiceId();
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
-                         <div class="collapse navbar-collapse  " id="navbarNav">
+                        <div class="collapse navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                               
+
 
 
                                 <li class=" ">
@@ -363,7 +349,7 @@ $invoiceNumber = getInvoiceId();
 
 
 
-                                
+
                                 <li class="nav-item ">
                                     <a class="nav-link  nav-links text-dark" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -374,9 +360,9 @@ $invoiceNumber = getInvoiceId();
                                         Customers</a>
                                 </li>
 
-                                
+
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -426,7 +412,7 @@ $invoiceNumber = getInvoiceId();
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -517,10 +503,10 @@ $invoiceNumber = getInvoiceId();
 
                                         <thead class="thead" style="background-color: #e9ecef;">
                                             <tr>
-                                                <th ></th>
+                                                <th></th>
                                                 <th class="text-center">S.no</th>
-                                                <th  class="text-center   ">Name</th>
-                                                <th   class="text-center   ">Description</th>
+                                                <th class="text-center   ">Name</th>
+                                                <th class="text-center   ">Description</th>
                                                 <th class="text-center">Mode of payment</th>
                                                 <th class="text-center">Amount paid</th>
                                                 <th></th>
@@ -531,7 +517,7 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td class="text-center"><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number text-center">01</td>
-                                                <td style="width:200px;" > <select  style="width:250px;"  name="exp_name[]" class="">
+                                                <td style="width:200px;"> <select style="width:250px;" name="exp_name[]" class="">
                                                         <?php
                                                         $sql = "SELECT `name` FROM `exp_name`";
                                                         $res = $conn->query($sql);
@@ -541,8 +527,8 @@ $invoiceNumber = getInvoiceId();
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td style="width:200px;"><textarea  style="width:200px;" class="form-control" name="exp_description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
-                                                <td style="width:150px;"><select  style="width:150px;"  name="mode_payment[]" id="" class="">
+                                                <td style="width:200px;"><textarea style="width:200px;" class="form-control" name="exp_description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td style="width:150px;"><select style="width:150px;" name="mode_payment[]" id="" class="">
                                                         <option value="select">Select</option>
                                                         <option value="Google-pay">Google-Pay</option>
                                                         <option value="Phone-pay">Phone-Pay</option>
@@ -553,8 +539,8 @@ $invoiceNumber = getInvoiceId();
                                                         <option value="cash">Cash</option>
                                                         <option value="Other">Other</option>
                                                     </select></td>
-                                                <td style="width:200px; text-center"><input  style="width:200px; text-center"  type='text' required name='amount[]' class='form-control total'></td>
-                                                <td class="text-center"><button  type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
+                                                <td style="width:200px;" ><input style="width : 200px;" type='text' required name='amount[]' class='form-control total'></td>
+                                                <td class="text-center"><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
                                             </tr>
 
 

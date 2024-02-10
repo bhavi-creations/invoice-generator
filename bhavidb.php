@@ -8,9 +8,9 @@
         $database = 'bhavi_invoice_db';
     } else {
         // Server environment details
-        $username = 'cnpthbbs_invoice_user';
-        $pass = '%tNc6peV4-}w';
-        $database = 'cnpthbbs_invoice';
+        $username = 'bhavi@invoice.bh';
+        $pass = 'Bhavi@client';
+        $database = 'invoice';
     }
 
     $conn = mysqli_connect($server,$username,$pass,$database);
