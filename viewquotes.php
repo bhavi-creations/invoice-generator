@@ -432,7 +432,7 @@ $result = $conn->query($sql);
                         <table class="table table-bordered viewinvoicetable">
                             <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                 <tr>
-                                    <th class="text-center" style=" ">Quotation No</th>
+                                    <th class="text-center">Quotation No</th>
                                     <th class="text-center"  style="  padding-right:80px; padding-left: 80px; ">Customer Name</th>
                                     <th style="  padding-right: 30px; padding-left: 30px;  ">Issued Date</th>
                                     <th style="  padding-right: 30px; padding-left: 30px;  ">Quotation Amount</th>
