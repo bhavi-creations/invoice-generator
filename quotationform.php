@@ -24,18 +24,17 @@ if (isset($_POST["submit"])) {
 
     $invoice_no = mysqli_real_escape_string($conn, $_POST["invoice_no"]);
     $invoice_date = date("Y-m-d", strtotime($_POST["invoice_date"]));
-    $final_total = mysqli_real_escape_string($conn, $_POST["grand_total"]);
     $Gst = mysqli_real_escape_string($conn, $_POST["gst"]);
-    $Gst_total = mysqli_real_escape_string($conn, $_POST["gst_total"]);
-    $Grand_total = mysqli_real_escape_string($conn, $_POST["Final_total"]);
     $Totalin_word = mysqli_real_escape_string($conn, $_POST["words"]);
     $terms = mysqli_real_escape_string($conn, $_POST["terms"]);
     $note = mysqli_real_escape_string($conn, $_POST["note"]);
-    $advance = mysqli_real_escape_string($conn, $_POST["advance"]);
-    $balance = mysqli_real_escape_string($conn, $_POST["balance"]);
     $balancewords = mysqli_real_escape_string($conn, $_POST["balancewords"]);
     // $status = mysqli_real_escape_string($conn,$_POST["status"]);
-
+    $final_total = floatval(mysqli_real_escape_string($conn, $_POST["grand_total"]));
+    $Gst_total = floatval(mysqli_real_escape_string($conn, $_POST["gst_total"]));
+    $Grand_total = floatval(mysqli_real_escape_string($conn, $_POST["Final_total"]));
+    $advance = floatval(mysqli_real_escape_string($conn, $_POST["advance"]));
+    $balance = floatval(mysqli_real_escape_string($conn, $_POST["balance"]));
 
     $sql = "INSERT INTO quotation (quotation_no, quotation_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note , advance, balance, balancewords ) 
             VALUES ('$invoice_no', '$invoice_date', '$company_name', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total', '$Gst' , '$Gst_total' ,'$Grand_total' , '$Totalin_word','$terms' , '$note' ,'$advance' , '$balance' ,'$balancewords' )";
