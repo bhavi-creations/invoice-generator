@@ -475,7 +475,7 @@ $invoiceNumber = getInvoiceId();
                         <div class="row container pt-5 ps-5 mb-5">
                             <div class="col-lg-8 col-sm-12 col-md-12">
                                 <h5><strong>Invoice</strong></h5>
-                                <h5><strong>Date :</strong> <input type="date" name="invoice_date" id="" class="form-input"></h5>
+                                <h5><strong>Date :</strong> <input type="date" name="invoice_date" id="" value="<?php echo date('Y-m-d') ?>" class="form-input"></h5>
                             </div>
                             <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                                 <h5><strong>Invoice Number </strong></h5>
@@ -502,12 +502,12 @@ $invoiceNumber = getInvoiceId();
                                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                                     </address>
 
-
+<textarea style="border: none;" name="" id="" cols="30" rows="10"></textarea>
 
                                 </div>
                                 <div class="col-lg-4 col-sm-12 mb-3">
                                     <h4 class="mb-3">
-                                        <select class="" name="company" id="companySelect">
+                                        <select class="" required name="company" id="companySelect">
                                             <?php
                                             $sql = "SELECT * FROM `customer`";
                                             $res = $conn->query($sql);
@@ -585,7 +585,7 @@ $invoiceNumber = getInvoiceId();
                                         </thead>
                                         <tbody id="product_tbody">
                                             <tr>
-                                                <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
+                                                <td><button  type="button" id="btn-add-row" class="btn-add-row btn btn-primary"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
                                                 <td> <select style="width:200px;" name="Sname[]" class="">
                                                         <?php
@@ -600,10 +600,10 @@ $invoiceNumber = getInvoiceId();
                                                 <td><textarea style="width: 250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
                                                 <td><input type='text' required name='Price[]' class='form-control price'></td>
-                                                <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
-                                                <td><input type='text' required name='discount[]' class='form-control discount'></td>
-                                                <td><input type='text' required name='total[]' class='form-control total'></td>
-                                                <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
+                                                <td><input type='text' readonly name='subtotal[]' class='form-control subtotal'></td>
+                                                <td><input type='text'  name='discount[]' class='form-control discount'></td>
+                                                <td><input type='text' readonly name='total[]' class='form-control total'></td>
+                                                <!-- <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td> -->
                                             </tr>
 
                                             <!-- Add more rows as needed -->
@@ -682,7 +682,7 @@ $invoiceNumber = getInvoiceId();
                                                                                                                                                 $res = $conn->query($sql);
                                                                                                                                                 while ($row = mysqli_fetch_assoc($res)) {
                                                                                                                                                     echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
-                                                                                                                                                } ?></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+                                                                                                                                                } ?></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' readonly name='subtotal[]' class='form-control subtotal'></td><td><input type='text' name='discount[]' class='form-control discount'></td><td><input type='text' readonly name='total[]' class='form-control total'></td><td><button type='button' value='X'  class='btn-sm btn-danger' id='btn-row-remove'><b>X</b></button></td></tr>";
 
                                         $("#product_tbody").append(row);
 

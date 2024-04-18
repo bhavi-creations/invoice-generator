@@ -481,7 +481,7 @@ $invoiceNumber = getInvoiceId();
                             <div class="row">   
                                 <div class="col-lg-8 col-sm-12 col-md-12">
                                     <h5><strong>Quotation</strong></h5>
-                                    <h5><strong> Date :</strong> <input type="date" name="invoice_date" class="form-input"></h5>
+                                    <h5><strong> Date :</strong> <input type="date" name="invoice_date" required value="<?php echo date('Y-m-d') ?>" class="form-input"></h5>
                                 </div>
                                 <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                                     <h5><strong>Quotation Number </strong></h5>
@@ -584,8 +584,8 @@ $invoiceNumber = getInvoiceId();
                                                 <td><textarea   style="width:250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
                                                 <td><input type='text' required name='Price[]' class='form-control price'></td>
-                                                <td><input type='text' required name='subtotal[]' class='form-control subtotal'></td>
-                                                <td><input type='text' required name='discount[]' class='form-control discount'></td>
+                                                <td><input type='text'  name='subtotal[]' class='form-control subtotal'></td>
+                                                <td><input type='text'  name='discount[]' class='form-control discount'></td>
                                                 <td><input type='text' required name='total[]' class='form-control total'></td>
                                                 <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
                                             </tr>
@@ -670,7 +670,7 @@ $invoiceNumber = getInvoiceId();
                                                                                                                                                 $res = $conn->query($sql);
                                                                                                                                                 while ($row = mysqli_fetch_assoc($res)) {
                                                                                                                                                     echo "<option value='" . $row['service_name'] . "'>" . $row['service_name'] . "</option>";
-                                                                                                                                                } ?></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' required name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+                                                                                                                                                } ?></select></td><td><textarea class='form-control' name='Description[]' placeholder='DESCRIPTION.' style='width: 100%;'></textarea></td><td><input type='text' required name='Qty[]' class='form-control qty'></td><td><input type='text' required name='Price[]' class='form-control price'></td><td><input type='text' required name='subtotal[]' class='form-control subtotal'></td><td><input type='text' name='discount[]' class='form-control discount'></td><td><input type='text' required name='total[]' class='form-control total'></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
 
                                         $("#product_tbody").append(row);
 

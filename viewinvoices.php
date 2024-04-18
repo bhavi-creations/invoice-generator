@@ -62,11 +62,11 @@ $result = $conn->query($sql);
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="img/stylemi.css">
 
-  
 
-     
 
- 
+
+
+
 
     <!-- <style>
         .dropdown {
@@ -127,10 +127,12 @@ $result = $conn->query($sql);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             /* Add shadow to the bottom */
         }
-            .active-link {
+
+        .active-link {
             background-color: blue;
             color: white;
         }
+
         table {
             background-color: white;
             border-radius: 20px;
@@ -164,9 +166,9 @@ $result = $conn->query($sql);
         }
 
 
-        
-        .bg_color_icon{
-        background-color: #e298aa;
+
+        .bg_color_icon {
+            background-color: #e298aa;
         }
     </style>
 
@@ -177,7 +179,7 @@ $result = $conn->query($sql);
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
-        <section class="col-lg-2">
+            <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
@@ -202,9 +204,9 @@ $result = $conn->query($sql);
                                         Customers</a>
                                 </li>
 
-                               
+
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -245,7 +247,7 @@ $result = $conn->query($sql);
                                     </div>
                                 </li>
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark"  ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links text-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
                                             <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
                                             <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
@@ -254,7 +256,7 @@ $result = $conn->query($sql);
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -303,7 +305,7 @@ $result = $conn->query($sql);
                     <div class="container-fluid">
                         <div class="navbar-header">
                             <!-- <a class="navbar-brand" href="#"><img src="img/Bhavi-Logo-2.png" alt="" height="50%" width="50%"></a> -->
-                            <a class="navbar-brand" href="#"  id="change_password_sm" ><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px" class="img-fluid"></a>
+                            <a class="navbar-brand" href="#" id="change_password_sm"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px" class="img-fluid"></a>
 
                             <!-- <a class="navbar-brand" href="#">Navbar</a> -->
                         </div>
@@ -311,9 +313,9 @@ $result = $conn->query($sql);
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
-                         <div class="collapse navbar-collapse  " id="navbarNav">
+                        <div class="collapse navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                               
+
 
 
                                 <li class=" ">
@@ -326,7 +328,7 @@ $result = $conn->query($sql);
 
 
 
-                                
+
                                 <li class="nav-item ">
                                     <a class="nav-link  nav-links text-dark" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -337,9 +339,9 @@ $result = $conn->query($sql);
                                         Customers</a>
                                 </li>
 
-                                
+
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -389,7 +391,7 @@ $result = $conn->query($sql);
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -433,25 +435,36 @@ $result = $conn->query($sql);
 
                     </div>
                 </nav>
-        </section>
+            </section>
 
 
 
 
             <!--  Table-->
             <section class="col-lg-10">
-                <div class="container " style="margin-top: 70px;">
+                <div class="container mt-5">
+                    <div class="row" id="search-bar">
+                        <div class="col-sm-12 col-md-12">
+                            <label for="search" class="form-label">Search by Name</label> <!-- Associated label with the input field -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4">
+                            <input type="text" id="search" class="form-control" placeholder="Enter name to search"> <!-- Added placeholder text for user guidance -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="container mt-3">
                     <div class="table-responsive  mango" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
                         <table class="table table-bordered viewinvoicetable">
                             <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                 <tr>
-                                    <th class="text-center"  >Invoice No</th>
-                                    <th  >Customer Name</th>
-                                    <th  style="  padding-right: 30px; padding-left: 30px;  " >Issued Date</th>
-                                    <th  >Invoice Amount</th>
-                                    <th   class="status">Status</th>
-                                    <th style="  padding-right: 30px; padding-left: 30px;  "  >Advance Actions</th>
-                                    <th  >Actions</th>
+                                    <th class="text-center">Invoice No</th>
+                                    <th>Customer Name</th>
+                                    <th style="  padding-right: 30px; padding-left: 30px;  ">Issued Date</th>
+                                    <th>Invoice Amount</th>
+                                    <th class="status">Status</th>
+                                    <th style="  padding-right: 30px; padding-left: 30px;  ">Advance Actions</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="product_tbody viewinvoicetable">
@@ -488,7 +501,7 @@ $result = $conn->query($sql);
                                
                            
                             </div>
-                        </td>";
+                            </td>";
                                     echo "<td> 
                             <div class='btn-group'>
                             
@@ -531,7 +544,7 @@ $result = $conn->query($sql);
                            </select>
                            
                             </div>
-                        </td>";
+                         </td>";
 
                                     echo "</tr>";
                                 }
@@ -558,15 +571,15 @@ $result = $conn->query($sql);
                         </div>
                     </div>
                 </div>
-        </section>
+            </section>
 
             <?php include('addcus-model.php'); ?>
 
 
-       
-       
-       
-       
+
+
+
+
         </div>
     </div>
 
@@ -644,6 +657,42 @@ $result = $conn->query($sql);
                     }
                 });
             });
+
+
+            // Function to debounce calls
+            function debounce(func, delay) {
+                let timeout;
+                return function() {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        func.apply(context, args);
+                    }, delay);
+                };
+            }
+
+            // Keyup event listener with debounce
+            $("#search").on("keyup", debounce(function() {
+                var search_term = $(this).val();
+                // AJAX POST request to live-search.php
+                $.ajax({
+                    type: "POST",
+                    url: 'live-search.php',
+                    data: {
+                        search: search_term
+                    },
+                    success: function(data) {
+                        // Update the HTML content of the viewinvoicetable element
+                        $("#product_tbody").html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error:", error);
+                        // You can add user notification here if needed
+                    }
+                });
+            }, 300)); // Set the debounce delay to 300ms
+
         });
 
         // document.addEventListener('DOMContentLoaded', function() {

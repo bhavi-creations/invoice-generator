@@ -79,7 +79,7 @@ table thead td { background-color: #EEEEEE;
     <table width="100%" height="50%">
         <tr>
             <td style="text-align: center;">
-                <img src="img/logo.png" alt="" class="" height="12%" width="25%">
+			<img src="img/logo.png" alt="img/logo.png" class="" height="12%" width="25%">
             </td>
         </tr>
     </table>
@@ -185,11 +185,11 @@ $html .= '
 </tbody>
 </table>
 <br/>
-<p style="font-weight: bold;">Terms&Conditions</p>
-<p>' . $row['Terms'] . '</p>
+<p style="font-weight: bold; ">Terms&Conditions</p>
+<p style="width: 50%">' . $row['Terms'] . '</p>
 <br/>
 <p style="font-weight: bold;">Note:</p>
-<p>' . $row['Note'] . '</p>
+<p style="width: 50%">' . $row['Note'] . '</p>
 <br/>
 <br/>
 <br/>
