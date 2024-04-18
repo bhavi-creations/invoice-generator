@@ -443,14 +443,14 @@ $result = $conn->query($sql);
             <!--  Table-->
             <section class="col-lg-10">
                 <div class="container mt-5">
-                    <div class="row" id="search-bar">
+                    <!-- <div class="row" id="search-bar">
                         <div class="col-sm-12 col-md-12">
-                            <label for="search" class="form-label">Search by Name</label> <!-- Associated label with the input field -->
+                            <label for="search" class="form-label">Search by Name</label> 
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-4">
-                            <input type="text" id="search" class="form-control" placeholder="Enter name to search"> <!-- Added placeholder text for user guidance -->
+                            <input type="text" id="search" class="form-control" placeholder="Enter name to search">
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
                 <div class="container mt-3">
