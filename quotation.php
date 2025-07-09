@@ -16,7 +16,7 @@ require_once('bhavidb.php');
 
 function getInvoiceId()
 {
-   include('bhavidb.php');
+    include('bhavidb.php');
 
     if ($conn->connect_error) {
         die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
@@ -65,7 +65,7 @@ $invoiceNumber = getInvoiceId();
     <title>BHAVIINVOICE</title>
 
 
- 
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
@@ -136,7 +136,7 @@ $invoiceNumber = getInvoiceId();
 
         .active-link {
             background-color: blue;
-            color: white ;
+            color: white;
         }
 
         body {
@@ -194,10 +194,10 @@ $invoiceNumber = getInvoiceId();
 
 
         @media (min-widt:768px) {
-  .only_sm{
-    margin-top:175px;
-  }
-}
+            .only_sm {
+                margin-top: 175px;
+            }
+        }
     </style>
 
 
@@ -276,7 +276,7 @@ $invoiceNumber = getInvoiceId();
                                     </div>
                                 </li>
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark"  ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links text-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
                                             <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
                                             <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
@@ -285,7 +285,7 @@ $invoiceNumber = getInvoiceId();
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -342,9 +342,9 @@ $invoiceNumber = getInvoiceId();
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
-                         <div class="collapse navbar-collapse  " id="navbarNav">
+                        <div class="collapse navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                               
+
 
 
                                 <li class=" ">
@@ -357,7 +357,7 @@ $invoiceNumber = getInvoiceId();
 
 
 
-                                
+
                                 <li class="nav-item ">
                                     <a class="nav-link  nav-links text-dark" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -419,7 +419,7 @@ $invoiceNumber = getInvoiceId();
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -478,9 +478,9 @@ $invoiceNumber = getInvoiceId();
                         <!-- FORM INVOICENUMBER -->
 
                         <div class="row container pt-5  mb-5">
-                            <div class="row">   
+                            <div class="row">
                                 <div class="col-lg-8 col-sm-12 col-md-12">
-                                    <h5><strong>Quotation</strong></h5>
+                                   
                                     <h5><strong> Date :</strong> <input type="date" name="invoice_date" required value="<?php echo date('Y-m-d') ?>" class="form-input"></h5>
                                 </div>
                                 <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
@@ -496,7 +496,7 @@ $invoiceNumber = getInvoiceId();
                         <!--  COMPANY DETAILS  -->
 
                         <div class="  container   mb-5">
-                            <div class="row">   
+                            <div class="row">
                                 <div class="col-lg-8 col-sm-12 col-md-12">
                                     <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd </strong></h4>
                                     <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New </h6>
@@ -507,30 +507,30 @@ $invoiceNumber = getInvoiceId();
                                     <h6>Email: admin@bhavicreations.com</h6>
                                     <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                                 </div>
-                                
-                            <div class="col-lg-4 col-sm-12 col-md-12">
-                                <h4>
-                                    <select name="company" id="companySelect">
-                                        <?php
-                                        $sql = "SELECT * FROM `customer`";
-                                        $res = $conn->query($sql);
-                                        $fetched_data = [];
-                                        echo "<option value=''>Select Customer/Company</option>";
-                                        while ($row = mysqli_fetch_assoc($res)) {
-                                            $fetched_data[] = $row;
-                                            echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                        }
-                                        // this hidden input is used to store the data & get the data in javascript
-                                        echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
-                                        ?>
-                                    </select>
-                                </h4>
-                                <p class="mb-1" id="company_name"></p>
-                                <p class="mb-1" id="name"></p>
-                                <p class="mb-1" id="email"></p>
-                                <p class="mb-1" id="phone"></p>
-                                <p class="mb-1" id="gst"></p>
-                            </div>
+
+                                <div class="col-lg-4 col-sm-12 col-md-12">
+                                    <h4>
+                                        <select name="company" id="companySelect">
+                                            <?php
+                                            $sql = "SELECT * FROM `customer`";
+                                            $res = $conn->query($sql);
+                                            $fetched_data = [];
+                                            echo "<option value=''>Select Customer/Company</option>";
+                                            while ($row = mysqli_fetch_assoc($res)) {
+                                                $fetched_data[] = $row;
+                                                echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
+                                            }
+                                            // this hidden input is used to store the data & get the data in javascript
+                                            echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
+                                            ?>
+                                        </select>
+                                    </h4>
+                                    <p class="mb-1" id="company_name"></p>
+                                    <p class="mb-1" id="name"></p>
+                                    <p class="mb-1" id="email"></p>
+                                    <p class="mb-1" id="phone"></p>
+                                    <p class="mb-1" id="gst"></p>
+                                </div>
 
                             </div>
                         </div>
@@ -556,8 +556,8 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <th></th>
                                                 <th class="text-center">S.no</th>
-                                                <th class="text-center"   >Services</th>
-                                                <th class="text-center"  >Description</th>
+                                                <th class="text-center">Services</th>
+                                                <th class="text-center">Description</th>
                                                 <th class="text-center">Qty</th>
                                                 <th class="text-center">Price/Unit</th>
                                                 <th class="text-center">Sub Total</th>
@@ -571,7 +571,7 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td > <select style="width:200px;" name="Sname[]" class="form-control">
+                                                <td> <select style="width:200px;" name="Sname[]" class="form-control">
                                                         <?php
                                                         $sql = "SELECT `service_name` FROM `service_names`";
                                                         $res = $conn->query($sql);
@@ -581,11 +581,11 @@ $invoiceNumber = getInvoiceId();
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td><textarea   style="width:250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td><textarea style="width:250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
                                                 <td><input type='text' required name='Price[]' class='form-control price'></td>
-                                                <td><input type='text'  name='subtotal[]' class='form-control subtotal'></td>
-                                                <td><input type='text'  name='discount[]' class='form-control discount'></td>
+                                                <td><input type='text' name='subtotal[]' class='form-control subtotal'></td>
+                                                <td><input type='text' name='discount[]' class='form-control discount'></td>
                                                 <td><input type='text' required name='total[]' class='form-control total'></td>
                                                 <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
                                             </tr>
@@ -634,7 +634,7 @@ $invoiceNumber = getInvoiceId();
                                 </div>
                             </div>
 
-                     
+
 
 
 
@@ -649,8 +649,8 @@ $invoiceNumber = getInvoiceId();
                                         <textarea name="note" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Note:"></textarea>
                                     </div>
 
-                                    <div class="col-lg-2 col-md-2 col-sm-12 text-center mt-3" >
-                                        <input style="   margin-top:50px;"  type="submit" name="submit" value="Save & Print" class="btn btn-primary">
+                                    <div class="col-lg-2 col-md-2 col-sm-12 text-center mt-3">
+                                        <input style="   margin-top:50px;" type="submit" name="submit" value="Save & Print" class="btn btn-primary">
                                     </div>
 
                                 </div>
@@ -861,25 +861,25 @@ $invoiceNumber = getInvoiceId();
 
                             <!--     SCANNER SECTION  -->
 
-                            <div class=" container pt-5   mb-5  " >
+                            <div class=" container pt-5   mb-5  ">
 
-                                <div class="row  "     >
+                                <div class="row  ">
                                     <span class="verticalline mb-5"></span>
                                     <div class="col-lg-6  col-sm-12 col-md-6   ">
                                         <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
                                         <h4><img src="img/qrcode.jpg" alt="" height="120px" width="120px"></h4>
-                                         <br> 
+                                        <br>
                                     </div>
-                                    <div class="col-lg-6  col-sm-12 col-md-6 invoicenumber only_sm  " >
+                                    <div class="col-lg-6  col-sm-12 col-md-6 invoicenumber only_sm  ">
                                         <h5 class="mb-2"><strong>Payment details</strong></h5>
                                         <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
                                         <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
                                         <h6 class="mb-2">Account No. : 59213749999999</h6>
                                         <h6 class="mb-2">IFSC : HDFC000042</h6>
-                                        <br>  
+                                        <br>
                                     </div>
                                     <span class="verticalline  "></span>
-                                </div>    
+                                </div>
                             </div>
                             <!--   ENDING  SCANNER SECTION  -->
 

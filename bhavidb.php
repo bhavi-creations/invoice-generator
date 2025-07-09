@@ -8,7 +8,7 @@
         $database = 'invoice';
     } else {
         // Server environment details
-        $username = 'bhavi@invoice.bh';
+        $username = 'bhavi@invoice.bh'; 
         $pass = 'Bhavi@client';
         $database = 'invoice';
     }
