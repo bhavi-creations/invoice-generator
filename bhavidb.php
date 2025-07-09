@@ -5,7 +5,7 @@
         // Local environment details
         $username = 'root';
         $pass = '';
-        $database = 'bhavi_invoice_db';
+        $database = 'invoice';
     } else {
         // Server environment details
         $username = 'bhavi@invoice.bh';
