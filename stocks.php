@@ -179,13 +179,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
-        <section class="col-lg-2">
+            <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
                                 <li class=" ">
@@ -205,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                 </li>
 
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -247,7 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                     </div>
                                 </li>
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links active-link"  ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links active-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
                                             <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
                                             <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
@@ -256,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -287,7 +284,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                             <path d="M22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2V12H22Z" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg> Reports</a>
                                 </li>
-
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="#" id="change_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12.22 2h-4.44a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.34" />
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        </svg> Settings
+                                    </a>
+                                </li>
                                 <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
@@ -304,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                 <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-lg-none ">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                             <a class="navbar-brand" href="#"  id="change_password_sm" ><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px" class="img-fluid"></a>  
+                            <a class="navbar-brand" href="#" id="change_password_sm"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px" class="img-fluid"></a>
                         </div>
 
 
@@ -312,9 +316,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
-                         <div class="collapse navbar-collapse  " id="navbarNav">
+                        <div class="collapse navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                               
+
 
 
                                 <li class="nav-item ">
@@ -326,8 +330,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 
 
 
-              
-                                
+
+
                                 <li class="nav-item ">
                                     <a class="nav-link  nav-links text-dark" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -338,9 +342,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                         Customers</a>
                                 </li>
 
-                                
+
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -390,7 +394,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -471,14 +475,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                         <div class="  billing">
                             <div class=" ">
                                 <div style="overflow-x:auto;">
-                                    <table   class="table table-bordered">
+                                    <table class="table table-bordered">
 
                                         <thead class="thead" style="background-color: #e9ecef;">
                                             <tr>
                                                 <th></th>
                                                 <th class="text-center">S.no</th>
-                                                <th   class="text-center  ">Name(Stock)</th>
-                                                <th   class="text-center ">Description</th>
+                                                <th class="text-center  ">Name(Stock)</th>
+                                                <th class="text-center ">Description</th>
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-center">Details</th>
                                                 <th></th>
@@ -489,10 +493,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td  style="width:250px;" ><textarea  style="width:250px;"  class="form-control" name="stock_name[]" placeholder="Name of stock." style="width: 100%;"></textarea></td>
-                                                <td  style="width:200px;"><textarea  style="width:200px;"  class="form-control" name="stock_desc[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td style="width:250px;"><textarea style="width:250px;" class="form-control" rows="1" name="stock_name[]" placeholder="Name of stock." style="width: 100%;"></textarea></td>
+                                                <td style="width:200px;"><textarea style="width:200px;" class="form-control"rows="1" name="stock_desc[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='stock_qty[]' class='form-control total'></td>
-                                                <td style="width:250px;"><textarea style="width:250px;" class="form-control" name="stock_details[]" placeholder="details." style="width: 100%;"></textarea></td>
+                                                <td style="width:250px;"><textarea style="width:250px;" class="form-control" rows="1" name="stock_details[]" placeholder="details." style="width: 100%;"></textarea></td>
                                                 <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td>
                                             </tr>
 
@@ -506,7 +510,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 
                             <div class="container mt-5 d-flex flex-row justify-content-center">
                                 <div class="col-12 col-lg-2 mt-lg-3" ">
-                                        <input type="submit" name="submit" value="Save" class="btn btn-primary w-100">
+                                        <input type=" submit" name="submit" value="Save" class="btn btn-primary w-100">
                                 </div>
                             </div>
                             <!--  ENDING BILLING SECTION  -->
@@ -518,7 +522,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                 $(document).ready(function() {
 
                                     $("#btn-add-row").click(function() {
-                                        var row = "<tr><td></td><td class='serial-number'>01</td><td><textarea class='form-control' name='stock_name[]' placeholder='Name of stock.' style='width: 100%;'></textarea></td><td><textarea class='form-control' name='stock_desc[]' placeholder='DESCRIPITION.' style='width: 100%;'></textarea></td><td><input type='text' required name='stock_qty[]' class='form-control total'></td><td><textarea class='form-control' name='stock_details[]' placeholder='details.' style='width: 100%;'></textarea></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
+                                        var row = "<tr><td></td><td class='serial-number'>01</td><td><textarea class='form-control'  name='stock_name[]' placeholder='Name of stock.' style='width: 100%;'></textarea></td><td><textarea class='form-control' name='stock_desc[]' placeholder='DESCRIPITION.' style='width: 100%;'></textarea></td><td><input type='text' required name='stock_qty[]' class='form-control total'></td><td><textarea class='form-control' name='stock_details[]' placeholder='details.' style='width: 100%;'></textarea></td><td><button type='button' value='X' style='border: none; background: none;' class='btn-sm' id='btn-row-remove'><b>X</b></button></td></tr>";
 
 
                                         $("#product_tbody").append(row);
@@ -551,17 +555,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 
                     </form>
 
-                    <div   style="margin-top: 70px;">
+                    <div style="margin-top: 70px;">
                         <div class="table-responsive " style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
                             <table class="table table-bordered viewinvoicetable">
                                 <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                     <tr>
-                                        <th class="text-center"  >ID</th>
-                                        <th style="  padding-right: 50px; padding-left: 50px;  " >Name</th>
-                                        <th style="  padding-right: 30px; padding-left: 30px;  " >Description</th>
-                                        <th  >Quantity</th>
-                                        <th style="  padding-right: 50px; padding-left: 50px;  " >Details</th>
-                                        <th  >Actions</th>
+                                        <th class="text-center">ID</th>
+                                        <th style="  padding-right: 50px; padding-left: 50px;  ">Name</th>
+                                        <th style="  padding-right: 30px; padding-left: 30px;  ">Description</th>
+                                        <th>Quantity</th>
+                                        <th style="  padding-right: 50px; padding-left: 50px;  ">Details</th>
+                                        <th>Actions</th>
                                         <!-- <th style="width: 30%;">Actions</th> -->
                                     </tr>
                                 </thead>
@@ -672,12 +676,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 
 
 
- 
 
 
- 
 
- 
+
+
+
 
 
 

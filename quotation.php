@@ -35,25 +35,15 @@ function getInvoiceId()
             $nextInvoiceNumber = $row['quotation_no'] + 1;
         }
 
-
         $formattedInvoiceNumber = sprintf('%04d', $nextInvoiceNumber);
-
-
         $result->free();
-
-
         $conn->close();
-
         return $formattedInvoiceNumber;
     }
 }
-
 $invoiceNumber = getInvoiceId();
 
 /* Customer Details */
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -63,24 +53,13 @@ $invoiceNumber = getInvoiceId();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>BHAVIINVOICE</title>
-
-
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet">
-
-
     <link rel="stylesheet" href="img/style.css">
     <link rel="stylesheet" href="img/stylemi.css">
 
@@ -208,13 +187,12 @@ $invoiceNumber = getInvoiceId();
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
+
+
             <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
                                 <li class=" ">
@@ -316,7 +294,14 @@ $invoiceNumber = getInvoiceId();
                                             <path d="M22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2V12H22Z" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg> Reports</a>
                                 </li>
-
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="#" id="change_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12.22 2h-4.44a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.34" />
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        </svg> Settings
+                                    </a>
+                                </li>
                                 <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
@@ -472,43 +457,18 @@ $invoiceNumber = getInvoiceId();
 
                     <!-- FORM -->
 
-                    <form class="mango  pb-4 mb-5" action="quotationform.php" method="post">
+                    <form class="quote-form shadow-sm" action="quotationform.php" method="post" enctype="multipart/form-data">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block pt-5" height="20%" width="20%">
 
                         <!-- FORM INVOICENUMBER -->
 
                         <div class="row container pt-5  mb-5">
                             <div class="row">
-                                <div class="col-lg-8 col-sm-12 col-md-12">
-                                   
-                                    <h5><strong> Date :</strong> <input type="date" name="invoice_date" required value="<?php echo date('Y-m-d') ?>" class="form-input"></h5>
-                                </div>
-                                <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
-                                    <h5><strong>Quotation Number </strong></h5>
-                                    <h4><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-4" value="<?php echo $invoiceNumber; ?>" readonly></strong></h4>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- ENDING  FORM INVOICENUMBER -->
-
-                        <!--  COMPANY DETAILS  -->
-
-                        <div class="  container   mb-5">
-                            <div class="row">
-                                <div class="col-lg-8 col-sm-12 col-md-12">
-                                    <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd </strong></h4>
-                                    <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New </h6>
-                                    <h6>RTO Office, behind J.N.T.U Engineering College Play Ground,</h6>
-                                    <h6> RangaRaoNagar,Kakinada,</h6>
-                                    <h6>AndhraPradesh533003</h6>
-                                    <h6>Phone no.: 9642343434</h6>
-                                    <h6>Email: admin@bhavicreations.com</h6>
-                                    <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
-                                </div>
-
                                 <div class="col-lg-4 col-sm-12 col-md-12">
+                                    <h5><strong>Date :</strong> <input type="date" name="quote_date" id="" value="<?php echo date('Y-m-d') ?>" class="form-input"></h5>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-12 mb-3">
                                     <h4>
                                         <select name="company" id="companySelect">
                                             <?php
@@ -532,9 +492,48 @@ $invoiceNumber = getInvoiceId();
                                     <p class="mb-1" id="gst"></p>
                                 </div>
 
+                                <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
+                                    <h5><strong>Invoice Number </strong></h5>
+                                    <h5><strong>BHAVI_KKD_2024_ <input type="text" name="quotation_no" style="border: none;" class="row-1 col-4" value="<?php echo $invoiceNumber; ?>" readonly></strong></h5>
+                                </div>
                             </div>
+
                         </div>
 
+                        <!-- ENDING  FORM INVOICENUMBER -->
+
+                        <!--  COMPANY DETAILS  -->
+
+
+                        <div class="container ps-5 mb-5">
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-12 mb-3">
+                                    <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd</strong></h4>
+                                    <address class="">
+                                        <h6>Plot no28, H No70, 17-28, RTO Office Rd, </h6>
+
+                                        <h6>RangaRaoNagar, Kakinada,</h6>
+                                        <h6>AndhraPradesh 533003.</h6>
+
+                                    </address>
+
+                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea>
+
+                                </div>
+                                <div class="col-lg-4 col-sm-12 mb-3">
+                                    <h4 class="pb-2"><strong>Contact</strong></h4>
+                                    <address class="">
+
+                                        <h6>Phone no.: 9642343434</h6>
+                                        <h6>Email: <span style="font-size: 16px;"> admin@bhavicreations.com </span>
+                                        </h6>
+                                        <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
+                                    </address>
+
+                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
                         <!-- ENDING COMPANY DETAILS -->
 
                         <!-- BILLING SECTION  -->
@@ -581,7 +580,7 @@ $invoiceNumber = getInvoiceId();
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td><textarea style="width:250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td><textarea style="width:250px;" rows="1" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
                                                 <td><input type='text' required name='Price[]' class='form-control price'></td>
                                                 <td><input type='text' name='subtotal[]' class='form-control subtotal'></td>
@@ -638,23 +637,32 @@ $invoiceNumber = getInvoiceId();
 
 
 
+
+
                             <div class="container mt-5">
                                 <div class="row">
+                                    <div class="col-lg-4 col-md-12   mb-3">
+                                        <label for="note" class="form-label"><strong>Note:</strong></label>
 
-                                    <div class="col-lg-5 col-md-5 col-sm-12 mt-3">
-                                        <textarea name="terms" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Terms & Conditions"></textarea>
+                                        <textarea name="note" class="form-control" style="border-radius: 10px;" rows="1" placeholder="Note:"></textarea>
                                     </div>
 
-                                    <div class="col-lg-5 col-md-5 col-sm-12 mt-3">
-                                        <textarea name="note" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Note:"></textarea>
+                                    <div class="col-lg-4 col-md-12 mb-3">
+                                        <label for="attachments" class="form-label"><strong>Attach Files:</strong></label>
+                                        <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
                                     </div>
 
-                                    <div class="col-lg-2 col-md-2 col-sm-12 text-center mt-3">
-                                        <input style="   margin-top:50px;" type="submit" name="submit" value="Save & Print" class="btn btn-primary">
+                                    <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
+                                        <!-- <input type="submit" name="save" value="Save" class="btn btn-primary me-2"> -->
+
+                                        <button type="submit" name="save" class="btn btn-primary me-2">Save </button>
+
+                                        <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
                                     </div>
 
                                 </div>
                             </div>
+
 
                             <!--  ENDING BILLING SECTION  -->
 
@@ -860,25 +868,65 @@ $invoiceNumber = getInvoiceId();
                             </script>
 
                             <!--     SCANNER SECTION  -->
-
-                            <div class=" container pt-5   mb-5  ">
-
-                                <div class="row  ">
+                            <div class="container pt-5 mb-5">
+                                <div class="row">
                                     <span class="verticalline mb-5"></span>
-                                    <div class="col-lg-6  col-sm-12 col-md-6   ">
-                                        <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
-                                        <h4><img src="img/qrcode.jpg" alt="" height="120px" width="120px"></h4>
-                                        <br>
+
+                                    <!-- Office Radio -->
+                                    <div class="col-12 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment_details" id="office_details" value="office" checked>
+                                            <label class="form-check-label" for="office_details">
+                                                <strong>Use Office Payment Details</strong>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-6  col-sm-12 col-md-6 invoicenumber only_sm  ">
-                                        <h5 class="mb-2"><strong>Payment details</strong></h5>
-                                        <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
-                                        <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
-                                        <h6 class="mb-2">Account No. : 59213749999999</h6>
-                                        <h6 class="mb-2">IFSC : HDFC000042</h6>
-                                        <br>
+
+                                    <!-- Personal Radio -->
+                                    <div class="col-12 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment_details" id="personal_details" value="personal">
+                                            <label class="form-check-label" for="personal_details">
+                                                <strong>Use Personal Payment Details</strong>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <span class="verticalline  "></span>
+
+                                    <!-- Office Payment Section -->
+                                    <div id="office_payment_section" class="col-12 payment-section">
+                                        <div class="row mt-2">
+                                            <div class="col-lg-6 col-sm-12 col-md-6">
+                                                <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                                                <h4><img src="img/qrcode.jpg" alt="Office QR Code" height="120px" width="120px"></h4>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12 col-md-6 invoicenumber only_sm">
+                                                <h5 class="mb-2"><strong>Payment details</strong></h5>
+                                                <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
+                                                <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
+                                                <h6 class="mb-2">Account No. : 59213749999999</h6>
+                                                <h6 class="mb-2">IFSC : HDFC0000426</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Personal Payment Section -->
+                                    <div id="personal_payment_section" class="col-12 payment-section d-none">
+                                        <div class="row mt-2">
+                                            <div class="col-lg-6 col-sm-12 col-md-6">
+                                                <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                                                <h4><img src="img/personal_qrcode.jpg" alt="Personal QR Code" height="120px" width="120px"></h4>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12 col-md-6 invoicenumber only_sm">
+                                                <h5 class="mb-2"><strong>Payment details</strong></h5>
+                                                <h6 class="mb-2">Bank Name : State Bank Of India</h6>
+                                                <h6 class="mb-2">Account Name : Chalikonda Naga Phaneendra Naidu</h6>
+                                                <h6 class="mb-2">Account No. : 20256178992</h6>
+                                                <h6 class="mb-2">IFSC : SBIN00001917</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <span class="verticalline"></span>
                                 </div>
                             </div>
                             <!--   ENDING  SCANNER SECTION  -->
@@ -1005,6 +1053,33 @@ $invoiceNumber = getInvoiceId();
 
     <?php include('changepass-modal.php');
     ?>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const officeRadio = document.getElementById('office_details');
+            const personalRadio = document.getElementById('personal_details');
+            const officeSection = document.getElementById('office_payment_section');
+            const personalSection = document.getElementById('personal_payment_section');
+
+            function togglePaymentDetails() {
+                if (officeRadio.checked) {
+                    officeSection.classList.remove('d-none');
+                    personalSection.classList.add('d-none');
+                } else {
+                    personalSection.classList.remove('d-none');
+                    officeSection.classList.add('d-none');
+                }
+            }
+
+            // Initial check on page load
+            togglePaymentDetails();
+
+            // Listen to change events
+            officeRadio.addEventListener('change', togglePaymentDetails);
+            personalRadio.addEventListener('change', togglePaymentDetails);
+        });
+    </script>
 </body>
 
 

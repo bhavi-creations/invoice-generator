@@ -202,10 +202,7 @@ $invoiceNumber = getInvoiceId();
             <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                       
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
                                 <li class=" ">
@@ -308,7 +305,14 @@ $invoiceNumber = getInvoiceId();
                                             <path d="M22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2V12H22Z" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg> Reports</a>
                                 </li>
-
+<li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="#" id="change_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12.22 2h-4.44a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.34" />
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        </svg> Settings
+                                    </a>
+                                </li>
                                 <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
@@ -527,7 +531,7 @@ $invoiceNumber = getInvoiceId();
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td style="width:200px;"><textarea style="width:200px;" class="form-control" name="exp_description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td style="width:200px;"><textarea style="width:200px;" rows="1" class="form-control" name="exp_description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td style="width:150px;"><select style="width:150px;" name="mode_payment[]" id="" class="">
                                                         <option value="select">Select</option>
                                                         <option value="Google-pay">Google-Pay</option>

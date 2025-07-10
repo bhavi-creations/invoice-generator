@@ -1,108 +1,81 @@
 <?php
-
 session_start();
+require_once('bhavidb.php');
+
 if (!isset($_SESSION['email'])) {
     header('Location:index.php');
     exit();
 }
-  include('addcus-model.php')  ;
 
+// --- PHP LOGIC TO HANDLE UPDATES ---
 
+// Handle Service Name Update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_service'])) {
+    $service_id = (int)$_POST['service_id'];
+    $service_name = $_POST['service_name'];
+
+    if ($service_id > 0 && !empty($service_name)) {
+        $stmt = $conn->prepare("UPDATE service_names SET service_Name = ? WHERE si_No = ?");
+        $stmt->bind_param("si", $service_name, $service_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: customized_edits.php');
+    exit();
+}
+
+// Handle GST Update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_gst'])) {
+    $gst_id = (int)$_POST['gst_id'];
+    $gst_value = $_POST['gst_value'];
+
+    if ($gst_id > 0 && is_numeric($gst_value)) {
+        $stmt = $conn->prepare("UPDATE gst_no SET gst = ? WHERE si_No = ?");
+        $stmt->bind_param("di", $gst_value, $gst_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: customized_edits.php');
+    exit();
+}
+
+// Include your modals for adding new items
+include('addservice-model.php');
+include('addgst-modal.php');
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BHAVIINVOICE</title>
-
-    <!-- BOOTSTRAP PLUGIN -->
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
- 
-    <!-- jQuery -->
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
-
-    <!-- ADDING STYLE SHEET  -->
+    <title>Customized Edits</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="img/style.css">
     <link rel="stylesheet" href="img/stylemi.css">
-
-
-
     <style>
-        .table.viewinvoicetable thead {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-            background-color: #f2f2f2;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Add shadow to the bottom */
+        .action-buttons button,
+        .action-buttons a {
+            margin: 0 5px;
         }
 
-        table {
-            background-color: white;
-            border-radius: 20px;
+        .table-head th {
+            padding-bottom: 1rem !important;
         }
 
-        .service-btn {
-            background-color: #f0f8ff;
-        }
-
-        .nav-item {
-            padding-top: 20px;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 200px;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 20px;
-            /* text-align: center; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12 px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
+        /* Add other necessary styles here */
     </style>
-
 </head>
 
 <body>
-
-    <!--  LARGE SCREEN NAVBAR  -->
-
-    
-
     <div class="container-fluid">
         <div class="row">
-        <section class="col-lg-2">
+
+             <section class="col-lg-2">
+
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
                                 <li class=" ">
@@ -121,9 +94,8 @@ if (!isset($_SESSION['email'])) {
                                         Customers</a>
                                 </li>
 
-                              
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -146,7 +118,7 @@ if (!isset($_SESSION['email'])) {
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                    <a class="nav-link active-link nav-links" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
                                             <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
                                             <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
                                         </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill " viewBox="0 0 16 16">
@@ -165,7 +137,7 @@ if (!isset($_SESSION['email'])) {
                                     </div>
                                 </li>
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark"  ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                    <a class="nav-link  nav-links text-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
                                             <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
                                             <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
@@ -174,7 +146,7 @@ if (!isset($_SESSION['email'])) {
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -193,7 +165,7 @@ if (!isset($_SESSION['email'])) {
                                     </div>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link active-link nav-links" href="customized_edits.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark nav-links" href="customized_edits.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                         </svg> Customized Edits</a>
@@ -207,6 +179,19 @@ if (!isset($_SESSION['email'])) {
                                 </li>
 
                                 <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="#" id="change_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12.22 2h-4.44a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.34" />
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        </svg> Settings
+                                    </a>
+                                </li>
+
+
+
+
+
+                                <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
                                             <path d="M19.7789 9.4548L16.9331 6.5458C16.639 6.2458 16.1657 6.2458 15.8725 6.5478C15.5803 6.8498 15.5813 7.3368 15.8745 7.6368L17.4337 9.2298H15.9387H7.54844C7.13452 9.2298 6.79852 9.5748 6.79852 9.9998C6.79852 10.4258 7.13452 10.7698 7.54844 10.7698H17.4337L15.8745 12.3628C15.5813 12.6628 15.5803 13.1498 15.8725 13.4518C16.0196 13.6028 16.2114 13.6788 16.4043 13.6788C16.5952 13.6788 16.787 13.6028 16.9331 13.4538L19.7789 10.5458C19.9201 10.4008 20 10.2048 20 9.9998C20 9.7958 19.9201 9.5998 19.7789 9.4548Z" fill="black" />
@@ -215,6 +200,8 @@ if (!isset($_SESSION['email'])) {
                                 </li>
                             </ul>
                         </div>
+
+
                     </div>
                 </nav>
                 <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
@@ -231,13 +218,12 @@ if (!isset($_SESSION['email'])) {
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
-                         <div class="collapse navbar-collapse  " id="navbarNav">
+                        <div class="collapse navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
-                               
 
 
-                                
-                            <li class=" ">
+
+                                <li class=" ">
                                     <a href="#" class="nav-link  nav-links active-link" id="add_customer_min"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M12 5V19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M5 12H19" stroke="#F4F5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -247,7 +233,7 @@ if (!isset($_SESSION['email'])) {
 
 
 
-                                
+
                                 <li class="nav-item ">
                                     <a class="nav-link  nav-links text-dark" href="viewcustomers.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 21 20" fill="none">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.842 12.957C11.531 12.957 14.684 13.516 14.684 15.749C14.684 17.982 11.552 18.557 7.842 18.557C4.152 18.557 1 18.003 1 15.769C1 13.535 4.131 12.957 7.842 12.957Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -258,9 +244,9 @@ if (!isset($_SESSION['email'])) {
                                         Customers</a>
                                 </li>
 
-                                
+
                                 <li class="dropdown nav-item ">
-                                    <a  class="nav-link  nav-links text-dark"  href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                             <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M14 2V8H20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M16 13H8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -283,7 +269,7 @@ if (!isset($_SESSION['email'])) {
 
                                 <!-- Invoice dropdown -->
                                 <li class="dropdown nav-item ">
-                                    <a class="nav-link  nav-links text-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                    <a class="nav-link active-link nav-links" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
                                             <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
                                             <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
                                         </svg> Invoice <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill " viewBox="0 0 16 16">
@@ -310,7 +296,7 @@ if (!isset($_SESSION['email'])) {
                                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                         </svg></a>
                                     <div class="dropdown-content">
-                                    <a class="nav-link text-dark"  href="expenditures.php">
+                                        <a class="nav-link text-dark" href="expenditures.php">
                                             <h6>Expenses</h6>
                                         </a>
                                         <a class="nav-link text-dark" href="view_expenditure.php">
@@ -329,7 +315,7 @@ if (!isset($_SESSION['email'])) {
                                     </div>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link active-link nav-links" href="customized_edits.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <a class="nav-link text-dark nav-links" href="customized_edits.php"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                         </svg> Customized Edits</a>
@@ -356,108 +342,173 @@ if (!isset($_SESSION['email'])) {
                 </nav>
             </section>
 
-
-            <!-- Modal for Add Service-->
             <section class="col-lg-10">
-                <div class="container">
-                    <div class="row mango">
-                        <div class="col-lg-7 col-md-7 col-sm-12  mt-5">
-                            <?php include('addgst-modal.php'); ?>
-                            <div class=" ">
-                                <div class="container ">
-                                    <div class="table-container" style="height: 450px; overflow-y: auto;">
-                                        <table class="table  viewinvoicetable" style="width: 100%;">
-                                            <thead style="  background-color: white;" class="table-head">
-                                                <th style="width: 60px;" class="pb-3">SI No</th>
-                                                <th class="service_name">Service Name <a href="#" class="btn service-btn" id="add_service">ADD SERVICES</a></th>
-                                                <!-- Add your other columns here -->
-                                                <!-- Example: <th>Column 2</th> ... <th>Column 10</th> -->
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                require_once('bhavidb.php');
-
-                                                $sql = "SELECT * FROM service_names";
-                                                $res = $conn->query($sql);
-                                                while ($row = mysqli_fetch_assoc($res)) {
-                                                    echo "<tr style='border:none;'>";
-                                                    echo "<td style='border:none;'>" . $row['si_No'] . "</td>";
-                                                    echo "<td style='border:none;'>" . $row['service_Name'] . "</td>";
-                                                    echo "<td style='border:none;'><a href=\"delete_service.php?Id={$row['si_No']}\" onClick=\"return confirm('Are you sure you want to delete?')\">
-                                                    <button class=\"delete-button-cus\"><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'>
-                                                      <path d='M3 6H5H21' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                      <path d='M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                      <path d='M10 11V17' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                      <path d='M14 11V17' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                    </svg>
-                                                    </button>
-                                                  </a> </td>";
-                                                    // Add data for other columns here
-                                                    echo "</tr>";
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="table-container p-3 bg-white rounded shadow-sm">
+                                <div class="mb-2">
+                                    <input type="text" class="form-control" id="service_filter" placeholder="Search Service Name...">
                                 </div>
+
+                                <table class="table">
+                                    <thead class="table-head">
+                                        <th>SI No</th>
+                                        <th>Service Name <a href="#" class="btn btn-sm btn-outline-primary" id="add_service">ADD</a></th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $res_services = $conn->query("SELECT * FROM service_names ORDER BY si_No");
+                                        while ($row = mysqli_fetch_assoc($res_services)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row['si_No'] . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['service_Name']) . "</td>";
+                                            echo "<td class='action-buttons'>
+                                                    <div class='d-flex justify-content-center'>
+                                                        <button class='btn btn-sm btn-warning edit-service-btn me-2' 
+                                                                data-bs-toggle='modal' 
+                                                                data-bs-target='#edit_service_modal' 
+                                                                data-id='{$row['si_No']}' 
+                                                                data-name='" . htmlspecialchars($row['service_Name'], ENT_QUOTES) . "'>
+                                                            Edit
+                                                        </button>
+                                                        <a href=\"delete_service.php?Id={$row['si_No']}\" class='btn btn-sm btn-danger' onClick=\"return confirm('Are you sure?')\">Delete</a>
+                                                    </div>
+                                                </td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        <!-- Table For GST-->
-                        <div class="col-lg-5 col-md-5 col-sm-12   mt-5 " ">
-                            <?php include('addservice-model.php');  ?>
-                            
-                            <div class=" container add_gst " >
-                                <div class=" table-responsive">
-                            <table class="table  viewinvoicetable" style="width: 300px; overflow-y: auto;">
-                                <thead style="  background-color: white;" class="table-head">
-                                    <th style=" width: 60px;" class="pb-3">SI No</th>
-                                    <th>GST% <a href="#" class="btn service-btn" id="add_gst">ADD</a></th>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    require_once('bhavidb.php');
+                        <div class="col-md-6">
+                            <div class="table-container p-3 bg-white rounded shadow-sm">
+                                <div class="mb-2">
+                                    <input type="text" class="form-control" id="gst_filter" placeholder="Search GST Value...">
+                                </div>
 
-                                    $sql = "SELECT * FROM gst_no";
-                                    $res = $conn->query($sql);
-
-                                    if ($res === false) {
-                                    } else {
-                                        while ($row = mysqli_fetch_assoc($res)) {
-                                            echo "<tr style='border:none;'>";
-                                            echo "<td  style='border:none;'>" . $row['si_No'] . "</td>";
-                                            echo "<td  style='border:none;'>" . $row['gst'] . "</td>";
-                                            echo "<td style='border:none;'><a href=\"delete_gst.php?Id={$row['si_No']}\" onClick=\"return confirm('Are you sure you want to delete?')\">
-                                                    <button class=\"delete-button-cus\"><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'>
-                                                      <path d='M3 6H5H21' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                      <path d='M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                      <path d='M10 11V17' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                      <path d='M14 11V17' stroke='#C01818' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                                    </svg>
-                                                    </button>
-                                                  </a> </td>";
+                                <table class="table">
+                                    <thead class="table-head">
+                                        <th>SI No</th>
+                                        <th>GST % <a href="#" class="btn btn-sm btn-outline-primary" id="add_gst">ADD</a></th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $res_gst = $conn->query("SELECT * FROM gst_no ORDER BY si_No");
+                                        while ($row = mysqli_fetch_assoc($res_gst)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row['si_No'] . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['gst']) . "</td>";
+                                            echo "<td class='action-buttons'>
+                                                <button class='btn btn-sm btn-warning edit-gst-btn' 
+                                                        data-bs-toggle='modal' 
+                                                        data-bs-target='#edit_gst_modal' 
+                                                        data-id='{$row['si_No']}' 
+                                                        data-value='" . htmlspecialchars($row['gst'], ENT_QUOTES) . "'>
+                                                    Edit
+                                                </button>
+                                                <a href=\"delete_gst.php?Id={$row['si_No']}\" class='btn btn-sm btn-danger' onClick=\"return confirm('Are you sure?')\">Delete</a>
+                                              </td>";
                                             echo "</tr>";
                                         }
-                                    }
-                                    ?>
-                                </tbody>
-
-                            </table>
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
-
+            </section>
         </div>
     </div>
 
-    <?php include('addcus-model.php')  ?>;
-    </section>
+    <div class="modal fade" id="edit_service_modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Service Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="customized_edits.php" method="post">
+                        <input type="hidden" id="edit_service_id" name="service_id">
+                        <div class="form-group">
+                            <label>Service Name</label>
+                            <input type="text" id="edit_service_name" name="service_name" class="form-control" required>
+                        </div>
+                        <button type="submit" name="update_service" class="btn btn-success mt-4">Update Service</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-    <?php include('changepass-modal.php'); ?>
 
+    <div class="modal fade" id="edit_gst_modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit GST Value</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="customized_edits.php" method="post">
+                        <input type="hidden" id="edit_gst_id" name="gst_id">
+                        <div class="form-group">
+                            <label>GST %</label>
+                            <input type="number" step="0.01" id="edit_gst_value" name="gst_value" class="form-control" required>
+                        </div>
+                        <button type="submit" name="update_gst" class="btn btn-success mt-4">Update GST</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Populate service edit modal
+            $('.edit-service-btn').on('click', function() {
+                var serviceId = $(this).data('id');
+                var serviceName = $(this).data('name');
+
+                $('#edit_service_id').val(serviceId);
+                $('#edit_service_name').val(serviceName);
+            });
+
+            // Populate GST edit modal
+            $('.edit-gst-btn').on('click', function() {
+                var gstId = $(this).data('id');
+                var gstValue = $(this).data('value');
+
+                $('#edit_gst_id').val(gstId);
+                $('#edit_gst_value').val(gstValue);
+            });
+        });
+
+
+
+        // Filter Service Name Table
+        $('#service_filter').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('.table-container:first tbody tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+        // Filter GST Table
+        $('#gst_filter').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('.table-container:last tbody tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    </script>
 
 </body>
 

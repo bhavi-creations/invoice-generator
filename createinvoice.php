@@ -1,18 +1,11 @@
 <?php
-
-
 session_start();
 if (!isset($_SESSION['email'])) {
     header('Location:index.php');
     exit();
 }
-
-
 define('INVOICE_INITIAL_VALUE', '1');
-
-
 require_once('bhavidb.php');
-
 function getInvoiceId()
 {
 
@@ -47,11 +40,7 @@ function getInvoiceId()
         return $formattedInvoiceNumber;
     }
 }
-
 $invoiceNumber = getInvoiceId();
-
-/* Customer Details */
-
 
 
 ?>
@@ -200,13 +189,13 @@ $invoiceNumber = getInvoiceId();
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
+
+        
             <section class="col-lg-2">
+
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
                                 <li class=" ">
@@ -310,6 +299,19 @@ $invoiceNumber = getInvoiceId();
                                 </li>
 
                                 <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="#" id="change_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12.22 2h-4.44a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.34" />
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        </svg> Settings
+                                    </a>
+                                </li>
+
+
+
+
+
+                                <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
                                             <path d="M19.7789 9.4548L16.9331 6.5458C16.639 6.2458 16.1657 6.2458 15.8725 6.5478C15.5803 6.8498 15.5813 7.3368 15.8745 7.6368L17.4337 9.2298H15.9387H7.54844C7.13452 9.2298 6.79852 9.5748 6.79852 9.9998C6.79852 10.4258 7.13452 10.7698 7.54844 10.7698H17.4337L15.8745 12.3628C15.5813 12.6628 15.5803 13.1498 15.8725 13.4518C16.0196 13.6028 16.2114 13.6788 16.4043 13.6788C16.5952 13.6788 16.787 13.6028 16.9331 13.4538L19.7789 10.5458C19.9201 10.4008 20 10.2048 20 9.9998C20 9.7958 19.9201 9.5998 19.7789 9.4548Z" fill="black" />
@@ -318,6 +320,8 @@ $invoiceNumber = getInvoiceId();
                                 </li>
                             </ul>
                         </div>
+
+
                     </div>
                 </nav>
                 <!-- SMALL SCREEN AND MEDIUM SCREEN  NAVBAR -->
@@ -466,16 +470,41 @@ $invoiceNumber = getInvoiceId();
 
                     <!-- FORM -->
 
-                    <form class=" mango  pb-4 mb-5" action="formprocess.php" method="post">
+                    <form class=" mango  pb-4 mb-5" action="formprocess.php" method="post" enctype="multipart/form-data">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block img-fluid pt-5" style="max-height: 20%; max-width: 20%;">
 
 
                         <!-- FORM INVOICENUMBER -->
 
                         <div class="row container pt-5 ps-5 mb-5">
-                            <div class="col-lg-8 col-sm-12 col-md-12">
+                            <div class="col-lg-4 col-sm-12 col-md-12">
                                 <h5><strong>Date :</strong> <input type="date" name="invoice_date" id="" value="<?php echo date('Y-m-d') ?>" class="form-input"></h5>
                             </div>
+
+                            <div class="col-lg-4 col-sm-12 mb-3">
+                                <h4 class="mb-3">
+                                    <select class="" required name="company" id="companySelect">
+                                        <?php
+                                        $sql = "SELECT * FROM `customer`";
+                                        $res = $conn->query($sql);
+                                        $fetched_data = [];
+                                        echo "<option value=''>Select Customer/Company</option>";
+                                        while ($row = mysqli_fetch_assoc($res)) {
+                                            $fetched_data[] = $row;
+                                            echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
+                                        }
+                                        // this hidden input is used to store the data & get the data in javascript
+                                        echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
+                                        ?>
+                                    </select>
+                                </h4>
+                                <p class="mb-1" id="company_name"></p>
+                                <p class="mb-1" id="name"></p>
+                                <p class="mb-1" id="email"></p>
+                                <p class="mb-1" id="phone"></p>
+                                <p class="mb-1" id="gst"></p>
+                            </div>
+
                             <div class="col-lg-4 col-sm-12 col-md-12 invoicenumber">
                                 <h5><strong>Invoice Number </strong></h5>
                                 <h5><strong>BHAVI_KKD_2024_ <input type="text" name="invoice_no" style="border: none;" class="row-1 col-4" value="<?php echo $invoiceNumber; ?>" readonly></strong></h5>
@@ -491,41 +520,27 @@ $invoiceNumber = getInvoiceId();
                                 <div class="col-lg-8 col-sm-12 mb-3">
                                     <h4 class="pb-2"><strong>Bhavi Creations Pvt Ltd</strong></h4>
                                     <address class="">
-                                        <h6>Plot no28, H No70, 17-28, RTO Office Rd, opposite to New</h6>
-                                        <h6>RTO Office, behind J.N.T.U Engineering College Play Ground,</h6>
+                                        <h6>Plot no28, H No70, 17-28, RTO Office Rd, </h6>
+
                                         <h6>RangaRaoNagar, Kakinada,</h6>
-                                        <h6>AndhraPradesh533003</h6>
+                                        <h6>AndhraPradesh 533003.</h6>
+
+                                    </address>
+
+                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea>
+
+                                </div>
+                                <div class="col-lg-4 col-sm-12 mb-3">
+                                    <h4 class="pb-2"><strong>Contact</strong></h4>
+                                    <address class="">
+
                                         <h6>Phone no.: 9642343434</h6>
-                                        <h6>Email: <p style="font-size: 16px;"><b>admin@bhavicreations.com</b></p>
+                                        <h6>Email: <span style="font-size: 16px;"> admin@bhavicreations.com </span>
                                         </h6>
                                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                                     </address>
 
-                                    <textarea style="border: none;" name="" id="" cols="30" rows="10"></textarea>
-
-                                </div>
-                                <div class="col-lg-4 col-sm-12 mb-3">
-                                    <h4 class="mb-3">
-                                        <select class="" required name="company" id="companySelect">
-                                            <?php
-                                            $sql = "SELECT * FROM `customer`";
-                                            $res = $conn->query($sql);
-                                            $fetched_data = [];
-                                            echo "<option value=''>Select Customer/Company</option>";
-                                            while ($row = mysqli_fetch_assoc($res)) {
-                                                $fetched_data[] = $row;
-                                                echo "<option value='" . $row['Id'] . "'>" . $row['Company_name'] . "</option>";
-                                            }
-                                            // this hidden input is used to store the data & get the data in javascript
-                                            echo "<input type='hidden' id='company_data' value='" . json_encode($fetched_data) . "' />";
-                                            ?>
-                                        </select>
-                                    </h4>
-                                    <p class="mb-1" id="company_name"></p>
-                                    <p class="mb-1" id="name"></p>
-                                    <p class="mb-1" id="email"></p>
-                                    <p class="mb-1" id="phone"></p>
-                                    <p class="mb-1" id="gst"></p>
+                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -596,7 +611,7 @@ $invoiceNumber = getInvoiceId();
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td><textarea style="width: 250px;" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td><textarea style="width: 250px;" rows="1" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
                                                 <td><input type='text' required name='Price[]' class='form-control price'></td>
                                                 <td><input type='text' readonly name='subtotal[]' class='form-control subtotal'></td>
@@ -653,16 +668,20 @@ $invoiceNumber = getInvoiceId();
                             <div class="container mt-5">
                                 <div class="row">
 
-                                    <div class="col-lg-5 col-md-5 col-sm-12 mt-3">
-                                        <textarea name="terms" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Terms & Conditions"></textarea>
+                                    <div class="col-lg-4 col-md-12 mb-3">
+                                        <label for="note" class="form-label"><strong>Note:</strong></label>
+                                        <textarea name="note" id="note" class="form-control" style="border-radius: 10px;" rows="1" placeholder="Add a note..."></textarea>
                                     </div>
 
-                                    <div class="col-lg-5 col-md-5 col-sm-12 mt-3">
-                                        <textarea name="note" class="form-control" style="border-radius: 10px;" rows="5" placeholder="Note:"></textarea>
+                                    <div class="col-lg-4 col-md-12 mb-3">
+                                        <label for="attachments" class="form-label"><strong>Attach Files:</strong></label>
+                                        <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
                                     </div>
 
-                                    <div class="col-lg-2 col-md-2 col-sm-12 text-center mt-3">
-                                        <input style="   margin-top:50px;" type="submit" name="submit" value="Save & Print" class="btn btn-primary">
+                                    <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
+                                        <input type="submit" name="save" value="Save" class="btn btn-primary me-2">
+
+                                        <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
                                     </div>
 
                                 </div>
@@ -872,27 +891,67 @@ $invoiceNumber = getInvoiceId();
 
                             <!--     SCANNER SECTION  -->
 
-                            <div class=" container pt-5   mb-5  ">
-
-                                <div class="row  ">
+                            <div class="container pt-5 mb-5">
+                                <div class="row">
                                     <span class="verticalline mb-5"></span>
-                                    <div class="col-lg-6  col-sm-12 col-md-6   ">
-                                        <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
-                                        <h4><img src="img/qrcode.jpg" alt="" height="120px" width="120px"></h4>
-                                        <br>
+
+                                    <!-- Office Radio -->
+                                    <div class="col-12 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment_details" id="office_details" value="office" checked>
+                                            <label class="form-check-label" for="office_details">
+                                                <strong>Use Office Payment Details</strong>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-6  col-sm-12 col-md-6 invoicenumber only_sm  ">
-                                        <h5 class="mb-2"><strong>Payment details</strong></h5>
-                                        <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
-                                        <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
-                                        <h6 class="mb-2">Account No. : 59213749999999</h6>
-                                        <h6 class="mb-2">IFSC : HDFC000042</h6>
-                                        <br>
+
+                                    <!-- Personal Radio -->
+                                    <div class="col-12 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment_details" id="personal_details" value="personal">
+                                            <label class="form-check-label" for="personal_details">
+                                                <strong>Use Personal Payment Details</strong>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <span class="verticalline  "></span>
+
+                                    <!-- Office Payment Section -->
+                                    <div id="office_payment_section" class="col-12 payment-section">
+                                        <div class="row mt-2">
+                                            <div class="col-lg-6 col-sm-12 col-md-6">
+                                                <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                                                <h4><img src="img/qrcode.jpg" alt="Office QR Code" height="120px" width="120px"></h4>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12 col-md-6 invoicenumber only_sm">
+                                                <h5 class="mb-2"><strong>Payment details</strong></h5>
+                                                <h6 class="mb-2">Bank Name : HDFC Bank, Kakinada</h6>
+                                                <h6 class="mb-2">Account Name : Bhavi Creations Private Limited</h6>
+                                                <h6 class="mb-2">Account No. : 59213749999999</h6>
+                                                <h6 class="mb-2">IFSC : HDFC0000426</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Personal Payment Section -->
+                                    <div id="personal_payment_section" class="col-12 payment-section d-none">
+                                        <div class="row mt-2">
+                                            <div class="col-lg-6 col-sm-12 col-md-6">
+                                                <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                                                <h4><img src="img/personal_qrcode.jpg" alt="Personal QR Code" height="120px" width="120px"></h4>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12 col-md-6 invoicenumber only_sm">
+                                                <h5 class="mb-2"><strong>Payment details</strong></h5>
+                                                <h6 class="mb-2">Bank Name : State Bank Of India</h6>
+                                                <h6 class="mb-2">Account Name : Chalikonda Naga Phaneendra Naidu</h6>
+                                                <h6 class="mb-2">Account No. : 20256178992</h6>
+                                                <h6 class="mb-2">IFSC : SBIN00001917</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <span class="verticalline"></span>
                                 </div>
                             </div>
-
 
 
 
@@ -921,6 +980,8 @@ $invoiceNumber = getInvoiceId();
                     </form>
                     <!-- ENDING  FORM -->
                 </div>
+
+
                 <div class="container text-center mt-4 ">
                     <div class="row">
                         <div class="col-7">
@@ -1013,6 +1074,31 @@ $invoiceNumber = getInvoiceId();
             document.getElementById('gstInput').addEventListener('input', function() {
                 this.value = this.value.toUpperCase();
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const officeRadio = document.getElementById('office_details');
+            const personalRadio = document.getElementById('personal_details');
+            const officeSection = document.getElementById('office_payment_section');
+            const personalSection = document.getElementById('personal_payment_section');
+
+            function togglePaymentDetails() {
+                if (officeRadio.checked) {
+                    officeSection.classList.remove('d-none');
+                    personalSection.classList.add('d-none');
+                } else {
+                    personalSection.classList.remove('d-none');
+                    officeSection.classList.add('d-none');
+                }
+            }
+
+            // Initial check on page load
+            togglePaymentDetails();
+
+            // Listen to change events
+            officeRadio.addEventListener('change', togglePaymentDetails);
+            personalRadio.addEventListener('change', togglePaymentDetails);
         });
     </script>
 

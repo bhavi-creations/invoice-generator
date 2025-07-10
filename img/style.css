@@ -1,0 +1,14 @@
+table.table-bordered th, 
+table.table-bordered td {
+    border: 1px solid #dee2e6 !important;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}

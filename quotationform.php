@@ -1,84 +1,249 @@
 <?php
+session_start();
 require_once('bhavidb.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['company'])) {
-    $selectedCompanyId = mysqli_real_escape_string($conn, $_POST['company']);
-
-    $sql = "SELECT * FROM `customer` WHERE `Id` = '$selectedCompanyId'";
-    $res = $conn->query($sql);
-
-    if ($row = mysqli_fetch_assoc($res)) {
-
-        $company_name = $row['Company_name'];
-        $cname = $row['Name'];
-        $cphone = $row['Phone'];
-        $caddress = $row['Address'];
-        $cemail = $row['Email'];
-        $cgst = $row['Gst_no'];
-    } else {
-        echo "Company not found";
-    }
+if (!isset($_SESSION['email'])) {
+    header('Location:index.php');
+    exit();
 }
 
-if (isset($_POST["submit"])) {
+// Check if the form was submitted with the 'save' button
+if (isset($_POST['save'])) {
 
-    $invoice_no = mysqli_real_escape_string($conn, $_POST["invoice_no"]);
-    $invoice_date = date("Y-m-d", strtotime($_POST["invoice_date"]));
-    $Gst = mysqli_real_escape_string($conn, $_POST["gst"]);
-    $Totalin_word = mysqli_real_escape_string($conn, $_POST["words"]);
-    $terms = mysqli_real_escape_string($conn, $_POST["terms"]);
-    $note = mysqli_real_escape_string($conn, $_POST["note"]);
-    $balancewords = mysqli_real_escape_string($conn, $_POST["balancewords"]);
-    // $status = mysqli_real_escape_string($conn,$_POST["status"]);
-    $final_total = floatval(mysqli_real_escape_string($conn, $_POST["grand_total"]));
-    $Gst_total = floatval(mysqli_real_escape_string($conn, $_POST["gst_total"]));
-    $Grand_total = floatval(mysqli_real_escape_string($conn, $_POST["Final_total"]));
-    $advance = floatval(mysqli_real_escape_string($conn, $_POST["advance"]));
-    $balance = floatval(mysqli_real_escape_string($conn, $_POST["balance"]));
+    // --- 1. GET CUSTOMER DETAILS ---
+    $company_id = (int)$_POST['company'];
+    $stmt_customer = $conn->prepare("SELECT * FROM `customer` WHERE `Id` = ?");
+    $stmt_customer->bind_param("i", $company_id);
+    $stmt_customer->execute();
+    $result_customer = $stmt_customer->get_result();
+    if ($customer_row = $result_customer->fetch_assoc()) {
+        $company_name = $customer_row['Company_name'];
+        $cname = $customer_row['Name'];
+        $cphone = $customer_row['Phone'];
+        $caddress = $customer_row['Address'];
+        $cemail = $customer_row['Email'];
+        $cgst = $customer_row['Gst_no'];
+    } else {
+        die("Error: Selected customer not found.");
+    }
+    $stmt_customer->close();
 
-    $sql = "INSERT INTO quotation (quotation_no, quotation_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Terms, Note , advance, balance, balancewords ) 
-            VALUES ('$invoice_no', '$invoice_date', '$company_name', '$cname', '$cphone', '$caddress', '$cemail', '$cgst', '$final_total', '$Gst' , '$Gst_total' ,'$Grand_total' , '$Totalin_word','$terms' , '$note' ,'$advance' , '$balance' ,'$balancewords' )";
+    // --- 2. CAPTURE FORM DATA ---
+    $quotation_no_full = $_POST['quotation_no'];
+    $quotation_no = substr($quotation_no_full, strrpos($quotation_no_full, '_') + 1);
+    $quote_date = $_POST['quote_date'];
+    $note = $_POST['note'];
+    $payment_details_type = $_POST['payment_details'];
 
-    if ($conn->query($sql)) {
-        $Sid = $conn->insert_id; // Get the inserted Sid
+    // Capture financial values
+    $final_total = (float)($_POST["grand_total"] ?? 0);
+    $gst_percentage = (float)($_POST["gst"] ?? 0);
+    $gst_total = (float)($_POST["gst_total"] ?? 0);
+    $grand_total_final = (float)($_POST["Final_total"] ?? 0);
+    $advance = (float)($_POST["advance"] ?? 0);
+    $balance = (float)($_POST["balance"] ?? 0);
+    $total_in_words = $_POST['words'] ?? '';
+    $balance_words = $_POST['balancewords'] ?? '';
 
+    // --- 3. SAVE THE MAIN QUOTATION (CORRECTED) ---
+    // FIXED: Removed the 'status' column from the query to match your database table
+    $sql_quote = "INSERT INTO quotation (quotation_no, quotation_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Note, advance, balance, balancewords, payment_details_type) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt_quote = $conn->prepare($sql_quote);
+    // FIXED: Bind all 18 parameters to match the updated query
+    $stmt_quote->bind_param(
+        "ssssssssiddsdssdss",
+        $quotation_no,
+        $quote_date,
+        $company_name,
+        $cname,
+        $cphone,
+        $caddress,
+        $cemail,
+        $cgst,
+        $final_total,
+        $gst_percentage,
+        $gst_total,
+        $grand_total_final,
+        $total_in_words,
+        $note,
+        $advance,
+        $balance,
+        $balance_words,
+        $payment_details_type
+    );
+
+    if ($stmt_quote->execute()) {
+        $quote_id = $conn->insert_id;
+
+        // --- 4. SAVE SERVICE ITEMS ---
+        $sql_items = "INSERT INTO quservice (Sid, Sname, Description, Qty, Price, Totalprice, Discount, Finaltotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt_items = $conn->prepare($sql_items);
         if (isset($_POST["Sname"]) && is_array($_POST["Sname"])) {
-            $sql2 = "INSERT INTO quservice (Sid, Sname, Description, Qty, Price, Totalprice, Discount, Finaltotal) VALUES ";
-            $rows = [];
-
-            // Iterate through service details
             for ($i = 0; $i < count($_POST["Sname"]); $i++) {
-                $Sid = $conn->insert_id;
-                $Sname = mysqli_real_escape_string($conn, $_POST["Sname"][$i]);
-                $Description = mysqli_real_escape_string($conn, $_POST["Description"][$i]);
-                $Qty = mysqli_real_escape_string($conn, $_POST["Qty"][$i]);
-                $Price = mysqli_real_escape_string($conn, $_POST["Price"][$i]);
-                $Subtotal = mysqli_real_escape_string($conn, $_POST["subtotal"][$i]);
-                $Discount = mysqli_real_escape_string($conn, $_POST["discount"][$i]);
-                $total = mysqli_real_escape_string($conn, $_POST["total"][$i]);
-
-                // Add service details to the rows array
-                $rows[] = "('$Sid', '$Sname', '$Description', '$Qty', '$Price', '$Subtotal', '$Discount', '$total')";
+                $stmt_items->bind_param("issisddd", $quote_id, $_POST["Sname"][$i], $_POST["Description"][$i], $_POST["Qty"][$i], $_POST["Price"][$i], $_POST["subtotal"][$i], $_POST["discount"][$i], $_POST["total"][$i]);
+                $stmt_items->execute();
             }
-
-            $sql2 .= implode(",", $rows);
-
-            // Insert into service table
-            if ($conn->query($sql2)) {
-                echo "<SCRIPT>
-                    window.alert('Quotation added successfully')
-                    window.location.href='quprint.php?Sid=$Sid';</SCRIPT>";
-            } else {
-                echo "Quotation Added Failed: " . $conn->error;
-            }
-        } else {
-            echo "Quotation Added Failed:" . $conn->error;
         }
+        $stmt_items->close();
+
+        // --- 5. HANDLE FILE UPLOADS ---
+        if (isset($_FILES['attachments']) && !empty($_FILES['attachments']['name'][0])) {
+            $upload_dir = 'uploads/';
+            $stmt_file = $conn->prepare("INSERT INTO quote_files (quote_id, file_path) VALUES (?, ?)");
+            foreach ($_FILES['attachments']['name'] as $key => $name) {
+                if ($_FILES['attachments']['error'][$key] == 0) {
+                    $tmp_name = $_FILES['attachments']['tmp_name'][$key];
+                    $file_name_only = $quote_id . '-' . uniqid() . '-' . basename($name);
+                    $destination_path = $upload_dir . $file_name_only;
+                    if (move_uploaded_file($tmp_name, $destination_path)) {
+                        $stmt_file->bind_param("is", $quote_id, $file_name_only);
+                        $stmt_file->execute();
+                    }
+                }
+            }
+            $stmt_file->close();
+        }
+
+        // --- 6. REDIRECT ON SUCCESS ---
+        echo "<script>
+                alert('Quotation Saved Successfully!');
+                window.location.href='viewquotes.php';
+              </script>";
+        exit();
+
     } else {
-        echo "Quotation Added Failed: " . $conn->error;
+        echo "Error saving quotation: " . $stmt_quote->error;
     }
+    $stmt_quote->close();
+    
+} else {
+    header("Location: quotation.php");
+    exit();
+}
+?><?php
+session_start();
+require_once('bhavidb.php');
+
+if (!isset($_SESSION['email'])) {
+    header('Location:index.php');
+    exit();
 }
 
+// Check if the form was submitted with the 'save' button
+if (isset($_POST['save'])) {
 
+    // --- 1. GET CUSTOMER DETAILS ---
+    $company_id = (int)$_POST['company'];
+    $stmt_customer = $conn->prepare("SELECT * FROM `customer` WHERE `Id` = ?");
+    $stmt_customer->bind_param("i", $company_id);
+    $stmt_customer->execute();
+    $result_customer = $stmt_customer->get_result();
+    if ($customer_row = $result_customer->fetch_assoc()) {
+        $company_name = $customer_row['Company_name'];
+        $cname = $customer_row['Name'];
+        $cphone = $customer_row['Phone'];
+        $caddress = $customer_row['Address'];
+        $cemail = $customer_row['Email'];
+        $cgst = $customer_row['Gst_no'];
+    } else {
+        die("Error: Selected customer not found.");
+    }
+    $stmt_customer->close();
+
+    // --- 2. CAPTURE FORM DATA ---
+    $quotation_no_full = $_POST['quotation_no'];
+    $quotation_no = substr($quotation_no_full, strrpos($quotation_no_full, '_') + 1);
+    $quote_date = $_POST['quote_date'];
+    $note = $_POST['note'];
+    $payment_details_type = $_POST['payment_details'];
+
+    // Capture financial values
+    $final_total = (float)($_POST["grand_total"] ?? 0);
+    $gst_percentage = (float)($_POST["gst"] ?? 0);
+    $gst_total = (float)($_POST["gst_total"] ?? 0);
+    $grand_total_final = (float)($_POST["Final_total"] ?? 0);
+    $advance = (float)($_POST["advance"] ?? 0);
+    $balance = (float)($_POST["balance"] ?? 0);
+    $total_in_words = $_POST['words'] ?? '';
+    $balance_words = $_POST['balancewords'] ?? '';
+
+    // --- 3. SAVE THE MAIN QUOTATION (CORRECTED) ---
+    // FIXED: Removed the 'status' column from the query to match your database table
+    $sql_quote = "INSERT INTO quotation (quotation_no, quotation_date, Company_name, Cname, Cphone, Caddress, Cmail, Cgst, Final, Gst, Gst_total, Grandtotal, Totalinwords, Note, advance, balance, balancewords, payment_details_type) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt_quote = $conn->prepare($sql_quote);
+    // FIXED: Bind all 18 parameters to match the updated query
+    $stmt_quote->bind_param(
+        "ssssssssiddsdssdss",
+        $quotation_no,
+        $quote_date,
+        $company_name,
+        $cname,
+        $cphone,
+        $caddress,
+        $cemail,
+        $cgst,
+        $final_total,
+        $gst_percentage,
+        $gst_total,
+        $grand_total_final,
+        $total_in_words,
+        $note,
+        $advance,
+        $balance,
+        $balance_words,
+        $payment_details_type
+    );
+
+    if ($stmt_quote->execute()) {
+        $quote_id = $conn->insert_id;
+
+        // --- 4. SAVE SERVICE ITEMS ---
+        $sql_items = "INSERT INTO quservice (Sid, Sname, Description, Qty, Price, Totalprice, Discount, Finaltotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt_items = $conn->prepare($sql_items);
+        if (isset($_POST["Sname"]) && is_array($_POST["Sname"])) {
+            for ($i = 0; $i < count($_POST["Sname"]); $i++) {
+                $stmt_items->bind_param("issisddd", $quote_id, $_POST["Sname"][$i], $_POST["Description"][$i], $_POST["Qty"][$i], $_POST["Price"][$i], $_POST["subtotal"][$i], $_POST["discount"][$i], $_POST["total"][$i]);
+                $stmt_items->execute();
+            }
+        }
+        $stmt_items->close();
+
+        // --- 5. HANDLE FILE UPLOADS ---
+        if (isset($_FILES['attachments']) && !empty($_FILES['attachments']['name'][0])) {
+            $upload_dir = 'uploads/';
+            $stmt_file = $conn->prepare("INSERT INTO quote_files (quote_id, file_path) VALUES (?, ?)");
+            foreach ($_FILES['attachments']['name'] as $key => $name) {
+                if ($_FILES['attachments']['error'][$key] == 0) {
+                    $tmp_name = $_FILES['attachments']['tmp_name'][$key];
+                    $file_name_only = $quote_id . '-' . uniqid() . '-' . basename($name);
+                    $destination_path = $upload_dir . $file_name_only;
+                    if (move_uploaded_file($tmp_name, $destination_path)) {
+                        $stmt_file->bind_param("is", $quote_id, $file_name_only);
+                        $stmt_file->execute();
+                    }
+                }
+            }
+            $stmt_file->close();
+        }
+
+        // --- 6. REDIRECT ON SUCCESS ---
+        echo "<script>
+                alert('Quotation Saved Successfully!');
+                window.location.href='viewquotes.php';
+              </script>";
+        exit();
+
+    } else {
+        echo "Error saving quotation: " . $stmt_quote->error;
+    }
+    $stmt_quote->close();
+    
+} else {
+    header("Location: quotation.php");
+    exit();
+}
 ?>
-

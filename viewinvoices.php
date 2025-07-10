@@ -170,6 +170,10 @@ $result = $conn->query($sql);
         .bg_color_icon {
             background-color: #e298aa;
         }
+
+
+
+        
     </style>
 
 </head>
@@ -182,10 +186,7 @@ $result = $conn->query($sql);
             <section class="col-lg-2">
                 <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#" id="change_password"><img src="img/Bhavi-Logo-2.png" alt="" height="80px" width="200px"></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+
                         <div class=" navbar-collapse  " id="navbarNav">
                             <ul class="navbar-nav " style="margin-left: 10%; text-align: center;">
                                 <li class=" ">
@@ -287,7 +288,14 @@ $result = $conn->query($sql);
                                             <path d="M22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2V12H22Z" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg> Reports</a>
                                 </li>
-
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark nav-links" href="#" id="change_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12.22 2h-4.44a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.34" />
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        </svg> Settings
+                                    </a>
+                                </li>
                                 <li class="nav-item ">
                                     <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
@@ -454,8 +462,12 @@ $result = $conn->query($sql);
 
                 </div>
                 <div class="container mt-3">
-                    <div class="table-responsive  mango" style="max-height: 500px; max-width: 1194px; overflow-y: auto;">
-                        <table class="table table-bordered viewinvoicetable">
+                    <div class="table-responsive  mango" style="max-height: 650px; max-width: 1194px; overflow-y: auto;">
+                        <div class="mb-3">
+                            <input type="text" id="invoice_filter" class="form-control" placeholder="Search Invoice by Customer Name, Invoice No, Date...">
+                        </div>
+
+                        <table class="table table-bordered  table-striped table-hover viewinvoicetable" id="invoice_table">
                             <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                 <tr>
                                     <th class="text-center">Invoice No</th>
@@ -505,15 +517,7 @@ $result = $conn->query($sql);
                                     echo "<td> 
                             <div class='btn-group'>
                             
-                            <button type='submit' class='bg_color_icon' style='border:none;'>
-                                    <a class='' href='edit_invoice.php?Sid={$row['Sid']}'>
-                                    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-pencil-square' viewBox='0 0 16 16'>
-                                    <path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
-                                    <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z'/>
-                                  </svg>
-                                  
-                                  </a>
-                                </button>
+                           
 
 
                                 <span style='margin-left: 10px;'></span>
@@ -698,6 +702,17 @@ $result = $conn->query($sql);
         // document.addEventListener('DOMContentLoaded', function() {
         //     var historyModal = new bootstrap.Modal(document.getElementById('advance_frm'));
         // })
+
+
+
+        $(document).ready(function() {
+            $('#invoice_filter').on('keyup', function() {
+                var value = $(this).val().toLowerCase();
+                $('#invoice_table tbody tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
     </script>
     <?php include('changepass-modal.php') ?>
 

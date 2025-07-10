@@ -1,254 +1,307 @@
 <?php
+session_start();
+require_once('bhavidb.php'); // Your database connection
 
-   
+// This line creates the full, absolute path for your images
+$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
-
-require_once('bhavidb.php');
-require('bhavidb.php');
-$Sid = (isset($_GET['Sid']) && $_GET['Sid'] !== '') ? $_GET['Sid'] : 0;
-$sql = "SELECT * FROM invoice
-JOIN service ON invoice.Sid = service.Sid
-WHERE invoice.Sid = $Sid;";
-$result = mysqli_query($conn, $sql);
-
-$sql2 = "SELECT * FROM service WHERE service.Sid = $Sid;";
-$result2 = mysqli_query($conn, $sql2);
-
-if (!$result) {
-	die("Query failed: " . mysqli_error($conn));
+// 1. GET THE INVOICE ID SECURELY
+if (!isset($_GET['Sid']) || !is_numeric($_GET['Sid'])) {
+    die("Invalid Invoice ID.");
 }
+$invoice_id = (int)$_GET['Sid'];
 
-$row = mysqli_fetch_assoc($result);
+// 2. FETCH THE MAIN INVOICE DATA
+$stmt_invoice = $conn->prepare("SELECT * FROM invoice WHERE Sid = ?");
+$stmt_invoice->bind_param("i", $invoice_id);
+$stmt_invoice->execute();
+$result_invoice = $stmt_invoice->get_result();
+if ($result_invoice->num_rows === 0) {
+    die("Invoice not found.");
+}
+$invoice = $result_invoice->fetch_assoc();
+$stmt_invoice->close();
 
-$html = '
-<html>
+// 3. FETCH THE SERVICE LINE ITEMS
+$services = [];
+$stmt_services = $conn->prepare("SELECT * FROM service WHERE Sid = ?");
+$stmt_services->bind_param("i", $invoice_id);
+$stmt_services->execute();
+$result_services = $stmt_services->get_result();
+while ($row = $result_services->fetch_assoc()) {
+    $services[] = $row;
+}
+$stmt_services->close();
+
+// 4. FETCH THE ATTACHED FILES
+$files = [];
+$stmt_files = $conn->prepare("SELECT * FROM invoice_files WHERE Invoice_id = ?");
+$stmt_files->bind_param("i", $invoice_id);
+$stmt_files->execute();
+$result_files = $stmt_files->get_result();
+while ($row = $result_files->fetch_assoc()) {
+    $files[] = $row;
+}
+$stmt_files->close();
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<style>
-body {font-family: sans-serif;
-	font-size: 10pt;
-}
-p {	margin: 0pt; }
-table.items {
-	border: 0.1mm solid #000000;
-}
-td { vertical-align: top; }
-.items td {
-	border-left: 0.1mm solid #000000;
-	border-right: 0.1mm solid #000000;
-}
-table thead td { background-color: #EEEEEE;
-	text-align: center;
-	border: 0.1mm solid #000000;
-	font-variant: small-caps;
-	font-size: 12px;
-	font-weight: bold;
-}
-.items td.blanktotal {
-	background-color: #EEEEEE;
-	border: 0.1mm solid #000000;
-	background-color: #FFFFFF;
-	border: 0mm none #000000;
-	border-top: 0.1mm solid #000000;
-	border-right: 0.1mm solid #000000;
-}
-.items td.totals {
-	text-align: center;
-	border: 0.1mm solid #000000;
-}
-.items td.cost {
-	text-align: "." center;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - <?php echo htmlspecialchars($invoice['Invoice_no']); ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9f9f9;
+        }
 
-.table-heading{
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 20px;
-}
-.table-content{
-	font-size: 12px;
-}
-.term{
-	style="border: none;"
-}
-</style>
+        .invoice-container {
+            background-color: white;
+            border-radius: 50px;
+            padding: 40px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h6 {
+            font-weight: normal;
+        }
+
+        .table {
+            border: 1px solid #dee2e6;
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .payment-details h6 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .invoice-container {
+                margin: 0;
+                border-radius: 0;
+                padding: 0;
+                border: none;
+                box-shadow: none !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<!--mpdf
-<htmlpageheader name="myheader">
-    <table width="100%" height="50%">
-        <tr>
-            <td style="text-align: center;">
-			<img src="img/logo.png" alt="img/logo.png" class="" height="12%" width="25%">
-            </td>
-        </tr>
-    </table>
-</htmlpageheader>
-
-<htmlpagefooter name="myfooter">
-
-<div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">
-Page {PAGENO} of {nb}
-</div>
-</htmlpagefooter>
-
-<sethtmlpageheader name="myheader" value="on" show-this-page="1" />
-<sethtmlpagefooter name="myfooter" value="on" show-this-page="lastpage" />
-mpdf-->
+    <div class="container">
+        <div class="row">
 
 
-<table width="100%" style="font-family: Arial; " cellpadding="8" class="table-heading"><tr>
-<td width="70%" style="text-align: left;">
-INVOICE
-</td>
-<td width="40%" style="text-align: left;">
-INVOICE NUMBER
-</td>
-</tr>
-<tr>
-<td width="70%" style="text-align: left;">
-DATE:  ' . $row['Invoice_date'] . '
-</td>
-<td width="40%" style="text-align: left;">
-BHAVI_KKD_2024_ ' . $row['Invoice_no'] . '
-</td>
-</tr>
-</table>
+            <section>
+                <div class="col-lg-12">
 
-<table width="100%" style="font-family: Arial; font-size: 15px;" cellpadding="10"><tr>
-<td width="45%" style=" "><span style="font-size: 7pt; color: #555555; font-family: sans;">SOLD From:</span><br /><br />Bhavi Creations Pvt. Ltd<br />Plot no28, H No70, 17-28, RTO Office Rd,
-<br />opposite to New RTO Office, behind J.N.T.U,<br />Engineering College Play Ground,RangaRaoNagar, Kakinada,
-<br />Phone no: 9642343434 <br /> Email: admin@bhavicreations.com <br /> GSTIN 37AAKCB6060HIZB <br /></td>
-<td width="30%"></td>
-<td width="45%" style=""><span style="font-size: 7pt; color: #555555; font-family: sans;">SHIP TO:</span><br /><br /> ' . $row['Company_name'] . ', <br />' . $row['Cname'] . ', <br /> ' . $row['Caddress'] . ' <br /> ' . $row['Cphone'] . ', <br /> ' . $row['Cmail'] . ' <br /> ' . $row['Cgst'] . ' </td>
-</tr></table>
+                    <div class="invoice-container">
 
-<br />
-
-<table class="items" width="100%" style="border-collapse: collapse; " cellpadding="8">
-<thead>
-
-<tr>
-    <td width="5%">Si.no</td>
-    <td width="15%">Services</td>
-    <td width="20%">Description</td>
-    <td width="5%">Qty</td>
-    <td width="10%">Unit Price</td>
-    <td width="10%">Total</td>
-    <td width="10%">Discount</td>
-    <td width="15%">Final</td>
-</tr>
-</thead>
-<tbody>';
-$counter = 1;
-while ($data = mysqli_fetch_assoc($result2)) {
-	$html .= '
-		<tr >
-			<td class="serial-number">' . sprintf('%02d', $counter) . '</td>
-			<td class="table-content" align="center">' . $data["Sname"] . ' </td>
-			<td class="table-content" align="center" style="word-wrap: break-word;">' . $data['Description'] . '</td>
-			<td class="table-content" align="center">' . $data['Qty'] . '</td>
-			<td class="cost table-content">' . $data['Price'] . '</td>
-			<td class="cost table-content">' . $data['Totalprice'] . '</td>
-			<td class="cost table-content">' . $data['Discount'] . '</td>
-			<td class="cost table-content">' . $data['Finaltotal'] . '</td>
-		</tr>';
-		$counter++; 
-}
-
-$html .= '
-<tr>
-<td class="blanktotal" colspan="6" rowspan="1"></td>
-<td class="totals table-content ">Subtotal:</td>
-<td class="totals cost table-content">' . $row['Final'] . '</td>
-</tr>
-<tr>
-<td class="table-content" style="text-align: right;" colspan="6">GST %</td>
-<td class=" cost table-content">' . $row['Gst'] . '</td>
-<td class="totals cost table-content">' . $row['Gst_total'] . '</td>
-</tr>
-<tr>
-<td colspan="6" class="totals table-content">' . $row['Totalinwords'] . '</td>
-<td class="totals table-content">Total</td>
-<td class="totals cost table-content">' . $row['Grandtotal'] . '</td>
-</tr>
-<tr>
-<td colspan="6" class="totals table-content"></td>
-<td class="totals table-content">Advance</td>
-<td class="totals cost table-content">' . $row['advance'] . '</td>
-</tr>
-<tr>
-<td colspan="6" class="totals table-content">' . $row['balancewords'] . '</td>
-<td class="totals table-content">Balance</td>
-<td class="totals cost table-content">' . $row['balance'] . '</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<p style="font-weight: bold; ">Terms&Conditions</p>
-<p style="width: 50%">' . $row['Terms'] . '</p>
-<br/>
-<p style="font-weight: bold;">Note:</p>
-<p style="width: 50%">' . $row['Note'] . '</p>
-<br/>
-<br/>
-<br/>
-<br/>
+                        <div class="text-center my-4 no-print">
+                            <!-- <button id="myPrintButton" class="btn btn-primary">Print Invoice</button> -->
+                            <a href="viewinvoices.php" class="btn btn-secondary">Go Back</a>
+                        </div>
 
 
-<table>
-<tr>
-	<td style="width: 70%; text-align: left; font-weight: bold;">
-		Scan To Pay
-	</td>
-	<td style="width: 20%; font-weight: bold;">
-		Payment Details<br/>
-	</td>
-</tr>
-<tr>
-	<td style="width: 70%; text-align: left; font-weight: bold;">
-		<img src="img/qrcode.jpg" alt="" class="" height="15%" width="15%">
-	</td>
-	<td style="width: 60%; text-align: left; font-weight: ;">
-		Bank Name : HDFC Bank, Kakinada<br/>
-		Account Name : Bhavi Creations Private Limited<br/>
-		Account No. : 59213749999999<br/>
-		IFSC : HDFC000042
-	</td>
-<tr/>
-<tr>
-	<td colspan="2" style=" text-align: center; font-weight: bold; border: 1px;">
-		Google pay, Phone pay, Paytm 8686394079
-	</td>
-</tr>
-</table>
+                        <img src="<?php echo $base_url; ?>/img/Bhavi-Logo-2.png" alt="Bhavi Creations Logo" class="mx-auto d-block img-fluid pt-3" style="max-height: 100px;">
+
+                        <div class="row container pt-5 ps-5 mb-5">
+                            <div class="col-6">
+                                <h5><strong>Date:</strong> <?php echo date("d-m-Y", strtotime($invoice['Invoice_date'])); ?></h5>
+                            </div>
+                            <div class="col-6 text-end">
+                                <h5><strong>Invoice Number:</strong> BHAVI_KKD_2024_<?php echo htmlspecialchars($invoice['Invoice_no']); ?></h5>
+                            </div>
+                        </div>
+
+                        <div class="container ps-5 mb-5">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4 class="pb-2"><strong>From:</strong></h4>
+                                    <address>
+                                        <h5>Bhavi Creations Pvt Ltd</h5>
+                                        <h6>Plot no28, H No70, 17-28, RTO Office Rd,</h6>
+                                        <h6>RangaRaoNagar, Kakinada, AndhraPradesh 533003.</h6>
+                                        <h6><strong>Phone:</strong> 9642343434</h6>
+                                        <h6><strong>Email:</strong> admin@bhavicreations.com</h6>
+                                        <h6><strong>GSTIN:</strong> 37AAKCB6960H1ZB</h6>
+                                    </address>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <h4 class="pb-2"><strong>To (Bill To):</strong></h4>
+                                    <address>
+                                        <h5><?php echo htmlspecialchars($invoice['Company_name']); ?></h5>
+                                        <h6><?php echo htmlspecialchars($invoice['Cname']); ?></h6>
+                                        <h6><?php echo htmlspecialchars($invoice['Caddress']); ?></h6>
+                                        <h6><strong>Phone:</strong> <?php echo htmlspecialchars($invoice['Cphone']); ?></h6>
+                                        <h6><strong>Email:</strong> <?php echo htmlspecialchars($invoice['Cmail']); ?></h6>
+                                        <h6><strong>GSTIN:</strong> <?php echo htmlspecialchars($invoice['Cgst']); ?></h6>
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="billing px-4">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead style="background-color: #e9ecef;">
+                                        <tr>
+                                            <th>S.no</th>
+                                            <th>Services</th>
+                                            <th>Description</th>
+                                            <th>Qty</th>
+                                            <th>Price/Unit</th>
+                                            <th>Sub Total</th>
+                                            <th>Disc %</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $counter = 1;
+                                        foreach ($services as $service): ?>
+                                            <tr>
+                                                <td><?php echo sprintf('%02d', $counter++); ?></td>
+                                                <td><?php echo htmlspecialchars($service['Sname']); ?></td>
+                                                <td><?php echo htmlspecialchars($service['Description']); ?></td>
+                                                <td><?php echo htmlspecialchars($service['Qty']); ?></td>
+                                                <td><?php echo number_format((float)$service['Price'], 2); ?></td>
+                                                <td><?php echo number_format((float)$service['Totalprice'], 2); ?></td>
+                                                <td><?php echo htmlspecialchars($service['Discount']); ?></td>
+                                                <td><?php echo number_format((float)$service['Finaltotal'], 2); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6" rowspan="5" style="text-align: left; vertical-align: bottom; border:none;">
+                                                <p class="mb-2"><strong>Total in words:</strong><br><?php echo htmlspecialchars($invoice['Totalinwords']); ?></p>
+                                                <p><strong>Balance in words:</strong><br><?php echo htmlspecialchars($invoice['balancewords']); ?></p>
+                                            </td>
+                                            <td style="text-align: right;"><strong>Subtotal</strong></td>
+                                            <td><?php echo number_format((float)$invoice['Final'], 2); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;"><strong>GST %</strong></td>
+                                            <td><?php echo htmlspecialchars($invoice['Gst']); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;"><strong>GST Total</strong></td>
+                                            <td><?php echo number_format((float)$invoice['Gst_total'], 2); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;" class="bg-light"><strong>Grand Total</strong></td>
+                                            <td class="bg-light"><strong><?php echo number_format((float)$invoice['Grandtotal'], 2); ?></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;"><strong>Advance</strong></td>
+                                            <td><?php echo number_format((float)$invoice['advance'], 2); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" style="border:none;"></td>
+                                            <td style="text-align: right;" class="bg-light"><strong>Balance</strong></td>
+                                            <td class="bg-light"><strong><?php echo number_format((float)$invoice['balance'], 2); ?></strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="container mt-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p><strong>Note:</strong></p>
+                                    <p><?php echo nl2br(htmlspecialchars($invoice['Note'])); ?></p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <?php if (!empty($files)): ?>
+                                        <p><strong>Attachments:</strong></p>
+                                        <ul>
+                                            <?php foreach ($files as $file): ?>
+                                                <li><a href="uploads/<?php echo htmlspecialchars($file['File_path']); ?>" target="_blank"><?php echo htmlspecialchars(substr($file['File_path'], strpos($file['File_path'], '-', strpos($file['File_path'], '-') + 1) + 1)); ?></a></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-5">
+
+                        <div class="container pt-3 mb-4 payment-details">
+                            <div class="row">
+
+                                <?php if ($invoice['payment_details_type'] == 'office'): ?>
+                                    <div class="col-md-6">
+                                        <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                                        <img src="<?php echo $base_url; ?>/img/qrcode.jpg" alt="Office QR Code" style="height:120px; width:120px;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="mb-3"><strong>Payment details</strong></h5>
+                                        <h6><strong>Bank Name:</strong> HDFC Bank, Kakinada</h6>
+                                        <h6><strong>Account Name:</strong> Bhavi Creations Private Limited</h6>
+                                        <h6><strong>Account No.:</strong> 59213749999999</h6>
+                                        <h6><strong>IFSC:</strong> HDFC0000426</h6>
+                                    </div>
+                                <?php elseif ($invoice['payment_details_type'] == 'personal'): ?>
+                                    <div class="col-md-6">
+                                        <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
+                                        <img src="<?php echo $base_url; ?>/img/personal_qrcode.jpg" alt="Personal QR Code" style="height:120px; width:120px;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="mb-3"><strong>Payment details</strong></h5>
+                                        <h6><strong>Bank Name:</strong> State Bank Of India</h6>
+                                        <h6><strong>Account Name:</strong> Chalikonda Naga Phaneendra Naidu</h6>
+                                        <h6><strong>Account No.:</strong> 20256178992</h6>
+                                        <h6><strong>IFSC:</strong> SBIN00001917</h6>
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-12 text-center">
+                                    <h6 class="border p-2"><strong>Google Pay, Phone Pay, Paytm:</strong> 8686394079</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const printButton = document.getElementById("myPrintButton");
+            if (printButton) {
+                printButton.addEventListener("click", function() {
+                    window.print();
+                });
+            }
+        });
+    </script>
 
 
 </body>
+
 </html>
-';
-
-$path = (getenv('MPDF_ROOT')) ? getenv('MPDF_ROOT') : __DIR__;
-require_once $path . '/vendor/autoload.php';
-
-$mpdf = new \Mpdf\Mpdf([
-	'margin_left' => 20,
-	'margin_right' => 15,
-	'margin_top' => 35,
-	'margin_bottom' => 25,
-	'margin_header' => 5,
-	'margin_footer' => 10
-]);
-
-$mpdf->SetProtection(array('print'));
-$mpdf->SetTitle("Bhavi Creations. - Invoice");
-$mpdf->SetAuthor("Bhavi Creations.");
-$mpdf->SetWatermarkText("");
-$mpdf->showWatermarkText = true;
-$mpdf->watermark_font = 'DejaVuSansCondensed';
-$mpdf->watermarkTextAlpha = 0.1;
-$mpdf->SetDisplayMode('fullpage');
-
-$mpdf->WriteHTML($html);
-
-$mpdf->Output();
