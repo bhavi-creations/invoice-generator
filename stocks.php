@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td style="width:250px;"><textarea style="width:250px;" class="form-control" rows="1" name="stock_name[]" placeholder="Name of stock." style="width: 100%;"></textarea></td>
+                                                <td style="width:250px;"><textarea  class="form-control" rows="1" name="stock_name[]" placeholder="Name of stock." style="width: 100%;"></textarea></td>
                                                 <td style="width:200px;"><textarea style="width:200px;" class="form-control" rows="1" name="stock_desc[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='stock_qty[]' class='form-control total'></td>
                                                 <td style="width:250px;"><textarea style="width:250px;" class="form-control" rows="1" name="stock_details[]" placeholder="details." style="width: 100%;"></textarea></td>

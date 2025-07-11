@@ -1,60 +1,57 @@
 <?php
- 
-
 session_start();
 if (!isset($_SESSION['email'])) {
-  header('Location:index.php');
-  exit();
+    header('Location:index.php');
+    exit();
 }
 
 include('bhavidb.php');
 
-$sql = "SELECT COUNT(*) AS rowCount From `customer`";
-$sql2 = "SELECT COUNT(*) AS rowCount2 From `invoice`";
-
+// Count totals
+$sql = "SELECT COUNT(*) AS rowCount FROM `customer`";
+$sql2 = "SELECT COUNT(*) AS rowCount2 FROM `invoice`";
 
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql2);
 
+$rowcount = $rowcount2 = 0;
 if ($result && $result2) {
-  $row = $result->fetch_assoc();
-  $row2 = $result2->fetch_assoc();
-
-  $rowcount2 = $row2['rowCount2'];
-  $rowcount = $row['rowCount'];
-} else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
+    $row = $result->fetch_assoc();
+    $row2 = $result2->fetch_assoc();
+    $rowcount = $row['rowCount'];
+    $rowcount2 = $row2['rowCount2'];
 }
 
-
-
-
+// Build income chart
 $dataPoints = [];
+$colors = ['#FF0000', '#FF9900', '#33CC33', '#3366FF', '#CC33FF', '#00CCCC', '#FF3399', '#FFCC00', '#00CC66', '#FF6600', '#3399FF', '#FF0066'];
+
+
+$colorIndex = 0;
 
 $sql = "SELECT DATE_FORMAT(Invoice_date, '%M') AS month_name,
                MONTH(Invoice_date) AS month_num,
                SUM(Grandtotal) AS total_income
         FROM invoice
-        WHERE YEAR(Invoice_date) = YEAR(CURDATE()) -- Only current year's income
+        WHERE YEAR(Invoice_date) = YEAR(CURDATE())
         GROUP BY month_num
         ORDER BY month_num";
 
 $result = $conn->query($sql);
-
 while ($row = mysqli_fetch_assoc($result)) {
     $dataPoints[] = [
         "label" => $row['month_name'],
-        "y" => (float)$row['total_income']
+        "y" => (float)$row['total_income'],
+        "color" => $colors[$colorIndex++ % count($colors)]
     ];
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Customers with Invoices</title>
+    <title>Monthly Income Report</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="img/style.css">
     <link rel="stylesheet" href="img/stylemi.css">
@@ -79,128 +76,108 @@ while ($row = mysqli_fetch_assoc($result)) {
             color: #324960;
         }
 
+        .card-customer {
+            height: 150px;
+            margin: auto;
+            width: 150px;
+            border-radius: 44px;
+        }
 
+        .input-cus {
+            text-align: center;
+            width: 109px;
+            border: none;
+            font-size: 30px;
+        }
 
-         .card-customer {
-      height: 150px;
-      margin: auto;
-      width: 150px;
-      border-radius: 44px;
-    }
-
-    .input-cus {
-      text-align: center;
-      width: 109px;
-      border: none;
-      font-size: 30px;
-    }
-
-    .div-cus {
-      text-align: center;
-      font-size: 24px;
-    }
+        .div-cus {
+            text-align: center;
+            font-size: 24px;
+        }
     </style>
 </head>
-
 <body>
 
-    <div class="container-fluid">
-        <div class="row">
+<div class="container-fluid">
+    <div class="row">
+        <?php include('sidebar.php'); ?>
 
-            <!-- Sidebar -->
-            <?php include('sidebar.php'); ?>
+        <section class="col-lg-10">
 
+            <div class="container mango">
+                <div class="row">
 
-            <!-- Main Content -->
-            <section class="col-lg-10">
-
-
-
-               
-
-
-
-                <div class="container mango">
-                    <div class="row">
-
-
-                        <div class="col-lg-2  col-sm-6 card card-customer">
-                            <div class=" text-ceneter ps-5 pt-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 16 16" fill="none">
-                                    <path d="M5.66629 7.22225C7.38451 7.22225 8.7774 5.82936 8.7774 4.11114C8.7774 2.39292 7.38451 1.00003 5.66629 1.00003C3.94807 1.00003 2.55518 2.39292 2.55518 4.11114C2.55518 5.82936 3.94807 7.22225 5.66629 7.22225Z" stroke="#3575FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M1 14.9995V13.4439C1 12.6188 1.32778 11.8275 1.91122 11.244C2.49467 10.6606 3.28599 10.3328 4.11111 10.3328H7.22222C8.04734 10.3328 8.83866 10.6606 9.42211 11.244C10.0056 11.8275 10.3333 12.6188 10.3333 13.4439V14.9995" stroke="#3575FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M11.1112 1.10257C11.7804 1.27391 12.3736 1.66311 12.7971 2.20881C13.2207 2.75451 13.4506 3.42566 13.4506 4.11646C13.4506 4.80726 13.2207 5.47841 12.7971 6.02411C12.3736 6.5698 11.7804 6.959 11.1112 7.13035" stroke="#3575FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M14.9997 15.0007V13.4452C14.9958 12.7585 14.7648 12.0924 14.3427 11.5508C13.9206 11.0092 13.3312 10.6224 12.6664 10.4507" stroke="#3575FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div class="div-cus">
-                                <p><b>Clients</b></p>
-                                <input class="input-cus" type="text" value="<?php echo $rowcount ?>" readonly>
-                            </div>
+                    <!-- Clients Card -->
+                    <div class="col-lg-2 col-sm-6 card card-customer">
+                        <div class="text-center ps-3 pt-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 16 16" fill="none">
+                                <path d="M5.66629 7.22225C7.38451 7.22225 8.7774 5.82936 8.7774 4.11114C8.7774 2.39292 7.38451 1.00003 5.66629 1.00003C3.94807 1.00003 2.55518 2.39292 2.55518 4.11114C2.55518 5.82936 3.94807 7.22225 5.66629 7.22225Z" stroke="#3575FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M1 14.9995V13.4439C1 12.6188 1.32778 11.8275 1.91122 11.244C2.49467 10.6606 3.28599 10.3328 4.11111 10.3328H7.22222C8.04734 10.3328 8.83866 10.6606 9.42211 11.244C10.0056 11.8275 10.3333 12.6188 10.3333 13.4439V14.9995" stroke="#3575FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                         </div>
-
-                        <div class="col-lg-2 col-sm-6 card card-customer">
-                            <div class=" text-ceneter ps-5 pt-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#007BFF" class="bi bi-receipt" viewBox="0 0 16 16">
-                                    <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0z" />
-                                    <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
-                                </svg>
-
-                            </div>
-                            <div class=" div-cus">
-                                <p><b>Invoices</b></p>
-                                <input class=" input-cus" type="text" value="<?php echo $rowcount2 ?> " readonly>
-                            </div>
+                        <div class="div-cus">
+                            <p><b>Clients</b></p>
+                            <input class="input-cus" type="text" value="<?= $rowcount ?>" readonly>
                         </div>
                     </div>
+
+                    <!-- Invoices Card -->
+                    <div class="col-lg-2 col-sm-6 card card-customer">
+                        <div class="text-center ps-3 pt-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#007BFF" class="bi bi-receipt" viewBox="0 0 16 16">
+                                <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27"/>
+                                <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </div>
+                        <div class="div-cus">
+                            <p><b>Invoices</b></p>
+                            <input class="input-cus" type="text" value="<?= $rowcount2 ?>" readonly>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
 
-                <!-- Main Content -->
-                <div class="container">
-                    <h2>Monthly Income Report - <?php echo date("Y"); ?></h2>
-                    <div id="chartContainer" style="height: 350px; width: 100%;"></div>
-                </div>
+            <!-- Graph Section -->
+            <div class="container">
+                <h2>Monthly Income Report - <?= date("Y") ?></h2>
+                <div id="chartContainer" style="height: 350px; width: 100%;"></div>
+            </div>
 
-                <script>
-                    window.onload = function() {
-                        const chartData = <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>;
+            <script>
+                window.onload = function () {
+                    const chartData = <?= json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>;
 
-                        if (chartData.length === 0) {
-                            document.getElementById('chartContainer').innerHTML = "<p style='text-align:center;color:#888;'>No income data available for <?php echo date("Y"); ?>.</p>";
-                            return;
-                        }
-
-                        var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,
-                            theme: "light2",
-                            title: {
-                                text: "Monthly Income Overview"
-                            },
-                            axisY: {
-                                title: "Income (₹)",
-                                prefix: "₹"
-                            },
-                            axisX: {
-                                title: "Month"
-                            },
-                            data: [{
-                                type: "column",
-                                color: "#4CAF50",
-                                dataPoints: chartData
-                            }]
-                        });
-                        chart.render();
+                    if (chartData.length === 0) {
+                        document.getElementById('chartContainer').innerHTML = "<p style='text-align:center;color:#888;'>No income data available for <?= date("Y"); ?>.</p>";
+                        return;
                     }
-                </script>
-            </section>
 
-        </div>
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                        animationEnabled: true,
+                        theme: "light2",
+                        title: {
+                            text: "Monthly Income Overview"
+                        },
+                        axisY: {
+                            title: "Income (₹)",
+                            prefix: "₹"
+                        },
+                        axisX: {
+                            title: "Month"
+                        },
+                        data: [{
+                            type: "column",
+                            dataPoints: chartData
+                        }]
+                    });
+                    chart.render();
+                }
+            </script>
+        </section>
     </div>
+</div>
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
-
 </html>

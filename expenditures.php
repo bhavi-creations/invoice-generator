@@ -7,10 +7,6 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-
-// define('INVOICE_INITIAL_VALUE', '1');
-
-
 require_once('bhavidb.php');
 
 function getInvoiceId()
@@ -214,9 +210,6 @@ $invoiceNumber = getInvoiceId();
                     <form class=" mango p-4 pb-4 mb-5" action="exp_formprocess.php" method="post">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block img-fluid" style="max-height: 20%; max-width: 20%;">
 
-
-                        <!-- FORM INVOICENUMBER -->
-
                         <div class="row container pt-5 ps-5 mb-5">
                             <div class="col-lg-8 col-sm-12 col-md-12">
                                 <h5><strong>Expenditure</strong></h5>
@@ -224,13 +217,6 @@ $invoiceNumber = getInvoiceId();
                             </div>
 
                         </div>
-
-                        <!-- ENDING  FORM INVOICENUMBER -->
-
-                        <!--  COMPANY DETAILS  -->
-
-
-
 
                         <div class="container">
 
@@ -262,7 +248,7 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td class="text-center"><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number text-center">01</td>
-                                                <td style="width:200px;"> <select style="width:250px;" name="exp_name[]" class="">
+                                                <td style="width:200px;"> <select  name="exp_name[]" class="">
                                                         <?php
                                                         $sql = "SELECT `name` FROM `exp_name`";
                                                         $res = $conn->query($sql);
@@ -357,12 +343,6 @@ $invoiceNumber = getInvoiceId();
                                             grand_total();
                                         }
                                     });
-
-
-
-
-                                    /*----Ending balnce--*/
-
 
                                     // Calculate total on input change
 

@@ -104,8 +104,8 @@ include('addcus-model.php');
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
-           
-        <?php include('sidebar.php'); ?>
+
+            <?php include('sidebar.php'); ?>
 
 
             <section class="col-lg-10 ">
@@ -223,6 +223,20 @@ include('addcus-model.php');
 
                 <script>
                     window.onload = function() {
+                        const colors = [
+                            "#ff5733", "#33c1ff", "#33ff57", "#ff33a1",
+                            "#ffc133", "#9d33ff", "#33ffd1", "#ff3380",
+                            "#a3ff33", "#3375ff", "#ff6f33", "#33fff9"
+                        ];
+
+                        let chartData = <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>;
+
+                        // Add bright color to each bar dynamically
+                        chartData = chartData.map((dp, index) => ({
+                            ...dp,
+                            color: colors[index % colors.length]
+                        }));
+
                         var chart = new CanvasJS.Chart("chartContainer", {
                             animationEnabled: true,
                             exportEnabled: true,
@@ -242,12 +256,13 @@ include('addcus-model.php');
                                 indexLabel: "{y}",
                                 indexLabelFontColor: "#5A5757",
                                 indexLabelPlacement: "outside",
-                                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                                dataPoints: chartData
                             }]
                         });
                         chart.render();
                     }
                 </script>
+
 
 
                 <!-- Monthly Invoice Amount Chart -->
