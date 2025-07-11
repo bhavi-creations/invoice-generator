@@ -78,9 +78,7 @@
                              <a class="nav-link text-dark" href="view_expenditure.php">
                                  <h6>View Expenses</h6>
                              </a>
-                             <a class="nav-link text-dark" href="exp_customized_edits.php">
-                                 <h6>Customized edits</h6>
-                             </a>
+                           
                              <a class="nav-link text-dark" href="exp_reports.php">
                                  <h6>Reports</h6>
                              </a>
@@ -230,9 +228,7 @@
                              <a class="nav-link text-dark" href="view_expenditure.php">
                                  <h6>View Expenses</h6>
                              </a>
-                             <a class="nav-link text-dark" href="exp_customized_edits.php">
-                                 <h6>Customized edits</h6>
-                             </a>
+                          
                              <a class="nav-link text-dark" href="exp_reports.php">
                                  <h6>Reports</h6>
                              </a>

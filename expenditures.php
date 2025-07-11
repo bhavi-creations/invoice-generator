@@ -248,17 +248,11 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td class="text-center"><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number text-center">01</td>
-                                                <td style="width:200px;"> <select  name="exp_name[]" class="">
-                                                        <?php
-                                                        $sql = "SELECT `name` FROM `exp_name`";
-                                                        $res = $conn->query($sql);
+                                                <td  >
+                                                    <input type="text" name="exp_name[]" class="form-control" placeholder="Enter Name">
+                                                </td>
 
-                                                        while ($row = mysqli_fetch_assoc($res)) {
-                                                            echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select></td>
-                                                <td style="width:200px;"><textarea style="width:200px;" rows="1" class="form-control" name="exp_description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td  ><textarea   rows="1" class="form-control" name="exp_description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td style="width:150px;"><select style="width:150px;" name="mode_payment[]" id="" class="">
                                                         <option value="select">Select</option>
                                                         <option value="Google-pay">Google-Pay</option>
