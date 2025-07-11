@@ -1,40 +1,37 @@
 <?php
-// Include your database connection file
 require_once('bhavidb.php');
 
-if (isset($_POST["submit"])) {
-    // Get data from the form arrays
-    $stock_names = $_POST["stock_name"];
-    $stock_descs = $_POST["stock_desc"];
-    $stock_qtys = $_POST["stock_qty"];
-    $stock_detailss = $_POST["stock_details"];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    $names = $_POST['stock_name'];
+    $descs = $_POST['stock_desc'];
+    $qtys = $_POST['stock_qty'];
+    $details = $_POST['stock_details'];
 
-    // Loop through the arrays and insert each entry into the main expenditure table
-    for ($i = 0; $i < count($stock_names); $i++) {
-        // Use mysqli_real_escape_string for each array element
-        $stock_name = mysqli_real_escape_string($conn, $stock_names[$i]);
-        $stock_desc = mysqli_real_escape_string($conn, $stock_descs[$i]);
-        $stock_qty = mysqli_real_escape_string($conn, $stock_qtys[$i]);
-        $stock_details = mysqli_real_escape_string($conn, $stock_detailss[$i]);
+    $total = count($names);
+    $errors = [];
 
-        // Insert data into the main expenditure table
-        $sql = "INSERT INTO stocks (stock_name, stock_desc, stock_qty, stock_details) VALUES ('$stock_name', '$stock_desc', '$stock_qty', '$stock_details')";
+    for ($i = 0; $i < $total; $i++) {
+        $name = mysqli_real_escape_string($conn, $names[$i]);
+        $desc = mysqli_real_escape_string($conn, $descs[$i]);
+        $qty = (int)$qtys[$i];
+        $detail = mysqli_real_escape_string($conn, $details[$i]);
 
-        if ($conn->query($sql)) {
-            // Records inserted successfully
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+        if (!empty($name) && !empty($desc) && $qty > 0) {
+            $insert = "INSERT INTO stocks (stock_name, stock_desc, stock_qty, stock_details) 
+                       VALUES ('$name', '$desc', '$qty', '$detail')";
+            if (!$conn->query($insert)) {
+                $errors[] = "Error inserting row $i: " . $conn->error;
+            }
         }
     }
 
-    echo "<script>
-        alert('Details saved successfully');
-        window.location.href='stocks.php';
-    </script>";
+    if (empty($errors)) {
+        header("Location: stocks.php?success=1");
+        exit();
+    } else {
+        echo "<h4>Some rows failed to save:</h4><pre>" . implode("\n", $errors) . "</pre>";
+    }
+} else {
+    echo "Invalid access.";
 }
-
-
-
-// Close the database connection
-$conn->close();
 ?>

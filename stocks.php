@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
-                        <?php include('sidebar.php'); ?>
+            <?php include('sidebar.php'); ?>
 
 
 
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td style="width:250px;"><textarea  class="form-control" rows="1" name="stock_name[]" placeholder="Name of stock." style="width: 100%;"></textarea></td>
+                                                <td style="width:250px;"><textarea class="form-control" rows="1" name="stock_name[]" placeholder="Name of stock." style="width: 100%;"></textarea></td>
                                                 <td style="width:200px;"><textarea style="width:200px;" class="form-control" rows="1" name="stock_desc[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='stock_qty[]' class='form-control total'></td>
                                                 <td style="width:250px;"><textarea style="width:250px;" class="form-control" rows="1" name="stock_details[]" placeholder="details." style="width: 100%;"></textarea></td>
@@ -251,8 +251,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                             </div>
 
                             <div class="container mt-5 d-flex flex-row justify-content-center">
-                                <div class="col-12 col-lg-2 mt-lg-3" ">
-                                        <input type=" submit" name="submit" value="Save" class="btn btn-primary w-100">
+                                <div class="col-12 col-lg-2 mt-lg-3">
+                                    <input type="submit" name="submit" value="Save" class="btn btn-primary w-100">
                                 </div>
                             </div>
                             <!--  ENDING BILLING SECTION  -->
@@ -303,51 +303,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                 <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                     <tr>
                                         <th class="text-center">ID</th>
-                                        <th style="  padding-right: 50px; padding-left: 50px;  ">Name</th>
-                                        <th style="  padding-right: 30px; padding-left: 30px;  ">Description</th>
+                                        <th style="padding-right: 50px; padding-left: 50px;">Name</th>
+                                        <th style="padding-right: 30px; padding-left: 30px;">Description</th>
                                         <th>Quantity</th>
-                                        <th style="  padding-right: 50px; padding-left: 50px;  ">Details</th>
+                                        <th style="padding-right: 50px; padding-left: 50px;">Details</th>
                                         <th>Actions</th>
-                                        <!-- <th style="width: 30%;">Actions</th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="product_tbody viewinvoicetable">
                                     <?php
-                                    // Loop through the fetched data and display it in the table
                                     $sql = "SELECT * FROM stocks";
                                     $result = $conn->query($sql);
 
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr style='border: hidden;'>";
                                         echo "<td style='border: hidden;'>" . $row['id'] . "</td>";
-                                        echo "<td style='border: hidden;'>" . $row['stock_name'] . "</td>";
-                                        echo "<td style='border: hidden;'>" . $row['stock_desc'] .  "</td>";
-                                        echo "<td style='border: hidden;'>" . $row['stock_qty'] . "</td>";
-                                        echo "<td style='border: hidden;'>" . $row['stock_details'] . "</td>";
+                                        echo "<td style='border: hidden;'>" . htmlspecialchars($row['stock_name']) . "</td>";
+                                        echo "<td style='border: hidden;'>" . htmlspecialchars($row['stock_desc']) . "</td>";
+                                        echo "<td style='border: hidden;'>" . htmlspecialchars($row['stock_qty']) . "</td>";
+                                        echo "<td style='border: hidden;'>" . htmlspecialchars($row['stock_details']) . "</td>";
                                         echo "<td style='border: hidden;'> 
-                                                        <div class='btn-group'>
-                                                        <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");'>
-                                    <input type='hidden' name='delete_id' value='" . $row['id'] . "'>
-                                    <button type='submit' class='delete-button' style='border:none;'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'>
-                                    <path d='M3 6H5H21' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                    <path d='M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                    <path d='M10 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                    <path d='M14 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                  </svg></button>
-                                </form> 
-                                                        
-                                                            </button>
-                                                        
-                                                    
-                                                        </div>
-                                                    </td>";
+                <div class='btn-group'>
+                    <!-- Edit Button -->
+                    <a href='edit_stock.php?id=" . $row['id'] . "' class='btn btn-warning btn-sm me-1'>Edit</a>
 
+                    <!-- Delete Form -->
+                    <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");' style='display:inline;'>
+                        <input type='hidden' name='delete_id' value='" . $row['id'] . "'>
+                        <button type='submit' class='delete-button' style='border:none; background-color:#dc3545; padding:5px 10px; color:white; border-radius:4px;'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none'>
+                                <path d='M3 6H5H21' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M10 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M14 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </td>";
                                         echo "</tr>";
                                     }
                                     ?>
-
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                     <!-- ENDING  FORM -->
