@@ -131,7 +131,7 @@ while ($customer = $customer_result->fetch_assoc()) {
                                 <?php foreach ($services as $service) : ?>
                                     <tr>
                                         <td><input type="text" name="Sname[]" class="form-control" value="<?php echo htmlspecialchars($service['Sname']); ?>"></td>
-                                        <td><textarea name="Description[]" class="form-control"><?php echo htmlspecialchars($service['Description']); ?></textarea></td>
+                                        <td><textarea name="Description[]" rows="1" class="form-control"><?php echo htmlspecialchars($service['Description']); ?></textarea></td>
                                         <td><input type="number" name="Qty[]" class="form-control qty" value="<?php echo htmlspecialchars($service['Qty']); ?>"></td>
                                         <td><input type="number" step="0.01" name="Price[]" class="form-control price" value="<?php echo htmlspecialchars($service['Price']); ?>"></td>
                                         <td><input type="text" name="total[]" class="form-control total" value="<?php echo htmlspecialchars($service['Finaltotal']); ?>" readonly></td>
@@ -146,7 +146,7 @@ while ($customer = $customer_result->fetch_assoc()) {
                     <div class="row">
                         <div class="col-md-6">
                             <h5>Note:</h5>
-                            <textarea name="note" class="form-control" rows="4"><?php echo htmlspecialchars($invoice['Note']); ?></textarea>
+                            <textarea name="note" class="form-control" rows="3"><?php echo htmlspecialchars($invoice['Note']); ?></textarea>
                         </div>
                         <div class="col-md-6">
                             <h5>Attachments</h5>
