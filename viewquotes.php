@@ -2,7 +2,9 @@
 include("bhavidb.php");
 
 // Fetch distinct customers who have quotations
-$sql = "SELECT DISTINCT Cname, Cphone, Caddress FROM quotation ORDER BY Cname ASC";
+
+$sql = "SELECT DISTINCT Cname, Cphone, Caddress, Company_name AS company FROM quotation ORDER BY Cname ASC";
+
 $result = $conn->query($sql);
 ?>
 
@@ -55,6 +57,7 @@ $result = $conn->query($sql);
                                     <th>S.No</th>
                                     <th>Name</th>
                                     <th>Phone</th>
+                                    <th>Company</th>
                                     <th>Address</th>
                                     <th>Action</th>
                                 </tr>
@@ -68,6 +71,7 @@ $result = $conn->query($sql);
                                             <td><?= $sno++ ?></td>
                                             <td><?= htmlspecialchars($row['Cname']) ?></td>
                                             <td><?= htmlspecialchars($row['Cphone']) ?></td>
+                                            <td><?= htmlspecialchars($row['company']) ?></td>
                                             <td><?= htmlspecialchars($row['Caddress']) ?></td>
                                             <td>
                                                 <a href="customer_quotes.php?name=<?= urlencode($row['Cname']) ?>" class="btn btn-primary btn-sm">

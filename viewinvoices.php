@@ -12,7 +12,7 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Fetch customers who have invoices (match by Name)
-$sql = "SELECT DISTINCT c.Id, c.Name, c.Phone, c.Address
+$sql = "SELECT DISTINCT c.Id, c.Name, c.Phone, c.Address, c.Company_name
         FROM customer c
         INNER JOIN invoice i ON c.Name = i.Cname
         ORDER BY c.Name ASC";
@@ -28,17 +28,7 @@ $result = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="img/style.css">
     <link rel="stylesheet" href="img/stylemi.css">
-    <style>
-        .table th,
-        .table td {
-            border: 1px solid #dee2e6 !important;
-            vertical-align: middle;
-        }
-
-        .nav-links {
-            font-size: 15px;
-        }
-    </style>
+ 
 </head>
 
 <body>
@@ -64,6 +54,7 @@ $result = $conn->query($sql);
                                 <th>S.No</th> <!-- NEW -->
                                 <th>Name</th>
                                 <th>Phone</th>
+                                <th>Company</th>
                                 <th>Address</th>
                                 <th>Action</th>
                             </tr>
@@ -77,6 +68,7 @@ $result = $conn->query($sql);
                                         <td><?= $sno++ ?></td> <!-- S.No. -->
                                         <td><?= htmlspecialchars($row['Name']) ?></td>
                                         <td><?= htmlspecialchars($row['Phone']) ?></td>
+                                        <td><?= htmlspecialchars($row['Company_name']) ?></td>
                                         <td><?= htmlspecialchars($row['Address']) ?></td>
                                         <td>
                                             <a href="customer_invoices.php?name=<?= urlencode($row['Name']) ?>" class="btn btn-primary btn-sm">
