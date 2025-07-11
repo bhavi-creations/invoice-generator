@@ -101,26 +101,10 @@ $result = $conn->query($sql);
         <div class="row">
             <?php include('sidebar.php'); ?>
 
-
-
-
-
             <!--  Table-->
             <section class="col-lg-10">
-
                 <div class="container">
-
-
-
-                    <?php
-
-
-
-
-                    require_once('bhavidb.php');
-
-
-                    ?>
+                   
 
                     <script>
                         window.onload = function() {
@@ -173,77 +157,17 @@ $result = $conn->query($sql);
                             <div id="chartContainer" style="height: 300px; "></div>
                         </div>
                     </div>
-
-
-
-
                     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 
-                </div>
-
-
-
-
-
-                <div class="container mt-5">
-                    <h4 class="text-center mb-4">All Expenditure Records</h4>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Mode of Payment</th>
-                                    <th>Amount Paid</th>
-                                    <th>Total</th>
-                                    <th>In Words</th>
-                                    <th>Note</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($result && $result->num_rows > 0):
-                                    while ($row = $result->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?= $row['id'] ?></td>
-                                            <td><?= htmlspecialchars($row['exp_name']) ?></td>
-                                            <td><?= htmlspecialchars($row['date']) ?></td>
-                                            <td><?= htmlspecialchars($row['exp_description']) ?></td>
-                                            <td><?= htmlspecialchars($row['mode_payment']) ?></td>
-                                            <td><?= htmlspecialchars($row['amount']) ?></td>
-                                            <td><?= htmlspecialchars($row['total_amount']) ?></td>
-                                            <td><?= htmlspecialchars($row['amount_in_words']) ?></td>
-                                            <td><?= htmlspecialchars($row['exp_note']) ?></td>
-
-                                        </tr>
-                                    <?php endwhile;
-                                else: ?>
-                                    <tr>
-                                        <td colspan="10" class="text-center">No expenditure records found.</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
 
             </section>
 
             <?php include('addcus-model.php'); ?>
 
-
         </div>
     </div>
-
-
-
-
-
     <?php include('changepass-modal.php') ?>
-
-
 
 </body>
 
