@@ -74,7 +74,6 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
 <!DOCTYPE html>
 <html lang="en">
 
-
 <?php include('header.php'); ?>
 
 <style>
@@ -84,7 +83,7 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
     }
 
     .card-customer {
-        height: 150px;
+        height: 150px; /* This fixed height might be part of the problem on screen */
         margin: auto;
         width: 150px;
         border-radius: 44px;
@@ -94,7 +93,6 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
         text-align: center;
         width: 109px;
         border: none;
-        font-size: 30px;
     }
 
     .div-cus {
@@ -108,34 +106,31 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
         body * {
             visibility: hidden;
         }
-
         #print-section,
         #print-section * {
             visibility: visible;
         }
 
-        #print-section {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            padding: 0;
-        }
-
+        /* These target specific elements for printing */
         .btn,
         .form-select,
         header,
         .sidebar,
         .navbar,
-        form,
+        form, /* This form specifically targets the year filter and buttons */
         footer {
             display: none !important;
         }
 
         .card-customer {
+            /* For print, allow height to adjust or set a generous min-height */
+            height: auto; /* Let content dictate height in print */
+            min-height: 180px; /* Ensure minimum space */
             display: inline-block !important;
-            margin: 10px auto;
+            margin: 0px auto;
             text-align: center;
+            /* You might need to adjust padding/line-height in here for print specifically if text is still cut */
+            padding-bottom: 5px; /* Added for print version to ensure space */
         }
 
         h2 {
@@ -149,7 +144,6 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
 
 
 <body>
-    <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
 
@@ -159,19 +153,12 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
 
                 <div id="print-section">
 
-
-                    <div class="container mt-5" id="print-section">
-                        <!-- YEAR HEADER -->
+                    <div class="container mt-5 report-container">
                         <div class="col-12">
-                            <h2  class="text-center mb-4">Yearly Financial Summary – <?= $selectedYear ?></h2>
+                            <h2 class="text-center mb-4">Yearly Financial Summary – <?= $selectedYear ?></h2>
                         </div>
-
-                    
-
-                   
-                       
                     </div>
-
+                               
 
                     <div class="row my-3">
 
@@ -184,13 +171,13 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
                             </div>
                             <div class="div-cus">
                                 <p><b>Clients</b></p>
-                                <input class="input-cus " style="z-index: 99;" type="text" value="<?= $rowcount ?>" readonly>
+                                <input class="input-cus " type="text" value="<?= $rowcount ?>" readonly>
                             </div>
                         </div>
+
                         <div class="col-8">
                             <h2 class="text-center mb-4">Yearly Income vs Expenditure vs Profit</h2>
 
-                            <!-- Year Filter + Export Buttons -->
                             <form method="POST" class="row g-3 justify-content-center mb-4">
                                 <div class="col-md-3">
                                     <select name="year" class="form-select" required>
@@ -222,24 +209,22 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
                             </form>
 
                         </div>
-                        <!-- Invoices Card -->
                         <div class="col-lg-2 col-sm-6 card card-customer">
                             <div class="text-center ps-3 pt-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#007BFF" class="bi bi-receipt" viewBox="0 0 16 16">
-                                    <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27" />
+                                    <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27" />
                                     <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
                                 </svg>
                             </div>
                             <div class="div-cus">
                                 <p><b>Invoices</b></p>
-                                <input class="input-cus" style="z-index: 99;" type="text" value="<?= $rowcount2 ?>" readonly>
+                                <input class="input-cus" type="text" value="<?= $rowcount2 ?>" readonly>
                             </div>
                         </div>
 
                     </div>
 
 
-                    <!-- Charts -->
                     <div class="mb-5">
                         <h5>Monthly Income (<?= $selectedYear ?>)</h5>
                         <div id="incomeChart" style="height: 300px;"></div>
@@ -255,113 +240,163 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
                         <div id="profitChart" style="height: 300px;"></div>
                     </div>
                 </div>
+            </section>
+
         </div>
-        </section>
+    </div>
 
-        <!-- Chart JS -->
-        <script>
-            window.onload = function() {
-                // Income
-                new CanvasJS.Chart("incomeChart", {
-                    animationEnabled: true,
-                    theme: "light2",
-                    axisY: {
-                        title: "Amount (₹)",
-                        prefix: "₹"
-                    },
-                    data: [{
-                        type: "column",
-                        color: "#28a745",
-                        dataPoints: <?= json_encode($dataPointsIncome, JSON_NUMERIC_CHECK); ?>
-                    }]
-                }).render();
 
-                // Expense
-                new CanvasJS.Chart("expenseChart", {
-                    animationEnabled: true,
-                    theme: "light2",
-                    axisY: {
-                        title: "Amount (₹)",
-                        prefix: "₹"
-                    },
-                    data: [{
-                        type: "column",
-                        color: "#dc3545",
-                        dataPoints: <?= json_encode($dataPointsExpense, JSON_NUMERIC_CHECK); ?>
-                    }]
-                }).render();
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 
-                // Profit/Loss
-                new CanvasJS.Chart("profitChart", {
-                    animationEnabled: true,
-                    theme: "light2",
-                    axisY: {
-                        title: "Net Profit (₹)",
-                        prefix: "₹"
-                    },
-                    data: [{
-                        type: "column",
-                        color: "#007bff",
-                        dataPoints: <?= json_encode($dataPointsProfit, JSON_NUMERIC_CHECK); ?>
-                    }]
-                }).render();
+    <script>
+        window.onload = function() {
+            // Income
+            new CanvasJS.Chart("incomeChart", {
+                animationEnabled: true,
+                theme: "light2",
+                axisY: {
+                    title: "Amount (₹)",
+                    prefix: "₹"
+                },
+                data: [{
+                    type: "column",
+                    color: "#28a745",
+                    dataPoints: <?= json_encode($dataPointsIncome, JSON_NUMERIC_CHECK); ?>
+                }]
+            }).render();
+
+            // Expense
+            new CanvasJS.Chart("expenseChart", {
+                animationEnabled: true,
+                theme: "light2",
+                axisY: {
+                    title: "Amount (₹)",
+                    prefix: "₹"
+                },
+                data: [{
+                    type: "column",
+                    color: "#dc3545",
+                    dataPoints: <?= json_encode($dataPointsExpense, JSON_NUMERIC_CHECK); ?>
+                }]
+            }).render();
+
+            // Profit/Loss
+            new CanvasJS.Chart("profitChart", {
+                animationEnabled: true,
+                theme: "light2",
+                axisY: {
+                    title: "Net Profit (₹)",
+                    prefix: "₹"
+                },
+                data: [{
+                    type: "column",
+                    color: "#007bff",
+                    dataPoints: <?= json_encode($dataPointsProfit, JSON_NUMERIC_CHECK); ?>
+                }]
+            }).render();
+        };
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <script>
+        function exportToPDF() {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+
+            const printSection = document.querySelector("#print-section");
+            const yearForm = printSection.querySelector("form"); // The form with year filter and buttons
+            const cards = printSection.querySelectorAll(".card-customer");
+            const h2Elements = printSection.querySelectorAll("h2"); // All h2 elements inside print-section
+
+            // Store original styles to revert later
+            const originalStyles = {
+                yearFormDisplay: yearForm ? yearForm.style.display : '',
+                cardHeights: [],
+                cardMinHeights: [],
+                cardPaddingBottoms: [],
+                h2FontSizes: []
             };
-        </script>
 
-        
-
-
-        <!-- jsPDF + html2canvas + SheetJS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-        <script>
-            function exportToPDF() {
-                const {
-                    jsPDF
-                } = window.jspdf;
-                const doc = new jsPDF('p', 'mm', 'a4');
-
-                html2canvas(document.querySelector("#print-section")).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const imgProps = doc.getImageProperties(imgData);
-                    const pdfWidth = doc.internal.pageSize.getWidth();
-                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                    doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                    doc.save("Monthly_Report_<?= $selectedYear ?>.pdf");
-                });
+            // 1. Apply temporary print-like styles
+            if (yearForm) {
+                yearForm.style.display = 'none'; // Hide the form
             }
 
-            function exportToExcel() {
-                const incomeData = <?= json_encode($dataPointsIncome) ?>;
-                const expenseData = <?= json_encode($dataPointsExpense) ?>;
-                const profitData = <?= json_encode($dataPointsProfit) ?>;
+            cards.forEach((card, index) => {
+                originalStyles.cardHeights[index] = card.style.height;
+                originalStyles.cardMinHeights[index] = card.style.minHeight;
+                originalStyles.cardPaddingBottoms[index] = card.style.paddingBottom;
 
-                const worksheet = XLSX.utils.book_new();
-                const sheetData = [
-                    ["Month", "Income", "Expenditure", "Profit/Loss"]
-                ];
+                // Apply styles that make them look good in print
+                card.style.height = 'auto'; // Let height be determined by content
+                card.style.minHeight = '180px'; // Ensure a minimum height if content is small
+                card.style.paddingBottom = '5px'; // Add some bottom padding
+            });
 
-                for (let i = 0; i < incomeData.length; i++) {
-                    sheetData.push([
-                        incomeData[i].label,
-                        incomeData[i].y,
-                        expenseData[i]?.y || 0,
-                        profitData[i]?.y || 0
-                    ]);
+            h2Elements.forEach((h2, index) => {
+                originalStyles.h2FontSizes[index] = h2.style.fontSize;
+                h2.style.fontSize = '20px'; // Apply print font size
+            });
+
+
+            // 2. Capture the section with applied styles (removed media:'print' to rely on manual styles)
+            html2canvas(printSection).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = doc.getImageProperties(imgData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                doc.save("Monthly_Report_<?= $selectedYear ?>.pdf");
+
+                // 3. Revert styles back to their original state for the live page
+                if (yearForm) {
+                    yearForm.style.display = originalStyles.yearFormDisplay;
                 }
 
-                const sheet = XLSX.utils.aoa_to_sheet(sheetData);
-                XLSX.utils.book_append_sheet(worksheet, sheet, "Yearly Summary");
+                cards.forEach((card, index) => {
+                    card.style.height = originalStyles.cardHeights[index];
+                    card.style.minHeight = originalStyles.cardMinHeights[index];
+                    card.style.paddingBottom = originalStyles.cardPaddingBottoms[index];
+                });
 
-                XLSX.writeFile(worksheet, "Monthly_Report_<?= $selectedYear ?>.xlsx");
+                h2Elements.forEach((h2, index) => {
+                    h2.style.fontSize = originalStyles.h2FontSizes[index];
+                });
+            });
+        }
+
+        function exportToExcel() {
+            const incomeData = <?= json_encode($dataPointsIncome) ?>;
+            const expenseData = <?= json_encode($dataPointsExpense) ?>;
+            const profitData = <?= json_encode($dataPointsProfit) ?>;
+
+            const worksheet = XLSX.utils.book_new();
+            const sheetData = [
+                ["Month", "Income", "Expenditure", "Profit/Loss"]
+            ];
+
+            for (let i = 0; i < incomeData.length; i++) {
+                sheetData.push([
+                    incomeData[i].label,
+                    incomeData[i].y,
+                    expenseData[i]?.y || 0,
+                    profitData[i]?.y || 0
+                ]);
             }
-        </script>
 
+            const sheet = XLSX.utils.aoa_to_sheet(sheetData);
+            XLSX.utils.book_append_sheet(worksheet, sheet, "Yearly Summary");
 
-
+            XLSX.writeFile(worksheet, "Monthly_Report_<?= $selectedYear ?>.xlsx");
+        }
+    </script>
 </body>
 
 </html>
