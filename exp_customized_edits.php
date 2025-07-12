@@ -236,13 +236,11 @@ if (!isset($_SESSION['email'])) {
 
     </section>
 
-    <?php include('addcus-model.php'); ?>
+    
 
     </div>
     </div>
-    <?php include('changepass-modal.php');
-
-    ?>
+    
 
 
 </body>

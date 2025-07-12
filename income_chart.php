@@ -168,10 +168,8 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
 
                     
 
-                        <!-- CHARTS START HERE -->
-                        <div class="mb-5">
-                            ...
-                        </div>
+                   
+                       
                     </div>
 
 
@@ -310,7 +308,7 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
             };
         </script>
 
-        <?php include('changepass-modal.php'); ?>
+        
 
 
         <!-- jsPDF + html2canvas + SheetJS -->

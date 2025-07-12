@@ -155,13 +155,65 @@ $result2 = $conn->query($sql2);
 
                 ?>
 
-               
+                <script>
+                    window.onload = function() {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            exportEnabled: true,
+                            theme: "light1",
+                            title: {
+                                text: "Monthly Income Status"
+                            },
+                            axisX: {
+                                title: "Months"
+                            },
+                            axisY: {
+                                title: "Income",
+                                includeZero: true
+                            },
+                            data: [{
+                                type: "column",
+                                indexLabel: "{y}",
+                                indexLabelFontColor: "#5A5757",
+                                indexLabelPlacement: "outside",
+                                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                            }]
+                        });
+                        chart.render();
+                    }
+
+
+
+
+
+                    $(document).ready(function() {
+                        $('#report_filter').on('keyup', function() {
+                            var value = $(this).val().toLowerCase();
+                            $('#report_table tbody tr').filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                            });
+                        });
+                    });
+
+
+
+
+                    $(document).ready(function() {
+                        $('#report_filter_1').on('keyup', function() {
+                            var value = $(this).val().toLowerCase();
+                            $('#report_table_1 tbody tr').filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                            });
+                        });
+                    });
+                </script>
+
 
                
             </section>
         </div>
     </div>
-    
+   
 
 
 </body>

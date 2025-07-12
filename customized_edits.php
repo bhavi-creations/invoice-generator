@@ -46,32 +46,14 @@ include('addgst-modal.php');
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customized Edits</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="img/style.css">
-    <link rel="stylesheet" href="img/stylemi.css">
-    <style>
-        .action-buttons button,
-        .action-buttons a {
-            margin: 0 5px;
-        }
+<?php include('header.php') ?>
 
-        .table-head th {
-            padding-bottom: 1rem !important;
-        }
-
-        /* Add other necessary styles here */
-    </style>
-</head>
 
 <body>
     <div class="container-fluid">
         <div class="row">
 
-             <?php include ('sidebar.php') ?>
+            <?php include('sidebar.php') ?>
 
             <section class="col-lg-10">
                 <div class="container mt-5">
@@ -96,17 +78,31 @@ include('addgst-modal.php');
                                             echo "<td>" . $row['si_No'] . "</td>";
                                             echo "<td>" . htmlspecialchars($row['service_Name']) . "</td>";
                                             echo "<td class='action-buttons'>
-                                                    <div class='d-flex justify-content-center'>
-                                                        <button class='btn btn-sm btn-warning edit-service-btn me-2' 
-                                                                data-bs-toggle='modal' 
-                                                                data-bs-target='#edit_service_modal' 
-                                                                data-id='{$row['si_No']}' 
-                                                                data-name='" . htmlspecialchars($row['service_Name'], ENT_QUOTES) . "'>
-                                                            Edit
-                                                        </button>
-                                                        <a href=\"delete_service.php?Id={$row['si_No']}\" class='btn btn-sm btn-danger' onClick=\"return confirm('Are you sure?')\">Delete</a>
-                                                    </div>
-                                                </td>";
+    <div class='d-flex justify-content-center'>
+
+        <!-- Edit Button -->
+        <button class='btn btn-sm me-2' 
+                style='background-color: #ffc107; color: white;' 
+                data-bs-toggle='modal' 
+                data-bs-target='#edit_service_modal' 
+                data-id='{$row['si_No']}' 
+                data-name='" . htmlspecialchars($row['service_Name'], ENT_QUOTES) . "' 
+                title='Edit'>
+            <i class='bi bi-pencil-square'></i>
+        </button>
+
+        <!-- Delete Button -->
+        <a href=\"delete_service.php?Id={$row['si_No']}\" 
+           class='btn btn-sm' 
+           style='background-color: #dc3545; color: white;' 
+           onClick=\"return confirm('Are you sure?')\" 
+           title='Delete'>
+            <i class='bi bi-trash-fill'></i>
+        </a>
+
+    </div>
+</td>";
+
                                             echo "</tr>";
                                         }
                                         ?>
@@ -134,16 +130,32 @@ include('addgst-modal.php');
                                             echo "<tr>";
                                             echo "<td>" . $row['si_No'] . "</td>";
                                             echo "<td>" . htmlspecialchars($row['gst']) . "</td>";
-                                            echo "<td class='action-buttons'>
-                                                <button class='btn btn-sm btn-warning edit-gst-btn' 
-                                                        data-bs-toggle='modal' 
-                                                        data-bs-target='#edit_gst_modal' 
-                                                        data-id='{$row['si_No']}' 
-                                                        data-value='" . htmlspecialchars($row['gst'], ENT_QUOTES) . "'>
-                                                    Edit
-                                                </button>
-                                                <a href=\"delete_gst.php?Id={$row['si_No']}\" class='btn btn-sm btn-danger' onClick=\"return confirm('Are you sure?')\">Delete</a>
-                                              </td>";
+                                           echo "<td class='action-buttons'>
+    <div class='d-flex justify-content-center'>
+
+        <!-- Edit Button -->
+        <button class='btn btn-sm me-2' 
+                style='background-color: #ffc107; color: white;' 
+                data-bs-toggle='modal' 
+                data-bs-target='#edit_gst_modal' 
+                data-id='{$row['si_No']}' 
+                data-value='" . htmlspecialchars($row['gst'], ENT_QUOTES) . "' 
+                title='Edit'>
+            <i class='bi bi-pencil-square'></i>
+        </button>
+
+        <!-- Delete Button -->
+        <a href=\"delete_gst.php?Id={$row['si_No']}\" 
+           class='btn btn-sm' 
+           style='background-color: #dc3545; color: white;' 
+           onClick=\"return confirm('Are you sure?')\" 
+           title='Delete'>
+            <i class='bi bi-trash-fill'></i>
+        </a>
+
+    </div>
+</td>";
+
                                             echo "</tr>";
                                         }
                                         ?>
@@ -200,7 +212,7 @@ include('addgst-modal.php');
     </div>
 
 
-    <?php include('changepass-modal.php'); ?>
+
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,6 +1,7 @@
 <?php
 require_once('bhavidb.php');
 session_start();
+
 if (!isset($_SESSION['email'])) {
     header('Location:index.php');
     exit();
@@ -8,67 +9,57 @@ if (!isset($_SESSION['email'])) {
 
 // Handle delete
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-    $deleteId = $_POST['delete_id'];
+    $deleteId = (int) $_POST['delete_id'];
     $conn->query("DELETE FROM expenditure_tbl WHERE id = $deleteId");
     $conn->query("DELETE FROM expenditure_desc_tbl WHERE main_expenditure_id = $deleteId");
     echo "<script>location.reload();</script>";
     exit;
 }
 
-// Fetch full data
+// Filters
+$search = isset($_GET['search']) ? $conn->real_escape_string(trim($_GET['search'])) : '';
+$fromDate = isset($_GET['from_date']) ? $_GET['from_date'] : '';
+$toDate = isset($_GET['to_date']) ? $_GET['to_date'] : '';
+
+// Build dynamic SQL
 $sql = "SELECT 
             e.id, e.date, e.total_amount, e.amount_in_words, e.exp_note,
             d.exp_name, d.exp_description, d.mode_payment, d.amount
         FROM expenditure_tbl e
         LEFT JOIN expenditure_desc_tbl d ON e.id = d.main_expenditure_id
-        ORDER BY e.id ASC";
+        WHERE 1=1";
+
+// Add search filter
+if (!empty($search)) {
+    $sql .= " AND (
+        d.exp_name LIKE '%$search%' OR 
+        d.exp_description LIKE '%$search%' OR 
+        d.mode_payment LIKE '%$search%' OR 
+        e.exp_note LIKE '%$search%' OR 
+        e.amount_in_words LIKE '%$search%'
+    )";
+}
+
+// Add date range filter
+if (!empty($fromDate)) {
+    $sql .= " AND e.date >= '$fromDate'";
+}
+if (!empty($toDate)) {
+    $sql .= " AND e.date <= '$toDate'";
+}
+
+$sql .= " ORDER BY e.id ASC";
 
 $result = $conn->query($sql);
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BHAVIINVOICE</title>
 
-    <!-- BOOTSTRAP PLUGIN -->
+<?php include('header.php'); ?>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
-    <!-- jQuery -->
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
-
-    <!-- ADDING STYLE SHEET  -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
-
-    <link rel="stylesheet" href="img/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link rel="stylesheet" href="img/stylemi.css">
-    <style>
-        .table thead {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-            background-color: #f2f2f2;
-        }
-
-        .btn-group .btn {
-            margin-right: 5px;
-        }
-    </style>
-
-</head>
 
 <body>
 
@@ -86,6 +77,52 @@ $result = $conn->query($sql);
                 <div class="container mt-5">
                     <h4 class="text-center mb-4">All Expenditure Records</h4>
                     <div class="table-responsive">
+
+
+                        <!-- WRAPPER WITHOUT X-SCROLL -->
+                        <div class="container-fluid px-0"> <!-- removes container-side padding -->
+                            <form method="GET" class="p-3 bg-light border rounded">
+
+                                <div class="row g-3 align-items-end">
+
+                                    <!-- Search -->
+                                    <div class="col-md-3 col-sm-6">
+                                        <label for="search" class="form-label">Search</label>
+                                        <input type="text" name="search" id="search" class="form-control"
+                                            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+                                            placeholder="Search Name, Desc, Mode, etc.">
+                                    </div>
+
+                                    <!-- From Date -->
+                                    <div class="col-md-2 col-sm-6">
+                                        <label for="from_date" class="form-label">From</label>
+                                        <input type="date" name="from_date" id="from_date" class="form-control"
+                                            value="<?= isset($_GET['from_date']) ? $_GET['from_date'] : '' ?>">
+                                    </div>
+
+                                    <!-- To Date -->
+                                    <div class="col-md-2 col-sm-6">
+                                        <label for="to_date" class="form-label">To</label>
+                                        <input type="date" name="to_date" id="to_date" class="form-control"
+                                            value="<?= isset($_GET['to_date']) ? $_GET['to_date'] : '' ?>">
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="col-md-2 col-sm-6">
+                                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                                    </div>
+
+                                    <!-- Reset -->
+                                    <div class="col-md-2 col-sm-6">
+                                        <a href="view_expenditure.php" class="btn btn-secondary w-100">Reset</a>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+
+
                         <table class="table table-bordered table-hover">
                             <thead class="table-light">
                                 <tr>
@@ -115,14 +152,26 @@ $result = $conn->query($sql);
                                             <td><?= htmlspecialchars($row['amount_in_words']) ?></td>
                                             <td><?= htmlspecialchars($row['exp_note']) ?></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <a href="edit_expenditure.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                <div class="btn-group" role="group">
+
+                                                    <!-- Edit Button -->
+                                                    <a href="edit_expenditure.php?id=<?= $row['id'] ?>" class="btn btn-sm me-2" style="background-color: #ffc107; color: white;" title="Edit">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+
+                                                    <!-- Delete Button -->
                                                     <form method="POST" action="" onsubmit="return confirm('Delete this entry?');" style="display:inline;">
                                                         <input type="hidden" name="delete_id" value="<?= $row['id'] ?>">
-                                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                        <button type="submit" class="btn btn-sm" style="background-color: #dc3545; color: white;" title="Delete">
+                                                            <i class="bi bi-trash-fill"></i>
+                                                        </button>
                                                     </form>
+
                                                 </div>
                                             </td>
+
+
+
                                         </tr>
                                     <?php endwhile;
                                 else: ?>
@@ -137,18 +186,8 @@ $result = $conn->query($sql);
 
             </section>
 
-            <?php include('addcus-model.php'); ?>
-
-
         </div>
     </div>
-
-    
-
-    
- 
-    <?php include('changepass-modal.php') ?>
-
 
 
 </body>

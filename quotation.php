@@ -312,7 +312,7 @@ $invoiceNumber = getInvoiceId();
                                             <tr>
                                                 <td><button style="border: none; background: none;" type="button" id="btn-add-row" class="btn-add-row"><b>+</b></button></td>
                                                 <td class="serial-number">01</td>
-                                                <td> <select style="width:200px;" name="Sname[]" class="form-control">
+                                                <td> <select style="width:150px;" name="Sname[]" class="form-control">
                                                         <?php
                                                         $sql = "SELECT `service_name` FROM `service_names`";
                                                         $res = $conn->query($sql);
@@ -322,7 +322,7 @@ $invoiceNumber = getInvoiceId();
                                                         }
                                                         ?>
                                                     </select></td>
-                                                <td><textarea style="width:250px;" rows="1" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
+                                                <td><textarea style="width:150px;" rows="1" class="form-control" name="Description[]" placeholder="DESCRIPITION." style="width: 100%;"></textarea></td>
                                                 <td><input type='text' required name='Qty[]' class='form-control qty'></td>
                                                 <td><input type='text' required name='Price[]' class='form-control price'></td>
                                                 <td><input type='text' name='subtotal[]' class='form-control subtotal'></td>
@@ -619,7 +619,7 @@ $invoiceNumber = getInvoiceId();
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="payment_details" id="office_details" value="office" checked>
                                             <label class="form-check-label" for="office_details">
-                                                <strong>Use Office Payment Details</strong>
+                                                <strong>With Gst Payment</strong>
                                             </label>
                                         </div>
                                     </div>
@@ -793,8 +793,7 @@ $invoiceNumber = getInvoiceId();
         });
     </script>
 
-    <?php include('changepass-modal.php');
-    ?>
+    
 
 
     <script>

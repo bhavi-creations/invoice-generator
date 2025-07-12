@@ -163,11 +163,11 @@ $result = $conn->query($sql);
 
             </section>
 
-            <?php include('addcus-model.php'); ?>
+      
 
         </div>
     </div>
-    <?php include('changepass-modal.php') ?>
+ 
 
 </body>
 

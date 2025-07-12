@@ -632,7 +632,7 @@ $invoiceNumber = getInvoiceId();
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="payment_details" id="office_details" value="office" checked>
                                             <label class="form-check-label" for="office_details">
-                                                <strong>Use Office Payment Details</strong>
+                                                <strong>With Gst Payment</strong>
                                             </label>
                                         </div>
                                     </div>
@@ -768,7 +768,7 @@ $invoiceNumber = getInvoiceId();
                         </div>
                     </div>
                 </div>
-                <?php include('changepass-modal.php'); ?>
+               
             </section>
         </div>
     </div>

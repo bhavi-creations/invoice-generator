@@ -769,7 +769,7 @@ if (isset($_POST['update'])) {
                         </div>
                     </div>
                 </div>
-                <?php include('changepass-modal.php'); ?>
+               
             </section>
         </div>
     </div>

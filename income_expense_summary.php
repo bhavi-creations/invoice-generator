@@ -238,8 +238,7 @@ $dataPointsProfit = buildDataPoints($monthlyProfit);
                 };
             </script>
 
-            <?php include('changepass-modal.php'); ?>
-
+             
 </body>
 
 </html>

@@ -37,143 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BHAVIINVOICE</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet"> -->
-
-
-    <link rel="stylesheet" href="img/style.css">
-
-    <link rel="stylesheet" href="img/stylemi.css">
-
-
-
-    <style>
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 200px;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 20px;
-            /* text-align: center; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12 px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        .navbar-nav li:hover .dropdown-content {
-            display: block;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            padding: 58px 0 0;
-            /* Height of navbar */
-            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-            width: 240px;
-            z-index: 600;
-        }
-
-        .nav-links {
-            background-color: aliceblue;
-            border-radius: 20px;
-        }
-
-        .active-link {
-            background-color: blue;
-            color: white;
-        }
-
-        body {
-            background-color: #f9f9f9;
-        }
-
-        form {
-            background-color: white;
-            border-radius: 50px;
-        }
-
-        .form-input {
-            border-radius: 20px;
-            border: none;
-            background-color: aliceblue;
-            padding: 5px;
-        }
-
-
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .thead {
-            /* background-color: aliceblue; */
-            border: 1px solid black;
-        }
-
-        th {
-            border: none;
-            padding: 4px;
-            /* Adjust padding as needed */
-            text-align: center;
-        }
-
-        .table-responsive {
-            border-radius: 10px;
-            border: 1px solid black;
-        }
-
-        .nav-item {
-            padding-top: 20px;
-        }
-
-        /* 
-        .navbar-nav {
-            color: black;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 17px;
-        }
-         */
-    </style>
-
-</head>
+            <?php include('header.php'); ?>
+ 
 
 <body>
     <!--  LARGE SCREEN NAVBAR  -->
@@ -323,24 +188,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                                         echo "<td style='border: hidden;'>" . htmlspecialchars($row['stock_qty']) . "</td>";
                                         echo "<td style='border: hidden;'>" . htmlspecialchars($row['stock_details']) . "</td>";
                                         echo "<td style='border: hidden;'> 
-                <div class='btn-group'>
-                    <!-- Edit Button -->
-                    <a href='edit_stock.php?id=" . $row['id'] . "' class='btn btn-warning btn-sm me-1'>Edit</a>
+    <div class='btn-group' role='group'>
 
-                    <!-- Delete Form -->
-                    <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");' style='display:inline;'>
-                        <input type='hidden' name='delete_id' value='" . $row['id'] . "'>
-                        <button type='submit' class='delete-button' style='border:none; background-color:#dc3545; padding:5px 10px; color:white; border-radius:4px;'>
-                            <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none'>
-                                <path d='M3 6H5H21' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                <path d='M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                <path d='M10 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                                <path d='M14 11V17' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-            </td>";
+        <!-- Edit Button -->
+        <a href='edit_stock.php?id=" . $row['id'] . "' class='btn btn-sm me-2' style='background-color: #ffc107; color: white;' title='Edit'>
+            <i class='bi bi-pencil-square'></i>
+        </a>
+
+        <!-- Delete Form -->
+        <form method='POST' onsubmit='return confirm(\"Are you sure you want to delete this record?\");' style='display:inline;'>
+            <input type='hidden' name='delete_id' value='" . $row['id'] . "'>
+            <button type='submit' class='btn btn-sm' style='background-color: #dc3545; color: white;' title='Delete'>
+                <i class='bi bi-trash-fill'></i>
+            </button>
+        </form>
+
+    </div>
+</td>";
+
                                         echo "</tr>";
                                     }
                                     ?>
@@ -405,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                         </div>
                     </div>
                 </div>
-                <?php include('changepass-modal.php'); ?>
+
             </section>
         </div>
     </div>
