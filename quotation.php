@@ -1,19 +1,12 @@
 <?php
-
-
 session_start();
 if (!isset($_SESSION['email'])) {
     header('Location:index.php');
     exit();
 }
 
-
-
 define('INVOICE_INITIAL_VALUE', '1');
-
-
 require_once('bhavidb.php');
-
 function getInvoiceId()
 {
     include('bhavidb.php');
@@ -242,7 +235,7 @@ $invoiceNumber = getInvoiceId();
 
                         </div>
 
-                        
+
 
 
                         <div class="container ps-5 mb-5">
@@ -274,10 +267,10 @@ $invoiceNumber = getInvoiceId();
                                 </div>
                             </div>
                         </div>
-                        
+
                         <h3 class="text-center mb-5"><B>Price Quotation</B></h3>
 
-                   
+
 
                         <div class="  billing">
                             <div class="table-responsive">
@@ -374,18 +367,21 @@ $invoiceNumber = getInvoiceId();
                                         <textarea name="note" class="form-control" style="border-radius: 10px;" rows="1" placeholder="Note:"></textarea>
                                     </div>
 
+
+                                    <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
+                                        <div class="w-100 d-flex justify-content-center">
+                                            <button type="submit" name="save" class="btn btn-primary me-2">Save</button>
+                                            <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
+                                        </div>
+                                    </div>
+
+
                                     <div class="col-lg-4 col-md-12 mb-3">
                                         <label for="attachments" class="form-label"><strong>Attach Files:</strong></label>
                                         <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
                                     </div>
 
-                                    <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
-                                        <!-- <input type="submit" name="save" value="Save" class="btn btn-primary me-2"> -->
 
-                                        <button type="submit" name="save" class="btn btn-primary me-2">Save </button>
-
-                                        <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
-                                    </div>
 
                                 </div>
                             </div>
@@ -768,10 +764,6 @@ $invoiceNumber = getInvoiceId();
             });
         });
     </script>
-
-
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const officeRadio = document.getElementById('office_details');

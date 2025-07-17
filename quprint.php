@@ -185,7 +185,7 @@ if ($quote['payment_details_type'] == 'office') {
                 <strong>Bank:</strong> State Bank Of India<br>
                 <strong>Acc Name:</strong> Chalikonda Naga Phaneendra Naidu<br>
                 <strong>Acc No.:</strong> 20256178992<br>
-                <strong>IFSC:</strong> SBIN00001917
+                <strong>IFSC:</strong> SBIN00001917<br>
                 <strong>Google pay , Phone pay, Paytm :</strong> 8686394079
             </td>
         </tr>
