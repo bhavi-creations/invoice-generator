@@ -117,6 +117,20 @@
                              </svg> Settings
                          </a>
                      </li>
+
+
+                         <li class="nav-item">
+                         <a class="nav-link text-dark nav-links" href="stamps.php">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                                 <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5v7a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5v-7zM1.5 4a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-13z" />
+                                 <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                 <path d="M11.104 6.326a.5.5 0 0 1-.295.518l-2.477 1.239a.5.5 0 0 1-.482-.016L5.501 6.878V9.5a1.5 1.5 0 0 1-1.5 1.5h-.5a.5.5 0 0 0 0 1H4A2.5 2.5 0 0 0 6.5 10V7.818l1.458-1.094L9.845 9.1a.5.5 0 0 0 .976-.118l2.25-6.3c.097-.274-.294-.582-.54-.423L11.104 6.326z" />
+                             </svg>
+                             Manage Stamps & Signatures
+                         </a>
+                     </li>
+
+                     
                      <li class="nav-item ">
                          <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                  <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />
@@ -260,6 +274,18 @@
                      </li>
 
 
+                     <li class="nav-item">
+                         <a class="nav-link text-dark nav-links" href="stamps.php">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                                 <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5v7a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5v-7zM1.5 4a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-13z" />
+                                 <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                 <path d="M11.104 6.326a.5.5 0 0 1-.295.518l-2.477 1.239a.5.5 0 0 1-.482-.016L5.501 6.878V9.5a1.5 1.5 0 0 1-1.5 1.5h-.5a.5.5 0 0 0 0 1H4A2.5 2.5 0 0 0 6.5 10V7.818l1.458-1.094L9.845 9.1a.5.5 0 0 0 .976-.118l2.25-6.3c.097-.274-.294-.582-.54-.423L11.104 6.326z" />
+                             </svg>
+                             Manage Stamps & Signatures
+                         </a>
+                     </li>
+
+                     
                      <li class="nav-item ">
                          <a class="nav-link text-dark nav-links " href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                  <path opacity="0.4" d="M0 4.447C0 1.996 2.03024 0 4.52453 0H9.48564C11.9748 0 14 1.99 14 4.437V15.553C14 18.005 11.9698 20 9.47445 20H4.51537C2.02515 20 0 18.01 0 15.563V14.623V4.447Z" fill="black" />

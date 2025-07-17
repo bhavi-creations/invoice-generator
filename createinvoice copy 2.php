@@ -42,149 +42,163 @@ function getInvoiceId()
 }
 $invoiceNumber = getInvoiceId();
 
+// Fetch active company_stamp and director_stamp
+$stampOptions = [];
+$stamp_query = "SELECT id, display_name, file_name, type FROM stamps WHERE is_active = 1 AND type IN ('company_stamp', 'director_stamp')";
+$stamp_result = mysqli_query($conn, $stamp_query);
+while ($row = mysqli_fetch_assoc($stamp_result)) {
+    $stampOptions[] = $row;
+}
 
+// Fetch first active signature
+$signatureImage = null;
+$signature_query = "SELECT file_name FROM stamps WHERE is_active = 1 AND type = 'signature' LIMIT 1";
+$signature_result = mysqli_query($conn, $signature_query);
+if ($signature_row = mysqli_fetch_assoc($signature_result)) {
+    $signatureImage = $signature_row['file_name'];
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BHAVIINVOICE</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BHAVIINVOICE</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet"> -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+        <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <link rel="stylesheet" href="img/style.css">
-
-    <link rel="stylesheet" href="img/stylemi.css">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet"> -->
 
 
+        <link rel="stylesheet" href="img/style.css">
+
+        <link rel="stylesheet" href="img/stylemi.css">
 
 
 
-</head>
-<style>
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 200px;
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-        z-index: 1;
-        border-radius: 20px;
-        /* text-align: center; */
-    }
-
-    .dropdown-content a {
-        color: black;
-        padding: 12 px 16px;
-        text-decoration: none;
-        display: block;
-        text-align: center;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #ddd;
-    }
-
-    .navbar-nav li:hover .dropdown-content {
-        display: block;
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        padding: 58px 0 0;
-        /* Height of navbar */
-        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-        width: 240px;
-        z-index: 600;
-    }
-
-    .nav-links {
-        background-color: aliceblue;
-        border-radius: 20px;
-    }
-
-    .active-link {
-        background-color: blue;
-        color: white;
-    }
-
-    body {
-        background-color: #f9f9f9;
-    }
-
-    form {
-        background-color: white;
-        border-radius: 50px;
-    }
-
-    .form-input {
-        border-radius: 20px;
-        border: none;
-        background-color: aliceblue;
-        padding: 5px;
-    }
 
 
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    .thead {
-        /* background-color: aliceblue; */
-        border: 1px solid black;
-    }
-
-    th {
-        border: none;
-        padding: 4px;
-        /* Adjust padding as needed */
-        text-align: center;
-    }
-
-    .table-responsive {
-        border-radius: 10px;
-        border: 1px solid black;
-    }
-
-    .nav-item {
-        padding-top: 20px;
-    }
-
-    /* 
-        .navbar-nav {
-            color: black;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 17px;
+    </head>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
-         */
-</style>
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 20px;
+            /* text-align: center; */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12 px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .navbar-nav li:hover .dropdown-content {
+            display: block;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 58px 0 0;
+            /* Height of navbar */
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+            width: 240px;
+            z-index: 600;
+        }
+
+        .nav-links {
+            background-color: aliceblue;
+            border-radius: 20px;
+        }
+
+        .active-link {
+            background-color: blue;
+            color: white;
+        }
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 50px;
+        }
+
+        .form-input {
+            border-radius: 20px;
+            border: none;
+            background-color: aliceblue;
+            padding: 5px;
+        }
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .thead {
+            /* background-color: aliceblue; */
+            border: 1px solid black;
+        }
+
+        th {
+            border: none;
+            padding: 4px;
+            /* Adjust padding as needed */
+            text-align: center;
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+
+        .nav-item {
+            padding-top: 20px;
+        }
+
+        /* 
+            .navbar-nav {
+                color: black;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+                font-size: 17px;
+            }
+            */
+    </style>
 
 <body>
     <!--  LARGE SCREEN NAVBAR  -->
@@ -203,7 +217,7 @@ $invoiceNumber = getInvoiceId();
 
                     <!-- FORM -->
 
-                    <form class=" mango  pb-1 mb-5" action="formprocess.php" method="post" enctype="multipart/form-data">
+                    <form class=" mango  pb-1 mb-5" id="invoiceForm" action="formprocess.php" method="post" enctype="multipart/form-data">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block img-fluid pt-5" style="max-height: 20%; max-width: 20%;">
 
 
@@ -392,10 +406,14 @@ $invoiceNumber = getInvoiceId();
                                     </div>
 
                                     <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
-                                        <input type="submit" name="save" value="Save" class="btn btn-primary me-2">
+                                        <!-- Save Button -->
+                                        <button type="submit" name="save" id="saveBtn">Save</button>
 
+
+                                        <!-- Print Button -->
                                         <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
                                     </div>
+
 
                                 </div>
                             </div>
@@ -680,24 +698,46 @@ $invoiceNumber = getInvoiceId();
 
 
 
+                        <!-- <input type="hidden" name="stamp_image" id="stamp_image">
+                        <input type="hidden" name="signature_image" value="<?= htmlspecialchars($signatureImage) ?>"> -->
 
-                        <div class="row justify-content-end me-5">
-                            <div class="col-auto text-center d-flex flex-column align-items-center me-5">
-                                <!-- Stamp Image (Top) -->
-                                <img id="dynamicStamp" src="img/Bhavi-Logo-2.png" alt="Stamp" class="img-fluid mb-2" style="max-height: 100px; max-width: 100px;">
 
-                                <!-- Signature Image (Bottom) -->
-                                <img id="dynamicSignature" src="img/Bhavi-Logo-2.png" alt="Signature" class="img-fluid" style="max-height: 100px; max-width: 100px;">
 
-                                <!-- Signature Label -->
-                                <p class="mt-2">Signature</p>
+
+
+                        <!-- Stamp and Signature Section Aligned Vertically at Right -->
+                        <div style="display: flex; justify-content: flex-end; margin-top: 40px;">
+                            <div style="text-align: right;">
+                                <!-- Stamp Dropdown -->
+                                <label for="stampSelect"><strong>Select Stamp:</strong></label><br>
+                                <select id="stampSelect" class="form-control form-select-sm" onchange="updateStampPreview(this)">
+                                    <option value="">-- Select Stamp --</option>
+                                    <?php foreach ($stampOptions as $stamp): ?>
+                                        <option value="uploads/<?= htmlspecialchars($stamp['file_name']) ?>">
+                                            <?= htmlspecialchars($stamp['display_name']) ?> (<?= $stamp['type'] ?>)
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+
+
+                                <!-- Stamp Preview -->
+                                <div style="margin-top: 10px;">
+                                    <img id="stampPreview" src="" style="max-height:100px;" />
+                                </div>
+
+                                <!-- Signature Preview -->
+                                <?php if ($signatureImage): ?>
+                                    <div style="margin-top: 10px;">
+                                        <img src="uploads/<?= htmlspecialchars($signatureImage) ?>" style="max-height:100px;" />
+                                        <br><strong>Authorized Signature</strong>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
 
 
-
-
-
+                        <input type="hidden" name="selected_stamp" id="selected_stamp">
+                        <input type="hidden" name="selected_signature" id="selected_signature">
                     </form>
                     <!-- ENDING  FORM -->
                 </div>
@@ -822,6 +862,40 @@ $invoiceNumber = getInvoiceId();
             personalRadio.addEventListener('change', togglePaymentDetails);
         });
     </script>
+
+
+    <script>
+        function updateStampPreview(select) {
+            const selectedValue = select.value;
+            document.getElementById('stampPreview').src = selectedValue;
+            document.getElementById('selected_stamp').value = selectedValue;
+        }
+
+        function prepareSubmit() {
+            // Set the signature value if available
+            const signatureImage = document.getElementById('dynamicSignature');
+            if (signatureImage) {
+                document.getElementById('selected_signature').value = signatureImage.getAttribute('src');
+            }
+
+            // Submit the form manually
+            document.getElementById('invoiceForm').submit();
+        }
+
+        // Optional: load default signature on page load
+        window.onload = function() {
+            const sig = document.querySelector('#dynamicSignature');
+            if (sig) {
+                document.getElementById('selected_signature').value = sig.getAttribute('src');
+            }
+        };
+    </script>
+
+
+
+
+
+
 
 </body>
 
