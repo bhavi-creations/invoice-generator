@@ -189,17 +189,17 @@ $invoiceNumber = getInvoiceId();
         <div class="row">
 
 
-                        <?php include('sidebar.php'); ?>
+            <?php include('sidebar.php'); ?>
 
 
             <!--  INVOICE  FORM  -->
 
-            <section class=" col-lg-10 md-">
-                <div class="container ">
+            <section class=" col-lg-10  ">
+                <div class="container  ">
 
                     <!-- FORM -->
 
-                    <form class="quote-form shadow-sm" action="quotationform.php" method="post" enctype="multipart/form-data">
+                    <form class="quote-form shadow-sm pb-1" action="quotationform.php" method="post" enctype="multipart/form-data">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block pt-5" height="20%" width="20%">
 
                         <!-- FORM INVOICENUMBER -->
@@ -242,9 +242,7 @@ $invoiceNumber = getInvoiceId();
 
                         </div>
 
-                        <!-- ENDING  FORM INVOICENUMBER -->
-
-                        <!--  COMPANY DETAILS  -->
+                        
 
 
                         <div class="container ps-5 mb-5">
@@ -276,17 +274,10 @@ $invoiceNumber = getInvoiceId();
                                 </div>
                             </div>
                         </div>
-                        <!-- ENDING COMPANY DETAILS -->
-
-                        <!-- BILLING SECTION  -->
+                        
                         <h3 class="text-center mb-5"><B>Price Quotation</B></h3>
 
-                        <!-- <div class="col-1 ms-2 mb-3">
-                <select name="status" id="">
-                    <option value="paid">Paid</option>
-                    <option value="pending">Not paid</option>
-                </select>
-            </div> -->
+                   
 
                         <div class="  billing">
                             <div class="table-responsive">
@@ -374,12 +365,6 @@ $invoiceNumber = getInvoiceId();
                                     </table>
                                 </div>
                             </div>
-
-
-
-
-
-
 
                             <div class="container mt-5">
                                 <div class="row">
@@ -610,7 +595,7 @@ $invoiceNumber = getInvoiceId();
                             </script>
 
                             <!--     SCANNER SECTION  -->
-                            <div class="container pt-5 mb-5">
+                            <div class="container pt-5 mb-5 ">
                                 <div class="row">
                                     <span class="verticalline mb-5"></span>
 
@@ -652,7 +637,7 @@ $invoiceNumber = getInvoiceId();
                                     </div>
 
                                     <!-- Personal Payment Section -->
-                                    <div id="personal_payment_section" class="col-12 payment-section d-none">
+                                    <div id="personal_payment_section" class="col-12 payment-section d-none ">
                                         <div class="row mt-2">
                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                 <h5 class="mb-3"><strong>Scan to Pay:</strong></h5>
@@ -664,25 +649,16 @@ $invoiceNumber = getInvoiceId();
                                                 <h6 class="mb-2">Account Name : Chalikonda Naga Phaneendra Naidu</h6>
                                                 <h6 class="mb-2">Account No. : 20256178992</h6>
                                                 <h6 class="mb-2">IFSC : SBIN00001917</h6>
+                                                <h6 class="mb-2">Google pay , Phone pay, Paytm : 8686394079</h6>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <span class="verticalline"></span>
+
                                 </div>
                             </div>
-                            <!--   ENDING  SCANNER SECTION  -->
 
-                            <!--    GOOGLEPAY SECTION   -->
-
-                            <div class="googlepay">
-                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                    <h6 class="text-center">Google pay , Phone pay. Paytm 8686394079</h6>
-                                </div>
-                            </div>
-                            <!--  ENDING  GOOGLEPAY SECTION  -->
-
-
+                        </div>
 
 
 
@@ -793,7 +769,7 @@ $invoiceNumber = getInvoiceId();
         });
     </script>
 
-    
+
 
 
     <script>

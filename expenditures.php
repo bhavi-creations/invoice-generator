@@ -208,6 +208,9 @@ $invoiceNumber = getInvoiceId();
                                             <p><strong>Account:</strong> Chalikonda Naga Phaneendra Naidu</p>
                                             <p><strong>Account No.:</strong> 20256178992</p>
                                             <p><strong>IFSC:</strong> SBIN00001917</p>
+                                            <p><strong>Google Pay, Phone Pay, Paytm:</strong> 8686394079</p>
+                                             
+                                            
                                         </div>
                                     </div>
                                 </div>

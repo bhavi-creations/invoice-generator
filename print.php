@@ -273,15 +273,12 @@ $stmt_files->close();
                                         <h6><strong>Account Name:</strong> Chalikonda Naga Phaneendra Naidu</h6>
                                         <h6><strong>Account No.:</strong> 20256178992</h6>
                                         <h6><strong>IFSC:</strong> SBIN00001917</h6>
+                                        <h6><strong>Google Pay, Phone Pay, Paytm:</strong> 8686394079</h6>
                                     </div>
                                 <?php endif; ?>
 
                             </div>
-                            <div class="row mt-4">
-                                <div class="col-12 text-center">
-                                    <h6 class="border p-2"><strong>Google Pay, Phone Pay, Paytm:</strong> 8686394079</h6>
-                                </div>
-                            </div>
+                            
                         </div>
 
                     </div>
