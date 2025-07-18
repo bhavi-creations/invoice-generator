@@ -7,7 +7,7 @@ if (!isset($_GET['Sid']) || !is_numeric($_GET['Sid'])) {
 }
 $quote_id = (int)$_GET['Sid'];
 
-// Fetch main quotation details
+// Fetch main quotation details, including the new stamp and signature columns
 $stmt_quote = $conn->prepare("SELECT * FROM quotation WHERE Sid = ?");
 $stmt_quote->bind_param("i", $quote_id);
 $stmt_quote->execute();
@@ -42,6 +42,22 @@ $stmt_files->close();
 
 // --- 2. BUILD THE HTML FOR THE PDF ---
 
+// Set default image paths
+$default_logo_path = 'img/Bhavi-Logo-2.png';
+$stamp_display_path = ''; // Will be set if a stamp is selected
+$signature_display_path = $default_logo_path; // Default signature is the Bhavi logo
+
+// Check if stamp was selected and build its path
+if (!empty($quote['selected_stamp_filename'])) {
+    $stamp_display_path = 'uploads/' . htmlspecialchars($quote['selected_stamp_filename']);
+}
+
+// Check if signature was selected and build its path
+if (!empty($quote['selected_signature_filename'])) {
+    $signature_display_path = 'uploads/' . htmlspecialchars($quote['selected_signature_filename']);
+}
+
+
 // Start building the HTML string
 $html = '
 <html>
@@ -62,12 +78,14 @@ $html = '
     .totals-table td { padding: 5px 10px; }
     .notes-section { margin-top: 20px; }
     .payment-section { margin-top: 30px; page-break-inside: avoid; }
+    .signature-section { text-align: right; margin-top: 30px; page-break-inside: avoid; }
+    .signature-section img { display: block; margin-left: auto; margin-right: 0; } /* Align images to right */
 </style>
 </head>
 <body>';
 
 // Logo
-$html .= '<div style="text-align:center;"><img src="img/Bhavi-Logo-2.png" width="200px" /></div>';
+$html .= '<div style="text-align:center;"><img src="' . $default_logo_path . '" width="200px" /></div>';
 $html .= '<h1 style="text-align:center; margin-top:15px; margin-bottom: 30px;">Quotation</h1>';
 
 // Header Table
@@ -153,7 +171,13 @@ if (!empty($quote['Note'])) {
 if (!empty($files)) {
     $html .= '<h5 style="margin-top:15px;">Attachments:</h5>';
     foreach ($files as $file) {
-        $html .= '<p>' . htmlspecialchars(substr($file['file_path'], strpos($file['file_path'], '-', strpos($file['file_path'], '-') + 1) + 1)) . '</p>';
+        // This part needs adjustment if file_path still includes the prefix like 'quote_id-uniqid-'
+        // Assuming file_name_only from quotationform.php is just the base file name.
+        // If file_path in DB is '123-abc-filename.pdf', this will show 'filename.pdf'
+        $display_file_name = htmlspecialchars(basename($file['file_path'])); // Use basename to ensure only filename
+        // If you specifically want to remove the quote_id-uniqid- prefix:
+        // $display_file_name = htmlspecialchars(substr($file['file_path'], strpos($file['file_path'], '-', strpos($file['file_path'], '-') + 1) + 1));
+        $html .= '<p>' . $display_file_name . '</p>';
     }
 }
 $html .= '</div>';
@@ -193,6 +217,19 @@ if ($quote['payment_details_type'] == 'office') {
 }
 $html .= '</div>';
 
+// Stamp and Signature Section
+$html .= '
+<div class="signature-section ">
+    <div style="display: inline-block; text-align: center; margin-right: -300px;">'; // Container to center images and text, floated right
+
+if (!empty($stamp_display_path)) {
+    $html .= '<img src="' . $stamp_display_path . '" style="max-height:150px; max-width: 150px; margin-bottom: 5px;" />';
+}
+
+$html .= '<img src="' . $signature_display_path . '" style="max-height:100px; max-width: 100px;" />';
+$html .= '<p style="margin-top:5px; font-weight: bold;">Signature</p>';
+$html .= '</div>
+</div>';
 
 // End of HTML
 $html .= '</body></html>';

@@ -7,3 +7,9 @@ ADD COLUMN signature_image VARCHAR(255);
 
 
 ALTER TABLE invoice ADD COLUMN Customer_id INT(11) AFTER Cgst;
+
+
+
+ALTER TABLE `quotation`
+ADD COLUMN `selected_stamp_filename` VARCHAR(255) NULL AFTER `balancewords`,
+ADD COLUMN `selected_signature_filename` VARCHAR(255) NULL AFTER `selected_stamp_filename`;

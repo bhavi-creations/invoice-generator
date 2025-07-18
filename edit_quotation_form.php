@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL); // Keep for now
+ini_set('display_errors', 1); // Keep for now
+
 session_start();
 require_once('bhavidb.php');
 
@@ -8,10 +11,10 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Check if the form was submitted from your edit_quotation.php page
-if (isset($_POST["submit"])) {
+if (isset($_POST["save"])) {
 
     // --- 1. GET THE ID OF THE QUOTATION TO UPDATE ---
-    $quote_id = isset($_POST['Sid']) ? (int)$_POST['Sid'] : 0;
+    $quote_id = isset($_POST['quote_id']) ? (int)$_POST['quote_id'] : 0;
     if ($quote_id === 0) {
         die("ERROR: Quotation ID not found.");
     }
@@ -34,7 +37,7 @@ if (isset($_POST["submit"])) {
         die("ERROR: Could not find the selected customer's details.");
     }
     $stmt_customer->close();
-    
+
     // --- 3. GET THE REST OF THE FORM DATA ---
     $quotation_date = date("Y-m-d", strtotime($_POST["quotation_date"]));
     $note = $_POST["note"];
@@ -44,12 +47,22 @@ if (isset($_POST["submit"])) {
     $sql_update = "UPDATE quotation SET 
         quotation_date = ?, Company_name = ?, Cname = ?, Cphone = ?, Caddress = ?, Cmail = ?, Cgst = ?, Note = ?, payment_details_type = ?
         WHERE Sid = ?";
-    
+
     $stmt_update = $conn->prepare($sql_update);
-    $stmt_update->bind_param("sssssssssi", 
-        $quotation_date, $company_name, $cname, $cphone, $caddress, $cemail, $cgst, $note, $payment_details_type, $quote_id
+    $stmt_update->bind_param(
+        "sssssssssi",
+        $quotation_date,
+        $company_name,
+        $cname,
+        $cphone,
+        $caddress,
+        $cemail,
+        $cgst,
+        $note,
+        $payment_details_type,
+        $quote_id
     );
-    
+
     if ($stmt_update->execute()) {
         // --- 5. UPDATE SERVICE ITEMS (DELETE AND RE-INSERT) ---
         $stmt_delete_items = $conn->prepare("DELETE FROM quservice WHERE Sid = ?");
@@ -101,10 +114,8 @@ if (isset($_POST["submit"])) {
                 window.location.href='viewquotes.php';
               </script>";
         exit();
-
     } else {
         echo "Error updating quotation: " . $stmt_update->error;
     }
     $stmt_update->close();
 }
-?>
