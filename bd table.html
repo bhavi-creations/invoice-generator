@@ -1,3 +1,9 @@
 ALTER TABLE invoice
 ADD COLUMN stamp_image VARCHAR(255), 
 ADD COLUMN signature_image VARCHAR(255);
+
+
+
+
+
+ALTER TABLE invoice ADD COLUMN Customer_id INT(11) AFTER Cgst;

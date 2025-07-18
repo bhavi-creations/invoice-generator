@@ -12,6 +12,7 @@ if (!isset($_GET['Sid']) || !is_numeric($_GET['Sid'])) {
 $invoice_id = (int)$_GET['Sid'];
 
 // 2. FETCH THE MAIN INVOICE DATA
+// Ensure stamp_image and signature_image are selected
 $stmt_invoice = $conn->prepare("SELECT * FROM invoice WHERE Sid = ?");
 $stmt_invoice->bind_param("i", $invoice_id);
 $stmt_invoice->execute();
@@ -118,7 +119,6 @@ $stmt_files->close();
                     <div class="invoice-container">
 
                         <div class="text-center my-4 no-print">
-                            <!-- <button id="myPrintButton" class="btn btn-primary">Print Invoice</button> -->
                             <a href="viewinvoices.php" class="btn btn-secondary">Go Back</a>
                         </div>
 
@@ -278,7 +278,28 @@ $stmt_files->close();
                                 <?php endif; ?>
 
                             </div>
-                            
+
+                            <div class="row justify-content-end me-5 mt-5">
+                                <div class="col-auto text-center d-flex flex-column align-items-center me-5 mt-5">
+                                    <?php if (!empty($invoice['stamp_image'])): ?>
+                                        <img src="<?php echo $base_url; ?>/uploads/<?php echo htmlspecialchars($invoice['stamp_image']); ?>"
+                                            alt="Company Stamp"
+                                            class="img-fluid mb-2"
+                                            style="max-height: 200px; max-width: 200px;">
+                                    <?php endif; ?>
+
+                                    <?php if (!empty($invoice['signature_image'])): ?>
+                                        <img src="<?php echo $base_url; ?>/uploads/<?php echo htmlspecialchars($invoice['signature_image']); ?>"
+                                            alt="Authorized Signature"
+                                            class="img-fluid"
+                                            style="max-height: 100px; max-width: 100px;">
+                                        <p class="mb-2"><strong>Authorized Signature:</strong></p>
+
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+
                         </div>
 
                     </div>
@@ -302,3 +323,4 @@ $stmt_files->close();
 </body>
 
 </html>
+```

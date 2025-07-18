@@ -142,7 +142,7 @@ $customer_data = $customer_details_result->fetch_assoc();
                                             <td>₹<?= number_format($row['Grandtotal'], 2) ?></td>
                                             <td class="total-paid-cell">₹<?= number_format($row['total_paid'], 2) ?></td>
                                             <td class="balance-due-cell">₹<?= number_format($row['balance_due'], 2) ?></td>
-                                            <td class="payment-status-cell"><span class="status-badge <?= $status_class ?>"><?= htmlspecialchars($row['payment_status']) ?></span></td>
+                                            <td class="payment-status-cell"><span class="status-badge <?= $status_class ?>"><?= htmlspecialchars($row['status']) ?></span></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <!-- Edit Button -->
@@ -151,7 +151,7 @@ $customer_data = $customer_details_result->fetch_assoc();
                                                     </a>
 
                                                     <!-- View Invoice Button (links to print.php) -->
-                                                    <a href="print.php?Sid=<?= $row['Sid'] ?>" title="View Invoice" class="btn btn-sm btn-success me-1">
+                                                    <a target="_blank" href="print.php?Sid=<?= $row['Sid'] ?>" title="View Invoice" class="btn btn-sm btn-success me-1">
                                                         <i class="bi bi-eye-fill"></i>
                                                     </a>
 

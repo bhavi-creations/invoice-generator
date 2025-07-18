@@ -25,6 +25,7 @@ $stmt_payment->close();
 $invoice_sid = $payment_details['invoice_sid']; // Get invoice_sid from the payment
 
 // 3. FETCH THE MAIN INVOICE DATA (using invoice_sid from payment)
+// *** IMPORTANT: Ensure stamp_image and signature_image columns are included in your database table 'invoice' ***
 $stmt_invoice = $conn->prepare("SELECT * FROM invoice WHERE Sid = ?");
 $stmt_invoice->bind_param("i", $invoice_sid);
 $stmt_invoice->execute();
@@ -270,10 +271,24 @@ $balance_due_after_this_payment = $invoice['balance_due']; // This reflects the 
                                     </div>
                                 <?php endif; ?>
                             </div>
-                           
                         </div>
 
-                    </div>
+                        <div class="container mt-4 d-flex justify-content-around align-items-end">
+                            <?php if (!empty($invoice['stamp_image'])): ?>
+                                <div class="text-center">
+                                    <img src="uploads/<?php echo htmlspecialchars($invoice['stamp_image']); ?>" alt="Company Stamp" style="max-height: 100px; max-width: 150px; display: block; margin: 0 auto;">
+                                    <p class="mt-2">Company Stamp</p>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($invoice['signature_image'])): ?>
+                                <div class="text-center">
+                                    <img src="uploads/<?php echo htmlspecialchars($invoice['signature_image']); ?>" alt="Authorized Signature" style="max-height: 100px; max-width: 150px; display: block; margin: 0 auto;">
+                                    <p class="mt-2">Authorized Signature</p>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        </div>
                 </div>
             </section>
         </div>

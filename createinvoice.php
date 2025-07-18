@@ -6,43 +6,62 @@ if (!isset($_SESSION['email'])) {
 }
 define('INVOICE_INITIAL_VALUE', '1');
 require_once('bhavidb.php');
+
 function getInvoiceId()
 {
-
-    include('bhavidb.php');
-
+    include('bhavidb.php'); // Re-include for function scope if not globally available via bhavidb.php
     if ($conn->connect_error) {
         die('Error : (' . $conn->connect_errno . ') ' . $conn->connect_error);
     }
-
     $query = "SELECT Invoice_no FROM invoice ORDER BY Invoice_no DESC LIMIT 1";
-
     if ($result = $conn->query($query)) {
         $row_cnt = $result->num_rows;
-
         $row = mysqli_fetch_assoc($result);
-
         if ($row_cnt == 0) {
             $nextInvoiceNumber = INVOICE_INITIAL_VALUE;
         } else {
             $nextInvoiceNumber = $row['Invoice_no'] + 1;
         }
-
-
         $formattedInvoiceNumber = sprintf('%04d', $nextInvoiceNumber);
-
-
         $result->free();
-
-
         $conn->close();
-
         return $formattedInvoiceNumber;
     }
 }
 $invoiceNumber = getInvoiceId();
 
+// --- PHP CODE TO FETCH STAMPS AND DEFAULT SIGNATURE ---
+require_once('bhavidb.php'); // Ensure connection is open for this part
 
+$companyStamps = [];
+$directorStamps = [];
+$defaultSignaturePath = 'img/Bhavi-Logo-2.png'; // Default placeholder if no signature found
+
+$sql_stamps = "SELECT file_name, display_name, type FROM `stamps` WHERE is_active = 1";
+$result_stamps = $conn->query($sql_stamps);
+
+if ($result_stamps->num_rows > 0) {
+    while ($row = $result_stamps->fetch_assoc()) {
+        if ($row['type'] == 'company_stamp') {
+            $companyStamps[] = $row;
+        } elseif ($row['type'] == 'director_stamp') {
+            $directorStamps[] = $row;
+        } elseif ($row['type'] == 'signature' && empty($defaultSignaturePath)) { // Only set if not already set
+            // Assumes you want the first active signature as default
+            $defaultSignaturePath = 'uploads/' . htmlspecialchars($row['file_name']);
+        }
+    }
+}
+
+// If no signature was found in the loop (e.g., if signature type was not encountered first)
+// or to ensure a signature is selected even if it's the only 'signature' type
+$sql_default_signature = "SELECT file_name FROM `stamps` WHERE type = 'signature' AND is_active = 1 LIMIT 1";
+$result_default_signature = $conn->query($sql_default_signature);
+if ($result_default_signature->num_rows > 0) {
+    $row_signature = $result_default_signature->fetch_assoc();
+    $defaultSignaturePath = 'uploads/' . htmlspecialchars($row_signature['file_name']);
+}
+// END PHP CODE
 ?>
 
 <!DOCTYPE html>
@@ -52,29 +71,14 @@ $invoiceNumber = getInvoiceId();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHAVIINVOICE</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
     <script src="https://code.jquery.com/ui/1.13.0-rc.3/jquery-ui.min.js" integrity="sha256-R6eRO29lbCyPGfninb/kjIXeRjMOqY3VWPVk6gMhREk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" rel="stylesheet"> -->
-
-
     <link rel="stylesheet" href="img/style.css">
-
     <link rel="stylesheet" href="img/stylemi.css">
-
-
-
-
 
 </head>
 <style>
@@ -176,7 +180,7 @@ $invoiceNumber = getInvoiceId();
         padding-top: 20px;
     }
 
-    /* 
+    /*
         .navbar-nav {
             color: black;
             font-family: 'Poppins', sans-serif;
@@ -187,7 +191,6 @@ $invoiceNumber = getInvoiceId();
 </style>
 
 <body>
-    <!--  LARGE SCREEN NAVBAR  -->
     <div class="container-fluid">
         <div class="row">
 
@@ -196,18 +199,11 @@ $invoiceNumber = getInvoiceId();
 
 
 
-            <!--  INVOICE  FORM  -->
-
             <section class="col-lg-10 col-md-12">
                 <div class="container col-md-12 ">
 
-                    <!-- FORM -->
-
                     <form class=" mango  pb-1 mb-5" action="formprocess.php" method="post" enctype="multipart/form-data">
                         <img src="img/Bhavi-Logo-2.png" alt="" class="mx-auto d-block img-fluid pt-5" style="max-height: 20%; max-width: 20%;">
-
-
-                        <!-- FORM INVOICENUMBER -->
 
                         <div class="row container pt-5 ps-5 mb-5">
                             <div class="col-lg-4 col-sm-12 col-md-12">
@@ -330,10 +326,8 @@ $invoiceNumber = getInvoiceId();
                                                 <td><input type='text' readonly name='subtotal[]' class='form-control subtotal'></td>
                                                 <td><input type='text' name='discount[]' class='form-control discount'></td>
                                                 <td><input type='text' readonly name='total[]' class='form-control total'></td>
-                                                <!-- <td><button type='button' value='X' style="border: none; background: none;" class='btn-sm' id='btn-row-remove'><b>X</b></button></td> -->
                                             </tr>
 
-                                            <!-- Add more rows as needed -->
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -386,22 +380,24 @@ $invoiceNumber = getInvoiceId();
                                         <textarea name="note" id="note" class="form-control" style="border-radius: 10px;" rows="1" placeholder="Add a note..."></textarea>
                                     </div>
 
+
+
+                                    <input type="hidden" name="signature_image_path" id="signature_image_path_input" value="<?php echo htmlspecialchars($defaultSignaturePath); ?>">
+
+
+                                    <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
+                                        <div class="w-100 d-flex justify-content-center">
+                                            <input type="submit" name="save" value="Save" class="btn btn-primary me-2">
+
+                                            <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-4 col-md-12 mb-3">
                                         <label for="attachments" class="form-label"><strong>Attach Files:</strong></label>
                                         <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
                                     </div>
-
-                                    <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
-                                        <input type="submit" name="save" value="Save" class="btn btn-primary me-2">
-
-                                        <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
-                                    </div>
-
                                 </div>
                             </div>
-                            <!--  ENDING BILLING SECTION  -->
-
-                            <!--   Functions of invoice -->
                             <script>
                                 $(document).ready(function() {
                                     $("#date").datepicker({
@@ -602,13 +598,10 @@ $invoiceNumber = getInvoiceId();
                                 }
                             </script>
 
-                            <!--     SCANNER SECTION  -->
-
                             <div class="container pt-5 mb-5">
                                 <div class="row">
                                     <span class="verticalline mb-5"></span>
 
-                                    <!-- Office Radio -->
                                     <div class="col-12 mb-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="payment_details" id="office_details" value="office" checked>
@@ -618,7 +611,6 @@ $invoiceNumber = getInvoiceId();
                                         </div>
                                     </div>
 
-                                    <!-- Personal Radio -->
                                     <div class="col-12 mb-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="payment_details" id="personal_details" value="personal">
@@ -628,7 +620,6 @@ $invoiceNumber = getInvoiceId();
                                         </div>
                                     </div>
 
-                                    <!-- Office Payment Section -->
                                     <div id="office_payment_section" class="col-12 payment-section">
                                         <div class="row mt-2">
                                             <div class="col-lg-6 col-sm-12 col-md-6">
@@ -645,7 +636,6 @@ $invoiceNumber = getInvoiceId();
                                         </div>
                                     </div>
 
-                                    <!-- Personal Payment Section -->
                                     <div id="personal_payment_section" class="col-12 payment-section d-none">
                                         <div class="row mt-2">
                                             <div class="col-lg-6 col-sm-12 col-md-6">
@@ -667,10 +657,6 @@ $invoiceNumber = getInvoiceId();
 
 
 
-
-
-
-
                                 </div>
                             </div>
 
@@ -679,17 +665,37 @@ $invoiceNumber = getInvoiceId();
 
 
 
+                        <div class="row justify-content-end me-5 mb-3">
+                            <div class="col-auto" style="width: 200px;">
+                                <label for="stamp_select" class="form-label"><strong>Select Stamp:</strong></label>
+                                <select name="stamp_select" id="stamp_select" class="form-control">
+                                    <option value="">No Stamp</option>
+                                    <optgroup label="Company Stamps">
+                                        <?php foreach ($companyStamps as $stamp) : ?>
+                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>">
+                                                <?php echo htmlspecialchars($stamp['display_name']); ?> (Company)
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                    <optgroup label="Director Stamps">
+                                        <?php foreach ($directorStamps as $stamp) : ?>
+                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>">
+                                                <?php echo htmlspecialchars($stamp['display_name']); ?> (Director)
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                </select>
+                                <input type="hidden" name="stamp_image_path" id="stamp_image_path_input">
+                            </div>
+                        </div>
 
 
                         <div class="row justify-content-end me-5">
                             <div class="col-auto text-center d-flex flex-column align-items-center me-5">
-                                <!-- Stamp Image (Top) -->
-                                <img id="dynamicStamp" src="img/Bhavi-Logo-2.png" alt="Stamp" class="img-fluid mb-2" style="max-height: 100px; max-width: 100px;">
+                                <img id="dynamicStamp" src="img/Bhavi-Logo-2.png" alt="Stamp" class="img-fluid mb-2" style="max-height:200px; max-width: 200px;">
 
-                                <!-- Signature Image (Bottom) -->
-                                <img id="dynamicSignature" src="img/Bhavi-Logo-2.png" alt="Signature" class="img-fluid" style="max-height: 100px; max-width: 100px;">
+                                <img id="dynamicSignature" src="<?php echo htmlspecialchars($defaultSignaturePath); ?>" alt="Signature" class="img-fluid" style="max-height: 100px; max-width: 100px;">
 
-                                <!-- Signature Label -->
                                 <p class="mt-2">Signature</p>
                             </div>
                         </div>
@@ -697,9 +703,7 @@ $invoiceNumber = getInvoiceId();
 
 
 
-
                     </form>
-                    <!-- ENDING  FORM -->
                 </div>
 
 
@@ -751,9 +755,6 @@ $invoiceNumber = getInvoiceId();
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div>
-                                <p class="float-end d-flex flex-row justify-content-center"><a href="#" class="btn btn-success" id="add_customer">Add Customer</a></p>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -761,7 +762,6 @@ $invoiceNumber = getInvoiceId();
             </section>
         </div>
     </div>
-    <!-- ENDING   INVOICE  FORM  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
@@ -783,14 +783,44 @@ $invoiceNumber = getInvoiceId();
                     }
                 });
             });
+
+            // Function to update the stamp image preview and hidden input
+            function updateStampImage() {
+                const selectElement = document.getElementById('stamp_select');
+                const imgElement = document.getElementById('dynamicStamp');
+                const hiddenInput = document.getElementById('stamp_image_path_input');
+
+                if (selectElement.value) {
+                    imgElement.src = selectElement.value; // Set image source to selected file path
+                    hiddenInput.value = selectElement.value; // Store the path in hidden input
+                    imgElement.style.display = 'block'; // Show the image
+                } else {
+                    imgElement.src = 'img/Bhavi-Logo-2.png'; // Set to default or empty if "No Stamp"
+                    hiddenInput.value = ''; // Clear hidden input
+                }
+            }
+
+            // Event listener for stamp dropdown
+            $('#stamp_select').change(function() {
+                updateStampImage();
+            });
+
+            // Initial call to set default stamp image/path if any options are pre-selected
+            updateStampImage();
+
+            // The dynamicSignature src is set directly by PHP, no JS update needed for its default.
+            // If you want a placeholder when the PHP doesn't find a signature, ensure $defaultSignaturePath is set.
         });
 
         document.addEventListener('DOMContentLoaded', function() {
             var addCustomerModal = new bootstrap.Modal(document.getElementById('modal_frm'));
             var addCustomerButton = document.getElementById('add_customer');
-            addCustomerButton.addEventListener('click', function() {
-                addCustomerModal.show();
-            });
+            if (addCustomerButton) { // Check if the button exists before adding event listener
+                addCustomerButton.addEventListener('click', function() {
+                    addCustomerModal.show();
+                });
+            }
+
 
             document.getElementById('gstInput').addEventListener('input', function() {
                 this.value = this.value.toUpperCase();
