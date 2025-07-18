@@ -11,12 +11,9 @@ if (!$conn) {
     die("Database Connection Failed in stamps.php: " . mysqli_connect_error());
 }
 
-// Ensure BASE_URL and ROOT_PATH are defined
+// Ensure ROOT_PATH is defined
 // As bhavidb.php is in the root (htdocs/invoice-generator), ROOT_PATH should be defined there.
 // If not, uncomment these lines and ensure they are correct for your setup.
-if (!defined('BASE_URL')) {
-    define('BASE_URL', 'http://localhost/invoice-generator'); // *** DOUBLE-CHECK THIS ***
-}
 if (!defined('ROOT_PATH')) {
     // Since bhavidb.php is in the same directory as stamps.php,
     // and bhavidb.php is setting the DB connection,
@@ -73,7 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if (mysqli_stmt_execute($stmt)) {
                             $message = 'Stamp/Signature uploaded successfully!';
                             $message_type = 'success';
-                            header('Location: ' . BASE_URL . '/stamps.php?status=uploaded');
+                            // Redirect using relative path
+                            header('Location: stamps.php?status=uploaded');
                             exit;
                         } else {
                             $message = 'Database error: ' . mysqli_error($db_conn);
@@ -163,7 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if (mysqli_stmt_execute($stmt)) {
                             $message = 'Stamp/Signature updated successfully!';
                             $message_type = 'success';
-                            header('Location: ' . BASE_URL . '/stamps.php?status=updated');
+                            // Redirect using relative path
+                            header('Location: stamps.php?status=updated');
                             exit;
                         } else {
                             $message = 'Database error: ' . mysqli_error($db_conn);
@@ -208,7 +207,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                     $message = 'Stamp/Signature deleted successfully!';
                     $message_type = 'success';
-                    header('Location: ' . BASE_URL . '/stamps.php?status=deleted');
+                    // Redirect using relative path
+                    header('Location: stamps.php?status=deleted');
                     exit;
                 } else {
                     $message = 'Database error: ' . mysqli_error($db_conn);
@@ -273,11 +273,6 @@ if (isset($_GET['status'])) {
         $message = 'An error occurred during an operation.';
         $message_type = 'danger';
     }
-    // Remove the status param from URL for cleaner display
-    // This part requires JS or a header redirect, but header() is already used for main POST actions.
-    // For simple GET status, a meta refresh or client-side JS is needed to clear URL after display.
-    // For now, it will remain in the URL, which is acceptable for status.
-    // header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?')); exit; // This causes a double redirect if used here
 }
 ?>
 
@@ -305,7 +300,8 @@ if (isset($_GET['status'])) {
                     <?php if ($action === 'list'): ?>
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h2>All Assets</h2>
-                            <a href="<?= BASE_URL ?>/stamps.php?action=upload" class="btn btn-primary">Upload New Stamp/Signature</a>
+                            <!-- Changed href to relative path -->
+                            <a href="stamps.php?action=upload" class="btn btn-primary">Upload New Stamp/Signature</a>
                         </div>
 
                         <?php if (empty($stamps)): ?>
@@ -319,7 +315,8 @@ if (isset($_GET['status'])) {
                                         <div class="card h-100">
                                             <div class="card-body text-center">
                                                 <?php if ($stamp['file_name'] && file_exists(ROOT_PATH . '/uploads/' . $stamp['file_name'])): ?>
-                                                    <img src="<?= BASE_URL ?>/uploads/<?= htmlspecialchars($stamp['file_name']) ?>" alt="<?= htmlspecialchars($stamp['display_name']) ?>" class="img-fluid mb-3" style="max-width: 150px; max-height: 150px; object-fit: contain;">
+                                                    <!-- Changed src to relative path -->
+                                                    <img src="uploads/<?= htmlspecialchars($stamp['file_name']) ?>" alt="<?= htmlspecialchars($stamp['display_name']) ?>" class="img-fluid mb-3" style="max-width: 150px; max-height: 150px; object-fit: contain;">
                                                 <?php else: ?>
                                                     <img src="https://via.placeholder.com/150?text=No+Image" alt="No Image" class="img-fluid mb-3" style="max-width: 150px; max-height: 150px; object-fit: contain;">
                                                 <?php endif; ?>
@@ -330,8 +327,10 @@ if (isset($_GET['status'])) {
                                                     <p class="card-text small"><?= nl2br(htmlspecialchars($stamp['description'])) ?></p>
                                                 <?php endif; ?>
                                                 <div class="mt-3">
-                                                    <a href="<?= BASE_URL ?>/stamps.php?action=edit&id=<?= $stamp['id'] ?>" class="btn btn-sm btn-info">Edit</a>
-                                                    <form action="<?= BASE_URL ?>/stamps.php" method="POST" class="d-inline">
+                                                    <!-- Changed href to relative path -->
+                                                    <a href="stamps.php?action=edit&id=<?= $stamp['id'] ?>" class="btn btn-sm btn-info">Edit</a>
+                                                    <!-- Changed form action to relative path -->
+                                                    <form action="stamps.php" method="POST" class="d-inline">
                                                         <input type="hidden" name="id" value="<?= $stamp['id'] ?>">
                                                         <button type="submit" name="delete_stamp" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this asset? This cannot be undone.');">Delete</button>
                                                     </form>
@@ -345,9 +344,11 @@ if (isset($_GET['status'])) {
 
                     <?php elseif ($action === 'upload'): ?>
                         <h2 class="mb-4">Upload New Stamp/Signature</h2>
-                        <a href="<?= BASE_URL ?>/stamps.php" class="btn btn-secondary mb-4">Back to List</a>
+                        <!-- Changed href to relative path -->
+                        <a href="stamps.php" class="btn btn-secondary mb-4">Back to List</a>
 
-                        <form action="<?= BASE_URL ?>/stamps.php" method="POST" enctype="multipart/form-data">
+                        <!-- Changed form action to relative path -->
+                        <form action="stamps.php" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="display_name">Display Name:</label>
                                 <input type="text" class="form-control" id="display_name" name="display_name" value="" required>
@@ -375,14 +376,17 @@ if (isset($_GET['status'])) {
 
                     <?php elseif ($action === 'edit' && $stamp_data): ?>
                         <h2 class="mb-4">Edit Stamp/Signature</h2>
-                        <a href="<?= BASE_URL ?>/stamps.php" class="btn btn-secondary mb-4">Back to List</a>
+                        <!-- Changed href to relative path -->
+                        <a href="stamps.php" class="btn btn-secondary mb-4">Back to List</a>
 
-                        <form action="<?= BASE_URL ?>/stamps.php" method="POST" enctype="multipart/form-data">
+                        <!-- Changed form action to relative path -->
+                        <form action="stamps.php" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="id" value="<?= htmlspecialchars($stamp_data['id']) ?>">
                             <div class="form-group">
                                 <label>Current Image:</label>
                                 <?php if ($stamp_data['file_name'] && file_exists(ROOT_PATH . '/uploads/' . $stamp_data['file_name'])): ?>
-                                    <img src="<?= BASE_URL ?>/uploads/<?= htmlspecialchars($stamp_data['file_name']) ?>" alt="Current Image" class="img-fluid mb-3" style="max-width: 150px; max-height: 150px; object-fit: contain; border: 1px solid #ddd; padding: 5px;">
+                                    <!-- Changed src to relative path -->
+                                    <img src="uploads/<?= htmlspecialchars($stamp_data['file_name']) ?>" alt="Current Image" class="img-fluid mb-3" style="max-width: 150px; max-height: 150px; object-fit: contain; border: 1px solid #ddd; padding: 5px;">
                                 <?php else: ?>
                                     <img src="https://via.placeholder.com/150?text=No+Image" alt="No Image" class="img-fluid mb-3" style="max-width: 150px; max-height: 150px; object-fit: contain; border: 1px solid #ddd; padding: 5px;">
                                 <?php endif; ?>
@@ -396,7 +400,7 @@ if (isset($_GET['status'])) {
                                 <select class="form-control" id="type" name="type" required>
                                     <option value="company_stamp" <?= ($stamp_data['type'] === 'company_stamp') ? 'selected' : '' ?>>Company Stamp</option>
                                     <option value="director_stamp" <?= ($stamp_data['type'] === 'director_stamp') ? 'selected' : '' ?>>Director Stamp</option>
-                                    <option value="signature">Signature</option>
+                                    <option value="signature" <?= ($stamp_data['type'] === 'signature') ? 'selected' : '' ?>>Signature</option>
                                 </select>
                             </div>
                             <div class="form-group">
