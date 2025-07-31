@@ -389,7 +389,7 @@ if ($result_default_signature->num_rows > 0) {
                                         <div class="w-100 d-flex justify-content-center">
                                             <input type="submit" name="save" value="Save" class="btn btn-primary me-2">
 
-                                            <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
+                                            <!-- <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button> -->
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-3">
@@ -695,8 +695,10 @@ if ($result_default_signature->num_rows > 0) {
                                 <img id="dynamicStamp" src="img/Bhavi-Logo-2.png" alt="Stamp" class="img-fluid mb-2" style="max-height:200px; max-width: 200px;">
 
                                 <img id="dynamicSignature" src="<?php echo htmlspecialchars($defaultSignaturePath); ?>" alt="Signature" class="img-fluid" style="max-height: 100px; max-width: 100px;">
-
+                                <input type="hidden" name="signature_image_path" value="<?php echo htmlspecialchars(basename($defaultSignaturePath)); ?>">
                                 <p class="mt-2">Signature</p>
+
+                                
                             </div>
                         </div>
 
@@ -790,15 +792,19 @@ if ($result_default_signature->num_rows > 0) {
                 const imgElement = document.getElementById('dynamicStamp');
                 const hiddenInput = document.getElementById('stamp_image_path_input');
 
-                if (selectElement.value) {
-                    imgElement.src = selectElement.value; // Set image source to selected file path
-                    hiddenInput.value = selectElement.value; // Store the path in hidden input
-                    imgElement.style.display = 'block'; // Show the image
+                const fullPath = selectElement.value;
+
+                if (fullPath) {
+                    imgElement.src = fullPath; // Show image with full path
+                    const fileNameOnly = fullPath.split('/').pop(); // Remove "uploads/" for saving
+                    hiddenInput.value = fileNameOnly; // Save only filename
+                    imgElement.style.display = 'block';
                 } else {
-                    imgElement.src = 'img/Bhavi-Logo-2.png'; // Set to default or empty if "No Stamp"
-                    hiddenInput.value = ''; // Clear hidden input
+                    imgElement.src = 'img/Bhavi-Logo-2.png'; // Default image
+                    hiddenInput.value = ''; // Save empty
                 }
             }
+
 
             // Event listener for stamp dropdown
             $('#stamp_select').change(function() {

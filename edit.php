@@ -28,7 +28,11 @@ $stmt_invoice->close();
 // --- 3. FETCH THE SPECIFIC CUSTOMER DETAILS FOR THIS INVOICE ---
 // This assumes 'Customer_id' column exists in your 'invoice' table.
 $current_customer_details = [
-    'Company_name' => '', 'Name' => '', 'Email' => '', 'Phone' => '', 'Gst_no' => ''
+    'Company_name' => '',
+    'Name' => '',
+    'Email' => '',
+    'Phone' => '',
+    'Gst_no' => ''
 ];
 if (!empty($invoice['Customer_id'])) {
     $stmt_current_customer = $conn->prepare("SELECT Company_name, Name, Email, Phone, Gst_no FROM customer WHERE Id = ?");
@@ -299,7 +303,8 @@ if ($res_service_names) {
                                         <h6>RangaRaoNagar, Kakinada,</h6>
                                         <h6>AndhraPradesh 533003.</h6>
                                     </address>
-                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea> </div>
+                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea>
+                                </div>
                                 <div class="col-lg-4 col-sm-12 mb-3">
                                     <h4 class="pb-2"><strong>Contact</strong></h4>
                                     <address class="">
@@ -308,7 +313,8 @@ if ($res_service_names) {
                                         </h6>
                                         <h6>GSTIN: 37AAKCB6960H1ZB.</h6>
                                     </address>
-                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea> </div>
+                                    <textarea style="border: none;" name="" id="" cols="30" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
 
@@ -347,7 +353,8 @@ if ($res_service_names) {
                                             </tr>
                                         </thead>
                                         <tbody id="product_tbody">
-                                            <?php if (empty($services)) : // If no existing services, show one empty row ?>
+                                            <?php if (empty($services)) : // If no existing services, show one empty row 
+                                            ?>
                                                 <tr>
                                                     <td><button type="button" class="btn-add-row btn btn-primary"><b>+</b></button></td>
                                                     <td class="serial-number">01</td>
@@ -369,7 +376,8 @@ if ($res_service_names) {
                                                     <td><input type='text' readonly name='total[]' class='form-control total' value="0.00"></td>
                                                     <td><button type='button' value='X' class='btn-sm btn-danger btn-row-remove'><b>X</b></button></td>
                                                 </tr>
-                                            <?php else : // Populate with existing services ?>
+                                            <?php else : // Populate with existing services 
+                                            ?>
                                                 <?php $s_no = 1; ?>
                                                 <?php foreach ($services as $service) : ?>
                                                     <tr>
@@ -451,7 +459,7 @@ if ($res_service_names) {
                                     <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
                                         <div class="w-100 d-flex justify-content-center">
                                             <button type="submit" name="update" class="btn btn-primary me-2">Update</button>
-                                            <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
+                                            <!-- <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button> -->
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-3">
@@ -543,14 +551,14 @@ if ($res_service_names) {
                                     <option value="">No Stamp</option>
                                     <optgroup label="Company Stamps">
                                         <?php foreach ($companyStamps as $stamp) : ?>
-                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>" <?php if ('uploads/' . $invoice['stamp_image'] == 'uploads/' . $stamp['file_name']) echo 'selected'; ?>>
+                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>" <?php if ($invoice['stamp_image'] == $stamp['file_name']) echo 'selected'; ?>>
                                                 <?php echo htmlspecialchars($stamp['display_name']); ?> (Company)
                                             </option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="Director Stamps">
                                         <?php foreach ($directorStamps as $stamp) : ?>
-                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>" <?php if ('uploads/' . $invoice['stamp_image'] == 'uploads/' . $stamp['file_name']) echo 'selected'; ?>>
+                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>" <?php if ($invoice['stamp_image'] == $stamp['file_name']) echo 'selected'; ?>>
                                                 <?php echo htmlspecialchars($stamp['display_name']); ?> (Director)
                                             </option>
                                         <?php endforeach; ?>
@@ -680,18 +688,22 @@ if ($res_service_names) {
                 const imgElement = document.getElementById('dynamicStamp');
                 const hiddenInput = document.getElementById('stamp_image_path_input');
 
-                // Get the value from the selectize instance
                 const selectedValue = $(selectElement).val();
 
                 if (selectedValue) {
-                    imgElement.src = selectedValue; // Set image source to selected file path
-                    hiddenInput.value = selectedValue.replace('uploads/', ''); // Store only filename in hidden input
-                    imgElement.style.display = 'block'; // Show the image
+                    imgElement.src = selectedValue;
+                    const fileNameOnly = selectedValue.replace('uploads/', '');
+                    hiddenInput.value = fileNameOnly;
+
+                    console.log("Updated Hidden Stamp Path:", hiddenInput.value); // Debug log
+                    imgElement.style.display = 'block';
                 } else {
-                    imgElement.src = 'img/Bhavi-Logo-2.png'; // Set to default or empty if "No Stamp"
-                    hiddenInput.value = ''; // Clear hidden input
+                    imgElement.src = 'img/Bhavi-Logo-2.png';
+                    hiddenInput.value = '';
+                    console.log("Reset Hidden Stamp Path to empty"); // Debug log
                 }
             }
+
 
             // Event listener for stamp dropdown
             $('#stamp_select').change(function() {

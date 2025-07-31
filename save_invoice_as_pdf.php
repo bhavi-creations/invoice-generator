@@ -1,7 +1,7 @@
 <?php
 require_once('bhavidb.php');
 
-// Function to convert numbers to words (Indian Rupees format) - REVISED
+// Function to convert numbers to words (Indian Rupees format) - REVISED AND COPIED TO THIS FILE
 function numberToWordsINR($num) {
     $num = (float)str_replace(',', '', $num); // Ensure float and remove commas if any
 
@@ -72,7 +72,7 @@ function numberToWordsINR($num) {
     return $final_string;
 }
 
-// Helper function for recursive calls
+// Helper function for recursive calls (COPIED TO THIS FILE)
 function numberToWordsINRRecursive($num, $ones, $tens) {
     if ($num < 20) {
         return $ones[$num];
@@ -88,25 +88,25 @@ function numberToWordsINRRecursive($num, $ones, $tens) {
 
 // --- 1. SECURELY GET DATA FROM DATABASE ---
 if (!isset($_GET['Sid']) || !is_numeric($_GET['Sid'])) {
-    die("Invalid Quotation ID.");
+    die("Invalid Invoice ID.");
 }
-$quote_id = (int)$_GET['Sid'];
+$invoice_id = (int)$_GET['Sid'];
 
-// Fetch main quotation details, including the new stamp and signature columns
-$stmt_quote = $conn->prepare("SELECT * FROM quotation WHERE Sid = ?");
-$stmt_quote->bind_param("i", $quote_id);
-$stmt_quote->execute();
-$result_quote = $stmt_quote->get_result();
-if ($result_quote->num_rows === 0) {
-    die("Quotation not found.");
+// Fetch main invoice details
+$stmt_invoice = $conn->prepare("SELECT * FROM invoice WHERE Sid = ?");
+$stmt_invoice->bind_param("i", $invoice_id);
+$stmt_invoice->execute();
+$result_invoice = $stmt_invoice->get_result();
+if ($result_invoice->num_rows === 0) {
+    die("Invoice not found.");
 }
-$quote = $result_quote->fetch_assoc();
-$stmt_quote->close();
+$invoice = $result_invoice->fetch_assoc();
+$stmt_invoice->close();
 
-// Fetch associated services from `quservice` table
+// Fetch associated services from `service` table
 $services = [];
-$stmt_services = $conn->prepare("SELECT * FROM quservice WHERE Sid = ?");
-$stmt_services->bind_param("i", $quote_id);
+$stmt_services = $conn->prepare("SELECT * FROM service WHERE Sid = ?");
+$stmt_services->bind_param("i", $invoice_id);
 $stmt_services->execute();
 $result_services = $stmt_services->get_result();
 while ($row = $result_services->fetch_assoc()) {
@@ -114,10 +114,10 @@ while ($row = $result_services->fetch_assoc()) {
 }
 $stmt_services->close();
 
-// Fetch associated files
+// Fetch associated files from `invoice_files` table
 $files = [];
-$stmt_files = $conn->prepare("SELECT * FROM quote_files WHERE quote_id = ?");
-$stmt_files->bind_param("i", $quote_id);
+$stmt_files = $conn->prepare("SELECT * FROM invoice_files WHERE Invoice_id = ?");
+$stmt_files->bind_param("i", $invoice_id);
 $stmt_files->execute();
 $result_files = $stmt_files->get_result();
 while ($row = $result_files->fetch_assoc()) {
@@ -125,8 +125,11 @@ while ($row = $result_files->fetch_assoc()) {
 }
 $stmt_files->close();
 
-// Calculate Grand Total in words
-$grand_total_in_words = numberToWordsINR($quote['Grandtotal']);
+// Calculate Grand Total in words for invoice
+$grand_total_in_words_invoice = numberToWordsINR($invoice['Grandtotal']);
+
+// Calculate Balance in words for invoice (NEW LINE)
+$balance_in_words_invoice = numberToWordsINR($invoice['balance']);
 
 
 // --- 2. BUILD THE HTML FOR THE PDF ---
@@ -136,14 +139,14 @@ $default_logo_path = 'img/Bhavi-Logo-2.png';
 $stamp_display_path = ''; // Will be set if a stamp is selected
 $signature_display_path = $default_logo_path; // Default signature is the Bhavi logo
 
-// Check if stamp was selected and build its path
-if (!empty($quote['selected_stamp_filename'])) {
-    $stamp_display_path = 'uploads/' . htmlspecialchars($quote['selected_stamp_filename']);
+// Check if stamp was selected and build its path (using invoice fields now)
+if (!empty($invoice['stamp_image'])) {
+    $stamp_display_path = 'uploads/' . htmlspecialchars($invoice['stamp_image']);
 }
 
-// Check if signature was selected and build its path
-if (!empty($quote['selected_signature_filename'])) {
-    $signature_display_path = 'uploads/' . htmlspecialchars($quote['selected_signature_filename']);
+// Check if signature was selected and build its path (using invoice fields now)
+if (!empty($invoice['signature_image'])) {
+    $signature_display_path = 'uploads/' . htmlspecialchars($invoice['signature_image']);
 }
 
 
@@ -160,66 +163,64 @@ $html = '
     th, td { padding: 5px; text-align: left; }
     .header-table td { font-size: 16pt; font-weight: bold; }
     
-    /* Adjusted styles for details table - same as save_invoice_as_pdf.php */
+    /* Adjusted styles for details table */
     .details-table { 
         width: 100%; 
         margin-top: 20px; 
-        border-collapse: collapse;
+        border-collapse: collapse; /* Ensure no gaps */
     }
     .details-table td { 
         vertical-align: top; 
-        padding: 0px 15px; /* Reduced padding on left/right edges */
+        padding: 0px 15px; /* Reduced padding on left/right edges to allow content closer to edge */
         width: 50%; /* Explicitly set width for columns */
     }
     .details-table td.from-column {
-        text-align: left;
+        text-align: left; /* Ensure left alignment */
     }
     .details-table td.to-column {
-        text-align: right;
+        text-align: right; /* Ensure right alignment */
     }
     .details-table h4 {
-        font-size: 14pt;
-        margin-bottom: 10px;
+        font-size: 14pt; /* Adjusted from 16pt of header table to h4 size */
+        margin-bottom: 10px; /* Equivalent to pb-2 */
         font-weight: bold;
     }
     .details-table address {
-        font-style: normal;
-        margin-top: 5px;
+        font-style: normal; /* Override default address italic */
+        margin-top: 5px; /* Small top margin for readability */
     }
 
-    /* Styles for the new services table - now applied to .services-table here */
-    .services-table { /* Changed from .services-table-new to .services-table */
+
+    /* Styles for the new services table - adapted from print.css and print_content.php */
+    .services-table-new { 
         width: 100%; 
         border-collapse: collapse; 
         border: 1px solid #dee2e6; /* From .table in print.css */
     }
-    .services-table th,
-    .services-table td { 
+    .services-table-new th,
+    .services-table-new td { 
         padding: 8px; /* Standard table padding */
         text-align: center; 
         vertical-align: middle; 
         border: 1px solid #dee2e6; /* From .table in print.css for borders on cells */
     }
-    .services-table thead th {
+    .services-table-new thead th {
         background-color: #e9ecef; /* From thead style in print_content.php */
         font-weight: bold; 
     }
-    .services-table tfoot td {
+    .services-table-new tfoot td {
         padding: 8px;
         border: 1px solid #dee2e6; /* Ensure footer cells have borders too */
     }
-    .services-table tfoot td.no-border {
+    .services-table-new tfoot td.no-border {
         border: none; /* For the colspan cell containing words */
     }
-    .services-table .bg-light-custom { /* Custom class for light background rows/cells */
+    .services-table-new .bg-light-custom { /* Custom class for light background rows/cells */
         background-color: #f8f9fa; /* A slightly lighter shade than #e9ecef for subtle distinction */
     }
 
-    /* Removed old .totals-table since its content is now in the services table footer */
-    /* .totals-table { margin-top: 20px; } */
-    /* .totals-table td { padding: 5px 10px; } */
-
-
+    .totals-table { margin-top: 20px; } /* Kept for other totals, but service table now contains its own totals */
+    .totals-table td { padding: 5px 10px; }
     .notes-section { margin-top: 20px; }
     .payment-section { margin-top: 30px; page-break-inside: avoid; }
     .signature-section { text-align: right; margin-top: 30px; page-break-inside: avoid; }
@@ -230,14 +231,14 @@ $html = '
 
 // Logo
 $html .= '<div style="text-align:center;"><img src="' . $default_logo_path . '" width="200px" /></div>';
-$html .= '<h1 style="text-align:center; margin-top:15px; margin-bottom: 30px;">Quotation</h1>';
+$html .= '<h1 style="text-align:center; margin-top:15px; margin-bottom: 30px;">Invoice</h1>';
 
 // Header Table
 $html .= '
 <table class="header-table">
     <tr>
-        <td style="width:50%;"><strong>Date:</strong> ' . date("d-m-Y", strtotime($quote['quotation_date'])) . '</td>
-        <td style="width:50%; text-align:right;"><strong>Quotation #:</strong> BHAVI_QUOTE_' . htmlspecialchars($quote['quotation_no']) . '</td>
+        <td style="width:50%;"><strong>Date:</strong> ' . date("d-m-Y", strtotime($invoice['Invoice_date'])) . '</td>
+        <td style="width:50%; text-align:right;"><strong>Invoice #:</strong> BHAVI_INV_' . htmlspecialchars($invoice['Invoice_no']) . '</td>
     </tr>
 </table>
 <hr>';
@@ -258,23 +259,23 @@ $html .= '
             </address>
         </td>
         <td class="to-column">
-            <h4><strong>To:</strong></h4>
+            <h4><strong>To (Bill To):</strong></h4>
             <address>
-                <h5>' . htmlspecialchars($quote['Company_name']) . '</h5>
-                <h6>' . htmlspecialchars($quote['Cname']) . '</h6>
-                <h6>' . nl2br(htmlspecialchars($quote['Caddress'])) . '</h6>
-                <h6><strong>Phone:</strong> ' . htmlspecialchars($quote['Cphone']) . '</h6>
-                <h6><strong>Email:</strong> ' . htmlspecialchars($quote['Cmail']) . '</h6>
-                <h6><strong>GSTIN:</strong> ' . htmlspecialchars($quote['Cgst']) . '</h6>
+                <h5>' . htmlspecialchars($invoice['Company_name']) . '</h5>
+                <h6>' . htmlspecialchars($invoice['Cname']) . '</h6>
+                <h6>' . nl2br(htmlspecialchars($invoice['Caddress'])) . '</h6>
+                <h6><strong>Phone:</strong> ' . htmlspecialchars($invoice['Cphone']) . '</h6>
+                <h6><strong>Email:</strong> ' . htmlspecialchars($invoice['Cmail']) . '</h6>
+                <h6><strong>GSTIN:</strong> ' . htmlspecialchars($invoice['Cgst']) . '</h6>
             </address>
         </td>
     </tr>
 </table>';
 
-// *** NEW SERVICES TABLE WITH DETAILED FORMATTING FOR QUOTATION ***
+// *** NEW SERVICES TABLE WITH DETAILED FORMATTING ***
 $html .= '
 <h3 style="margin-top:30px;">Services</h3>
-<table class="services-table">
+<table class="services-table-new">
     <thead>
         <tr>
             <th>S.no</th>
@@ -307,32 +308,32 @@ $html .= '
     <tfoot>
         <tr>
             <td colspan="6" rowspan="5" style="text-align: left; vertical-align: bottom; border:none;" class="no-border">
-                <p style="margin-bottom: 5px;"><strong>Total in words:</strong><br>' . htmlspecialchars($grand_total_in_words) . '</p>
-                <p><strong>Balance in words:</strong><br>' . htmlspecialchars($quote['balancewords']) . '</p>
+                <p style="margin-bottom: 5px;"><strong>Total in words:</strong><br>' . htmlspecialchars($grand_total_in_words_invoice) . '</p>
+                <p><strong>Balance in words:</strong><br>' . htmlspecialchars($balance_in_words_invoice) . '</p>
             </td>
             <td style="text-align: right;"><strong>Subtotal</strong></td>
-            <td>' . number_format((float)$quote['Final'], 2) . '</td>
+            <td>' . number_format((float)$invoice['Final'], 2) . '</td>
         </tr>
         <tr>
             <td style="text-align: right;"><strong>GST %</strong></td>
-            <td>' . htmlspecialchars($quote['Gst']) . '</td>
+            <td>' . htmlspecialchars($invoice['Gst']) . '</td>
         </tr>
         <tr>
             <td style="text-align: right;"><strong>GST Total</strong></td>
-            <td>' . number_format((float)$quote['Gst_total'], 2) . '</td>
+            <td>' . number_format((float)$invoice['Gst_total'], 2) . '</td>
         </tr>
         <tr>
             <td style="text-align: right;" class="bg-light-custom"><strong>Grand Total</strong></td>
-            <td class="bg-light-custom"><strong>' . number_format((float)$quote['Grandtotal'], 2) . '</strong></td>
+            <td class="bg-light-custom"><strong>' . number_format((float)$invoice['Grandtotal'], 2) . '</strong></td>
         </tr>
         <tr>
             <td style="text-align: right;"><strong>Advance</strong></td>
-            <td>' . number_format((float)$quote['advance'], 2) . '</td>
+            <td>' . number_format((float)$invoice['advance'], 2) . '</td>
         </tr>
         <tr>
             <td colspan="6" style="border:none;"></td>
             <td style="text-align: right;" class="bg-light-custom"><strong>Balance</strong></td>
-            <td class="bg-light-custom"><strong>' . number_format((float)$quote['balance'], 2) . '</strong></td>
+            <td class="bg-light-custom"><strong>' . number_format((float)$invoice['balance'], 2) . '</strong></td>
         </tr>
     </tfoot>
 </table>';
@@ -341,8 +342,8 @@ $html .= '
 
 // Notes and Attachments
 $html .= '<div class="notes-section">';
-if (!empty($quote['Note'])) {
-    $html .= '<h5>Note:</h5><p>' . nl2br(htmlspecialchars($quote['Note'])) . '</p>';
+if (!empty($invoice['Note'])) {
+    $html .= '<h5>Note:</h5><p>' . nl2br(htmlspecialchars($invoice['Note'])) . '</p>';
 }
 // if (!empty($files)) {
 //     $html .= '<h5 style="margin-top:15px;">Attachments:</h5>';
@@ -356,7 +357,7 @@ $html .= '</div>';
 
 // Conditional Payment Details
 $html .= '<div class="payment-section">';
-if ($quote['payment_details_type'] == 'office') {
+if ($invoice['payment_details_type'] == 'office') {
     $html .= '
     <table>
         <tr>
@@ -370,7 +371,7 @@ if ($quote['payment_details_type'] == 'office') {
             </td>
         </tr>
     </table>';
-} elseif ($quote['payment_details_type'] == 'personal') {
+} elseif ($invoice['payment_details_type'] == 'personal') {
     $html .= '
     <table>
         <tr>
@@ -418,10 +419,10 @@ $mpdf = new \Mpdf\Mpdf([
     'margin_footer' => 10
 ]);
 
-$mpdf->SetTitle("Bhavi Creations - Quotation");
+$mpdf->SetTitle("Bhavi Creations - Invoice");
 $mpdf->SetAuthor("Bhavi Creations");
 $mpdf->SetDisplayMode('fullpage');
 $mpdf->WriteHTML($html);
-$mpdf->Output('Quotation-' . $quote['quotation_no'] . '.pdf', 'I');
+$mpdf->Output('Invoice-' . $invoice['Invoice_no'] . '.pdf', 'D');
 
 ?>

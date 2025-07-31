@@ -46,18 +46,19 @@ if (isset($_POST['update'])) {
     $balance = (float)$_POST['balance'];
     $total_in_words = $_POST['words'] ?? '';
     $balance_words = $_POST['balancewords'] ?? '';
-    $status = $_POST['status'] ?? 'pending'; // Capture status
+    $status = $_POST['status'] ?? 'pending';
+    $stampImage = $_POST['stamp_image_path'] ?? ''; // Capture status
 
     // --- 4. UPDATE THE MAIN INVOICE RECORD ---
     $sql_update_invoice = "UPDATE invoice SET 
-        Invoice_date = ?, Company_name = ?, Cname = ?, Cphone = ?, Caddress = ?, Cmail = ?, Cgst = ?,
+        Invoice_date = ?, Company_name = ?, Cname = ?, Cphone = ?, Caddress = ?, Cmail = ?, Cgst = ?, stamp_image = ?,
         Final = ?, Gst = ?, Gst_total = ?, Grandtotal = ?, Totalinwords = ?, Note = ?, advance = ?, balance = ?, balancewords = ?, status = ?, payment_details_type = ?
         WHERE Sid = ?";
 
     $stmt_update = $conn->prepare($sql_update_invoice);
     // Bind all 19 parameters: s, s, s, s, s, s, s, d, d, d, d, s, s, d, d, s, s, s, i
     $stmt_update->bind_param(
-        "sssssssddddssddsssi",
+        "ssssssssddddssddsssi",
         $invoice_date,
         $company_name,
         $cname,
@@ -65,6 +66,7 @@ if (isset($_POST['update'])) {
         $caddress,
         $cemail,
         $cgst,
+        $stampImage,
         $final_total,
         $gst_percentage,
         $gst_total,
@@ -100,15 +102,48 @@ if (isset($_POST['update'])) {
 
     // --- 6. FILE MANAGEMENT (DELETIONS & UPLOADS) ---
     // Handle Deletions
+
     if (!empty($_POST['delete_files'])) {
         foreach ($_POST['delete_files'] as $file_id_to_delete) {
-            // (Same file deletion logic as provided before)
+            $stmt = $conn->prepare("SELECT File_path FROM invoice_files WHERE id = ?");
+            $stmt->bind_param("i", $file_id_to_delete);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $file_path = $row['File_path'];
+                if (file_exists($file_path)) {
+                    unlink($file_path); // Delete file from filesystem
+                }
+                // Now delete from DB
+                $deleteStmt = $conn->prepare("DELETE FROM invoice_files WHERE id = ?");
+                $deleteStmt->bind_param("i", $file_id_to_delete);
+                $deleteStmt->execute();
+                $deleteStmt->close();
+            }
+            $stmt->close();
         }
     }
+
+
     // Handle New Uploads
-    if (isset($_FILES['attachments'])) {
-        // (Same file upload logic as provided before)
+    if (isset($_FILES['attachments']) && !empty($_FILES['attachments']['name'][0])) {
+        $total_files = count($_FILES['attachments']['name']);
+        for ($i = 0; $i < $total_files; $i++) {
+            $file_name = $_FILES['attachments']['name'][$i];
+            $file_tmp = $_FILES['attachments']['tmp_name'][$i];
+            $unique_name = uniqid() . '-' . basename($file_name); // Generate filename only
+            $destination_path = 'uploads/attachments/' . $unique_name; // Full path for saving file
+            if (move_uploaded_file($file_tmp, $destination_path)) {
+                // Save only filename (not full path) to DB
+                $stmt = $conn->prepare("INSERT INTO invoice_files (Invoice_id, File_path) VALUES (?, ?)");
+                $stmt->bind_param("is", $invoice_id, $unique_name); // Save only filename
+                $stmt->execute();
+                $stmt->close();
+            }
+        }
     }
+
 
     // --- 7. REDIRECT ON SUCCESS ---
     echo "<script>
@@ -268,7 +303,7 @@ if (isset($_POST['update'])) {
     <div class="container-fluid">
         <div class="row">
 
-                  <?php include('sidebar.php'); ?>
+            <?php include('sidebar.php'); ?>
 
 
 
@@ -769,7 +804,7 @@ if (isset($_POST['update'])) {
                         </div>
                     </div>
                 </div>
-               
+
             </section>
         </div>
     </div>

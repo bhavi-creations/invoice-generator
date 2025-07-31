@@ -1,0 +1,99 @@
+ body {
+     background-color: #f9f9f9;
+ }
+
+ .invoice-container {
+     background-color: white;
+     border-radius: 50px;
+     padding: 40px;
+     margin-top: 20px;
+     margin-bottom: 20px;
+     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+ }
+
+ h6 {
+     font-weight: normal;
+ }
+
+ .table {
+     border: 1px solid #dee2e6;
+ }
+
+ .table th,
+ .table td {
+     text-align: center;
+     vertical-align: middle;
+ }
+
+ .payment-details h6 {
+     margin-bottom: 0.5rem;
+ }
+
+ /* Print-specific styles */
+ @media print {
+     body {
+         background-color: white;
+         margin: 0;
+         padding: 0;
+         width: 100%;
+     }
+
+     .no-print {
+         display: none !important;
+     }
+
+     .invoice-container {
+         margin: 0;
+         border-radius: 0;
+         padding: 0;
+         border: none;
+         box-shadow: none !important;
+     }
+ 
+     .container {
+         width: 100%;
+         max-width: 100%;
+         padding: 0;
+         margin: 0;
+     }
+
+     .row {
+         margin: 0;
+         padding: 0;
+     }
+
+     .invoice-container {
+         width: 100%;
+         padding: 10px;
+         box-sizing: border-box;
+     }
+
+     .no-print {
+         display: none !important;
+     }
+
+     /* Optional: Avoid breaking tables or rows across pages */
+     table,
+     tr,
+     td,
+     th {
+         page-break-inside: avoid !important;
+     }
+
+     .payment-row {
+         display: flex !important;
+         flex-direction: row !important;
+         justify-content: space-between;
+         align-items: flex-start;
+     }
+
+     .payment-row>div {
+         flex: 0 0 48%;
+         /* Make them sit side by side */
+         max-width: 48%;
+     }
+
+     .no-print {
+         display: none !important;
+     }
+ }

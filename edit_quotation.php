@@ -254,8 +254,6 @@ if (isset($quote['Company_name'])) {
         .nav-item {
             padding-top: 20px;
         }
-
-      
     </style>
 </head>
 
@@ -276,7 +274,7 @@ if (isset($quote['Company_name'])) {
                                     <h5><strong>Date :</strong> <input type="date" name="quote_date" id="" value="<?php echo htmlspecialchars($quote['quotation_date']); ?>" class="form-input"></h5>
                                 </div>
 
-                           
+
 
 
 
@@ -461,20 +459,28 @@ if (isset($quote['Company_name'])) {
                                     <div class="col-lg-4 col-md-12 mb-3 d-flex align-items-end">
                                         <div class="w-100 d-flex justify-content-center">
                                             <button type="submit" name="save" class="btn btn-success me-2">Update Quotation</button>
-                                            <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button>
+                                            <!-- <button type="button" onclick="window.print()" class="btn btn-secondary">Print</button> -->
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4 col-md-12 mb-3">
-                                        <label for="attachments" class="form-label"><strong>Attach Files:</strong></label>
-                                        <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
-                                        <?php if (!empty($files)) : ?>
-                                            <small class="text-muted mt-2">Existing Files:
-                                                <?php foreach ($files as $file) : ?>
-                                                    <span class="badge bg-info text-dark me-1"><?php echo htmlspecialchars(basename($file['file_path'])); ?></span>
+                                        <?php if (!empty($files)): ?>
+                                            <p><strong>Attachments:</strong></p>
+                                            <ul>
+                                                <?php foreach ($files as $file): ?>
+                                                    <li>
+                                                        <a href="uploads/<?php echo htmlspecialchars($file['file_path']); ?>" target="_blank">
+                                                            <?php echo htmlspecialchars(substr($file['file_path'], strpos($file['file_path'], '-', strpos($file['file_path'], '-') + 1) + 1)); ?>
+                                                        </a>
+                                                        <label>
+                                                            <input type="checkbox" name="delete_files[]" value="<?php echo $file['id']; ?>"> Delete
+                                                        </label>
+                                                    </li>
                                                 <?php endforeach; ?>
-                                            </small>
+                                            </ul>
                                         <?php endif; ?>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -537,43 +543,82 @@ if (isset($quote['Company_name'])) {
                             </div>
                         </div>
 
-                        <!-- <div class="row justify-content-end me-5 mb-3">
-                            <div class="col-auto" style="width: 200px;">
-                                <label for="stamp_select" class="form-label"><strong>Select Stamp:</strong></label>
+                        <div class="row justify-content-end mb-3">
+                            <div class="col-auto" style="width: 200px; margin-right: 20px;">
+                                <label for="stamp_select" class="form-label" ><strong>Select Stamp:</strong></label>
+
                                 <select name="stamp_select" id="stamp_select" class="form-control">
                                     <option value="">No Stamp</option>
                                     <optgroup label="Company Stamps">
-                                        <?php foreach ($companyStamps as $stamp) :
-                                            $selected = ($stamp['file_name'] == $quote['selected_stamp_filename']) ? 'selected' : ''; ?>
-                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>" <?php echo $selected; ?>>
+                                        <?php foreach ($companyStamps as $stamp) : ?>
+                                            <option value="<?php echo htmlspecialchars($stamp['file_name']); ?>"
+                                                <?php if ($quotation['selected_stamp_filename'] === $stamp['file_name']) echo 'selected'; ?>>
                                                 <?php echo htmlspecialchars($stamp['display_name']); ?> (Company)
                                             </option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="Director Stamps">
-                                        <?php foreach ($directorStamps as $stamp) :
-                                            $selected = ($stamp['file_name'] == $quote['selected_stamp_filename']) ? 'selected' : ''; ?>
-                                            <option value="uploads/<?php echo htmlspecialchars($stamp['file_name']); ?>" <?php echo $selected; ?>>
+                                        <?php foreach ($directorStamps as $stamp) : ?>
+                                            <option value="<?php echo htmlspecialchars($stamp['file_name']); ?>"
+                                                <?php if ($quotation['selected_stamp_filename'] === $stamp['file_name']) echo 'selected'; ?>>
                                                 <?php echo htmlspecialchars($stamp['display_name']); ?> (Director)
                                             </option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                 </select>
-                                <input type="hidden" name="stamp_image_path" id="stamp_image_path_input" value="<?php echo !empty($quote['selected_stamp_filename']) ? 'uploads/' . htmlspecialchars($quote['selected_stamp_filename']) : ''; ?>">
+
+                                <!-- Image Preview -->
+                                <img id="dynamicStamp"
+                                    src="<?php echo !empty($quotation['selected_stamp_filename']) ? 'uploads/' . htmlspecialchars($quotation['selected_stamp_filename']) : 'img/Bhavi-Logo-2.png'; ?>"
+                                    style="max-height: 50px; display: block;  "
+                                    alt="Stamp Preview">
+
+                                <!-- Only one hidden input -->
+                                <input type="hidden" name="stamp_image_path" id="stamp_image_path_input"
+                                    value="<?php echo htmlspecialchars($quotation['selected_stamp_filename']); ?>">
                             </div>
-                        </div> -->
 
-                        <div class="row justify-content-end me-5">
-                            <div class="col-auto text-center d-flex flex-column align-items-center me-5">
-                                <img id="dynamicStamp" src="<?php echo !empty($quote['selected_stamp_filename']) ? 'uploads/' . htmlspecialchars($quote['selected_stamp_filename']) : 'img/Bhavi-Logo-2.png'; ?>" alt="Stamp" class="img-fluid mb-2" style="max-height:200px; max-width: 200px;">
 
-                                <img id="dynamicSignature" src="<?php echo htmlspecialchars($defaultSignaturePath); ?>" alt="Signature" class="img-fluid" style="max-height: 100px; max-width: 100px;">
-                                <input type="hidden" name="selected_signature_filename" id="signature_image_path_input" value="<?php echo htmlspecialchars($defaultSignaturePath); ?>">
 
-                                <p class="mt-2">Signature</p>
+                            <div class="row justify-content-end me-5">
+                                <div class="col-auto text-center d-flex flex-column align-items-center me-5">
+                                    <img id="dynamicStamp" src="<?php echo !empty($quote['selected_stamp_filename']) ? 'uploads/' . htmlspecialchars($quote['selected_stamp_filename']) : 'img/Bhavi-Logo-2.png'; ?>" alt="Stamp" class="img-fluid mb-2" style="max-height:200px; max-width: 200px;">
+
+                                    <img id="dynamicSignature" src="<?php echo htmlspecialchars($defaultSignaturePath); ?>" alt="Signature" class="img-fluid" style="max-height: 100px; max-width: 100px;">
+                                    <input type="hidden" name="selected_signature_filename" id="signature_image_path_input" value="<?php echo htmlspecialchars($defaultSignaturePath); ?>">
+
+                                    <p class="mt-2">Signature</p>
+                                </div>
                             </div>
                         </div>
                     </form>
+
+
+
+
+                    <script>
+                        if (!empty($_POST['delete_files'])) {
+                            foreach($_POST['delete_files'] as $file_id) {
+                                // Fetch the file path
+                                $stmt = $conn - > prepare("SELECT File_path FROM quotation_files WHERE id = ?");
+                                $stmt - > bind_param("i", $file_id);
+                                $stmt - > execute();
+                                $stmt - > bind_result($filepath);
+                                if ($stmt - > fetch()) {
+                                    if (file_exists('uploads/attachments/'.$filepath)) {
+                                        unlink('uploads/attachments/'.$filepath);
+                                    }
+                                }
+                                $stmt - > close();
+
+                                // Delete DB record
+                                $stmt = $conn - > prepare("DELETE FROM quotation_files WHERE id = ?");
+                                $stmt - > bind_param("i", $file_id);
+                                $stmt - > execute();
+                                $stmt - > close();
+                            }
+                        }
+                    </script>
                 </div>
             </section>
 
@@ -697,26 +742,32 @@ if (isset($quote['Company_name'])) {
             // Function to update stamp image and hidden input
             function updateStampImage() {
                 const selectElement = document.getElementById('stamp_select');
-                const imgElement = document.getElementById('dynamicStamp');
+                const imgElement = document.getElementById('dynamicStamp'); // your image element
                 const hiddenInput = document.getElementById('stamp_image_path_input');
 
-                if (selectElement.value) {
-                    imgElement.src = selectElement.value; // Set image source to selected file path
-                    hiddenInput.value = selectElement.value; // Store the path in hidden input
-                    imgElement.style.display = 'block'; // Show the image
+                const selectedFileName = selectElement.value; // should be only filename, NOT with uploads/
+
+                if (selectedFileName) {
+                    imgElement.src = 'uploads/' + selectedFileName;
+                    imgElement.style.display = 'block';
+                    hiddenInput.value = selectedFileName;
                 } else {
-                    imgElement.src = 'img/Bhavi-Logo-2.png'; // Set to default if "No Stamp" or empty
-                    hiddenInput.value = ''; // Clear hidden input
+                    imgElement.src = 'img/Bhavi-Logo-2.png'; // default image if no selection
+                    imgElement.style.display = 'block';
+                    hiddenInput.value = '';
                 }
             }
 
-            // Event listener for stamp dropdown
+            document.addEventListener('DOMContentLoaded', updateStampImage); // run on page load
+            document.getElementById('stamp_select').addEventListener('change', updateStampImage);
+
+            updateStampImage(); // Initialize on page load
+
             $('#stamp_select').change(function() {
                 updateStampImage();
             });
 
-            // Initial call to set default stamp image/path if any options are pre-selected
-            updateStampImage();
+
 
 
             // Function to update signature image and hidden input
@@ -894,7 +945,7 @@ if (isset($quote['Company_name'])) {
                 this.value = this.value.toUpperCase();
             });
 
-           
+
         });
     </script>
 </body>
