@@ -6,19 +6,9 @@ use Mpdf\Mpdf;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['html_content'])) {
     $htmlContent = $_POST['html_content'];
 
-    // --- FIX 1: Hiding the "Add Feature" button
+    // --- FIX 1: Hiding the "Add Feature" button by removing it from the HTML ---
+    // This regular expression finds and removes the button HTML.
     $htmlContent = preg_replace('/<button[^>]*class="[^"]*add-feature-btn[^"]*"[^>]*>.*?<\/button>/s', '', $htmlContent);
-
-    // --- FIX 2: Physically moving the signature section to the end of the content
-    // Capture the signature section HTML
-    $signature_section = '';
-    if (preg_match('/<div class="signature-section">.*?<\/div>/s', $htmlContent, $matches)) {
-        $signature_section = $matches[0];
-    }
-    // Remove the signature section from its original position
-    $htmlContent = preg_replace('/<div class="signature-section">.*?<\/div>/s', '', $htmlContent);
-    // Append the signature section to the end of the content
-    $htmlContent .= $signature_section;
 
     // Define the paths to your images, making them relative to the script location
     $letterheadPath = __DIR__ . '/img/letterhead.png';
@@ -75,8 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['html_content'])) {
             width: 40%;
             text-align: right;
         }
-        /* FIX: Ensure signature text is solid and visible */
-        h4, p { margin: 0 0 5px 0; color: #000; z-index: 10; position: relative; }
+        h4, p { margin: 0 0 5px 0; color: #333; }
         .service-card-heading {
             border-bottom: 2px solid #e5e7eb;
             margin-bottom: 1rem;
@@ -124,15 +113,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['html_content'])) {
             field-sizing: content;
         }
         
-       
+        /* --- FIX 2: Signature position --- */
         .signature-section {
             width: 100%;
             left: 0;
             right: 0;
             padding: 0 35px;
-            margin-top: 50px;
+            /* Default position is now relative, so it flows with the document */
+            position: relative;
         }
-        
         .signature-table {
             width: 100%;
             border-collapse: collapse;
@@ -173,6 +162,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['html_content'])) {
             opacity: 0.9;
             z-index: 1;
         }
+        /* This rule now correctly positions the signature on the last page */
+        .letter-page.last-page-with-signature .signature-section {
+            position: absolute;
+            bottom: 35px;
+        }
         .letter-page.last-page-with-signature {
             padding-bottom: 150px;
         }
@@ -193,7 +187,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['html_content'])) {
         
         $mpdf->shrink_tables_to_fit = 1;
 
-        // --- FIX 3: Lowering the watermark opacity to prevent text issues ---
         $mpdf->SetWatermarkImage($letterheadPath, 0.9, 'P', 'P');
         $mpdf->showWatermarkImage = true;
 
