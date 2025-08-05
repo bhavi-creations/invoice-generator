@@ -1,5 +1,5 @@
  <section class="col-lg-2">
-     <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white">
+        <nav id="sidebarMenu" class="  collapse d-lg-block sidebar collapse bg-white" style="overflow-y: auto; height: 100vh;  overflow-x: hidden;">
          <div class="container-fluid">
 
              <div class=" navbar-collapse  " id="navbarNav">
@@ -42,6 +42,19 @@
                              </a>
                          </div>
                      </li>
+
+
+                      <li class="nav-item">
+                          <a class="nav-link text-dark nav-links" href="letterhead.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+                                <path d="M5.5 9a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+                                <path d="M5.5 11a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+                                <path d="M14 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m-1 14H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zm-1-1v-4H4v4z"/>
+                            </svg> Letterhead Editor
+                         </a>
+                     </li>
+                     
                      <!-- Invoice dropdown -->
                      <li class="dropdown nav-item ">
                          <a class="nav-link  nav-links active-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
