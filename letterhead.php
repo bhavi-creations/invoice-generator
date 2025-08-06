@@ -600,7 +600,7 @@ GSTIN"></textarea>
                 <div class="content-area">
                     <div class="main-body" contenteditable="true">
                         <p style="min-height: 200px;">
-                            This is the final page of the quotation. You can add any last details or notes here.
+                            Refferal Links :
                             <br><br>
                             Thank you for your business.
                         </p>
