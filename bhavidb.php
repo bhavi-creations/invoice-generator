@@ -10,7 +10,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1'
     // Server environment details
     $username = 'bhavi@invoice.bh';
     $pass = 'Bhavi@client';
-    $database = 'bhavi_invoice_sample';
+    $database = 'invoice';
 }
 
 
