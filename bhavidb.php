@@ -8,10 +8,19 @@
         $database = 'invoice';
     } else {
         // Server environment details
-        $username = 'bhavi@invoice.bh'; 
-        $pass = 'Bhavi@client';
-        $database = 'invoice';
+        $username = 'bhavicreations'; 
+        $pass = 'd8Az75YlgmyBnVM';
+        $database = 'bhavi_invoice_sample';
     }
+
+
+
+//  else {
+//     // Server environment details
+//     $username = 'bhavi@invoice.bh'; 
+//     $pass = 'Bhavi@client';
+//     $database = 'invoice';
+// }
 
     $conn = mysqli_connect($server,$username,$pass,$database);
     if(!$conn){
@@ -19,3 +28,5 @@
     }
 
 ?>
+
+
